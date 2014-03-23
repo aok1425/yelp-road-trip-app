@@ -18,5 +18,5 @@ def add_entry():
 	#do_everything(start,end,7,5,time_leaving,eating_time,10,40,20,20)
 	#make_HTML_file(start,end,filtered_table)
 	
-	return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
-	#return redirect(url_for('static', filename='map.html'))
+	#return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
+	return redirect(url_for('static', filename='map.html'))
