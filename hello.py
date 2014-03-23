@@ -24,10 +24,10 @@ def add_entry():
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
 	print start,end,time_leaving,eating_time
-	#do_everything(start,end,1,1,time_leaving,eating_time,10,40,20,20)
-	do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
-	#make_HTML_file(start,end,filtered_table)
-	make_HTML_file('reno,nv','jackpot,nv',filtered_table)
+	do_everything(start,end,1,1,time_leaving,eating_time,10,40,20,20)
+	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
+	make_HTML_file(start,end,filtered_table)
+	#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
 	
 	#return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
 	return redirect(url_for('static', filename='map.html'))
@@ -421,13 +421,13 @@ def make_HTML_file(start_point,end_point,resto_table):
 		infowindow[6]="\" alt=\"Yelp rating image\">\'+\n\'<p>"
 		infowindow[7]=str(resto_data[2])
 		infowindow[8]=" reviews</p>\'+\n\'<p>"
-		infowindow[9]=str("%0.1f" % (resto_data[6]*0.000621371))
+		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371))
 		infowindow[10]=" mi/"
-		infowindow[11]=str("%0.1f" % int(float(resto_data[5])/60)) # converting to minutes
+		infowindow[11]=str("%0.1f" % int(float(resto_data[7])/60)) # converting to minutes
 		infowindow[12]=" mins away</p>\'+\n\'<p>"
-		infowindow[13]=str("%0.1f" % (resto_data[8]*0.000621371))
+		infowindow[13]=str("%0.1f" % (resto_data[6]*0.000621371))
 		infowindow[14]=" mi/"
-		infowindow[15]=str("%0.1f" % int(float(resto_data[7])/60)) # converting to minutes
+		infowindow[15]=str("%0.1f" % int(float(resto_data[5])/60)) # converting to minutes
 		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
 		infowindow[17]=str(resto_data[3])
 		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'"
