@@ -3,6 +3,10 @@ from flask import Flask, request, url_for, render_template, redirect, flash
 
 app = Flask(__name__)
 
+logging_input_data=[]
+resto_table={}
+filtered_table={}
+
 @app.route('/')
 def show_input_form():
     return render_template('input_form.html')
@@ -13,7 +17,7 @@ def add_entry():
 	end=request.form['end']
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
-	#logging_input_data.append([start,end,time_leaving,eating_time])
+	logging_input_data.append([start,end,time_leaving,eating_time])
 
 	#do_everything(start,end,7,5,time_leaving,eating_time,10,40,20,20)
 	#make_HTML_file(start,end,filtered_table)
