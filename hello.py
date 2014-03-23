@@ -37,7 +37,7 @@ def add_entry():
 #len(yelp_json_to_table(yelp_search(20,radius=40000,location='fernley,nv')))
 #do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm')
  
-import oauth2, requests, datetime
+import oauth2, requests, datetime, pandas as pd
 from numpy import cumsum
 
 key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
@@ -492,3 +492,5 @@ if __name__=='__main__':
 
 	
 #####
+if __name__ == '__main__':
+    app.run(debug=True)
