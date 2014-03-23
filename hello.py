@@ -8,5 +8,5 @@ def show_input_form():
     return 'This should work!!!'
 	
 @app.route('/test')
-def show_this_page():
+def add_entry():
     return render_template('input_form.html')
