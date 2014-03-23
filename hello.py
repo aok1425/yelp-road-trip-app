@@ -395,10 +395,10 @@ def convert_to_yelp_app_link(website_link):
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
-	#file=open('c:/users/alex/desktop/flask/static/map.html','w')
+	file=open('c:/users/alex/desktop/map.html','w')
 	#file=open('/static/map.html','w')
 	#file=open(os.path.join(app.root_path,"\\static\\map.html"),'w')
-	file=open(app.root_path+"/static/map.html",'w')
+	#file=open(app.root_path+"/static/map.html",'w')
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
@@ -419,7 +419,7 @@ def make_HTML_file(start_point,end_point,resto_table):
 	def add_infowindow(resto,number):
 		resto_data=resto_table[resto]
 
-		infowindow=range(19)
+		infowindow=range(22)
 		infowindow[0]="var contentString"
 		infowindow[1]=str(number)
 		infowindow[2]="= \n\'<h2 id=\"firstHeading\" class=\"firstHeading\">"
@@ -438,10 +438,10 @@ def make_HTML_file(start_point,end_point,resto_table):
 		infowindow[15]=str("%0.1f" % int(float(resto_data[5])/60)) # converting to minutes
 		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
 		infowindow[17]=str(resto_data[3])
-		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'"
-		infowindow[19]="\n\'<a href=\""
+		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'+"
+		infowindow[19]="\n\'<p><a href=\""
 		infowindow[20]=convert_to_yelp_app_link(infowindow[17]) # which is the Yelp mobile link
-		infowindow[21]="\" target=\"\_blank\">visit page in iPhone app</a>\'"
+		infowindow[21]="\" target=\"\_blank\">visit page in iPhone app</a></p>\'"
 		return ''.join(infowindow)
 
 	number=0
@@ -516,6 +516,6 @@ if __name__=='__main__':
 
 	
 #####
-""" For running Flask locally
+""" For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)
