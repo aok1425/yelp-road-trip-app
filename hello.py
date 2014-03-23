@@ -5,8 +5,4 @@ app = Flask(__name__)
 
 @app.route('/')
 def show_input_form():
-    return 'This should work!!!'
-	
-@app.route('/test')
-def add_entry():
     return render_template('input_form.html')
