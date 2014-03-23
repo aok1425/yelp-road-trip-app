@@ -391,7 +391,7 @@ def convert_to_yelp_app_link(website_link):
 	unique_id=website_link[17:]
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
-	
+
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.

@@ -2,7 +2,8 @@
 <head>
 <title>Yelp Road Trip app!!!</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="viewport" content="width=device-width, user-scalable=no, target-densityDpi=device-dpi, height=device-height">
+
 </head>
 <div class="page">
     <div class="page-header">
@@ -22,6 +23,7 @@
 <script>
 
     $('form').submit(function(){
+        window.scrollTo(0,0);
         $('body').addClass('loading');
     });
 
