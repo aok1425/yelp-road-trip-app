@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+		  <dt>Where will you start your day?
+		  <dd><input type=text name=start>
+		  <dt>Where will you end your day?
+		  <dd><input type=text name=end>
+		  <dt>What time are you leaving?
+		  <dd><input type=text name=time_leaving>
+		  <dt>Around what time do you want to eat?
+		  <dd><input type=text name=eating_time>
+		  <dd><input type=submit value=Proceed>
+      </dl>
+    </form>
+{% endblock %}
