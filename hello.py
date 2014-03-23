@@ -15,7 +15,7 @@ def show_input_form():
 @app.route('/test')
 def show_path():
 	return app.root_path+"/static/map.html"
-	
+
 @app.route('/add', methods=['POST'])
 def add_entry():
 	start=request.form['start']
@@ -29,22 +29,22 @@ def add_entry():
 	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
 	make_HTML_file(start,end,filtered_table)
 	#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
-	
+
 	#return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
 	return redirect(url_for('static', filename='map.html'))
-	
+
 # MY MASSIVE ASS SCRIPT
 #####
-# btwn time_to_restos(), time_to_restos_json(), and resto_table, I am betting that resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though... 
+# btwn time_to_restos(), time_to_restos_json(), and resto_table, I am betting that resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though...
 # schema of resto_table is [address,rating,# reviews,yelp link,rating img,duration to resto,distance to resto,minutes out of way,distance out of way]
- 
+
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
- 
+
 # Google Distance Matrix API has limit of 100 elements/query
- 
+
 #len(yelp_json_to_table(yelp_search(20,radius=40000,location='fernley,nv')))
 #do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm')
- 
+
 import oauth2, requests, datetime, pandas as pd
 from numpy import cumsum
 
@@ -62,38 +62,38 @@ def break_up_step(start,end,time_block=30):
 	"""Using rows w/format [cumm duration, duration, latlong], input start and end rows for this long stretch. Returns a table of multiple rows w/their own cumm duration, duration, and latlong values using Bing (instead of guessing midpoints as the crow flies)."""
 	start_point=','.join([str(item) for item in start[2]])
 	end_point=','.join([str(item) for item in end[2]])
-	
+
 	payload = {'wp.0':start_point, 'wp.1':end_point,'rpo':'Points','key': bingkey}
 	site='http://dev.virtualearth.net/REST/V1/Routes/Driving'
 	r = requests.get(site, params=payload)
 	thejson=r.json()
 	coordinates=thejson['resourceSets'][0]['resources'][0]['routePath']['line']['coordinates']
-	
+
 	# filtering the list of coordinate points by every 30 minute duration, assuming constant speed
 	time_blocks=time_block*60 # 30 mins * 60s
 	segments=end[1]/time_blocks # always rounds down; i can make this err on the side of pulling 1 more search point instead
 	skip_amt=len(coordinates)/segments
 	duration=end[1]/float(segments) # shld be very similar to time_blocks
-	
+
 	# I'm taking the time duration of the trip, and dividing that by every 30 min duration to get the number of segments.
 	# But, I take the number of segments and use that to filter the latlong points.
 	# If the latlong points are given to me by Bing for every x mins that pass, everything is golden.
 	# If they are given to me by every y distance, then I'm using the duration scale on the distance scale, even though they are two different scales, since speed will not be constant.
 	# Only if speed is constant would the two scales translate cleanly into each other.
 	# I'm going to take the time scale, and 'translate' it to the distance scale. Funny. Like the Kahneman book.
-	
+
 	filtered_coordinates=coordinates[::skip_amt]
-	
+
 	# adding cumm durations and duration to latlong points
 	search_points=[]
 	for number in range(segments): # always rounds down; can chg this if i want
 		new_search_point=[start[0]+duration*(number+1),duration,filtered_coordinates[number]]
 		search_points.append(new_search_point)
-	
+
 	last_coordinate_index=len(coordinates)-1
 	#print start[0]+duration*(segments+1),duration,coordinates[last_coordinate_index]
 	search_points.append([start[0]+duration*(segments+1),duration,coordinates[last_coordinate_index]]) # appends final search point as well
-	
+
 	#for row in search_points: print row
 	return search_points
 
@@ -119,7 +119,7 @@ def make_search_points(thejson,time_block=30,too_long_step=60):
 		testtable.append([cummdurations[i],durations[i],locs[i]])
 	for row in testtable:
 		print row"""
-	
+
 	table=[]
 	for i in range(len(durations)):
 		if durations[i] > some_distance:
@@ -131,7 +131,7 @@ def make_search_points(thejson,time_block=30,too_long_step=60):
 
 	#print 'from make_search_points()'
 	#for row in table: print row
-	
+
 	return table
 
 # because only the search points that are AFTER 30 mins has passed will show up, if i'm at 28 mins, and the next step is 29 mins, then i'll only get a point at 28+29 mins
@@ -140,46 +140,46 @@ def cull_search_points(search_points,cull_block=30):
 	cumm_durations=[row[0]/float(cull_block*60) for row in search_points] # isolate the first column; 60 for 60s
 	subset_search_points=[]
 	redundant_cumm_durations=[]
-	
+
 	#print 'Before the cull'
 	#for row in search_points: print row
-	
+
 	#for row in cumm_durations: print int(row)
-	
+
 	for i in range(len(search_points)):
 		if str(int(cumm_durations[i])) not in [str(int(each)) for each in redundant_cumm_durations]: # maybe just int(12.123) might work.
 			redundant_cumm_durations.append(cumm_durations[i])
 			subset_search_points.append(search_points[i])
-			
+
 	subset_search_points.append(search_points[len(search_points)-1]) # appends final destination as well
-	
+
 	#print 'After the cull'
 	#for row in subset_search_points: print row
-	
+
 	return subset_search_points
-	
+
 def time_diff(start_time,eating_time_start):
 	"""Take input and add it to start_time. Return desired start eating time as # of seconds past start time."""
 	eating_time_start=datetime.datetime.strptime(eating_time_start, '%I:%M%p')
 	start_time=datetime.datetime.strptime(start_time, '%I:%M%p')
-	
+
 	diff=eating_time_start-start_time
 	seconds_diff=diff.seconds
-	
+
 	return seconds_diff
-	
+
 def filter_search_points_by_eating_time(search_points,eating_time_start):
 	"""Takes search table and returns only those rows after eating_time start until eating_time_end, set at 1.5 hours here."""
 	eating_time_end=eating_time_start+1.5*60*60 # 1.5 hour duration
 	filtered_search_points=[]
-	
+
 	for i in range(len(search_points)):
 		cumm_duration=search_points[i][0]
-		
+
 		if eating_time_start<=cumm_duration<=eating_time_end:
 			filtered_search_points.append(search_points[i])
-			
-	return filtered_search_points	
+
+	return filtered_search_points
 
 # I will want to chg this later to give me the most popular restaurants that have a minimum number of stars, maybe w/weights instead of absolute filters. Maybe something Bayesian!?!?!?! whatever that may mean lol.
 
@@ -195,20 +195,20 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 		payload['ll'] = latlong
 	else:
 		payload['location']=location
-	
+
 	consumer_key = 'p0z-o-8cwOH7c5h4GO8vhg'
 	consumer_secret = 'qwPaxGEydLqHlNTYTAls-AGwy28'
 	token = 'VPHPmXFuhRDtEYWPL56pAPgPFOdc1Gk0'
 	token_secret = 'SChhpSGhdwKgGGoqjQ-vplr-0C4'
-	
+
 	# Make initial URL w/params
 	url = 'http://api.yelp.com/v2/search'
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
-	
+
 	# Sign the URL
 	consumer = oauth2.Consumer(consumer_key, consumer_secret)
-	
+
 	oauth_request = oauth2.Request('GET', r.url, {})
 	oauth_request.update({'oauth_nonce': oauth2.generate_nonce(),
 						  'oauth_timestamp': oauth2.generate_timestamp(),
@@ -218,11 +218,11 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
 	signed_url = oauth_request.to_url()
 	#print 'Signed URL: %s' % (signed_url,)
-	
+
 	s=requests.get(signed_url)
 
 	return s.json()
-	
+
 def yelp_json_to_table(thejson):
 	"""Takes JSON from Yelp Search API and adds restos' name, address, and rating to the dict resto_table."""
 	new_table=[]
@@ -238,18 +238,18 @@ def yelp_table_to_dict(table,cutoff=3):
 
 	for row in sorted_table[:cutoff]:
 		resto_table[row[0]]=row[1:]
-	
+
 def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
-	
+
 def extra_distance_json(start, end, resto, sensor='false'):
 	"""Returns JSON response for extra distance to resto address."""
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-	
+
 	payload = {'origins':start+'|'+resto, 'destinations':end+'|'+resto, 'key':key, 'units':'imperial', 'sensor':sensor}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
-	
+
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
 	return r.json()
@@ -267,7 +267,7 @@ def extra_distance_to_resto(thejson):
 				print '\nGMaps can\'t understand an address. Program will crash here...'
 				print 'what is',row
 				print 'what is',element
-			
+
 	route_w_resto=[durations[1]+durations[2],distances[1]+distances[2]] # time, then distance
 	original_route=[durations[0],distances[0]]
 	diff=[route_w_resto[0]-original_route[0],route_w_resto[1]-original_route[1]]
@@ -276,48 +276,48 @@ def extra_distance_to_resto(thejson):
 	#print 'longer route is',route_w_resto[1]*0.000621371,'miles long and',"%0.2f" % (float(route_w_resto[0])/3600),'hours to drive.'
 	#print 'It takes an extra',"%0.2f" % (float(diff[0])/60),'minutes and',diff[1]*0.000621371,'miles to get to the restaurant.'
 	return diff
-	
+
 def time_to_restos_json(start,filtered_table,sensor='false'):
 	"""Input starting location, table of end locations, and get JSON back from Google Directions Matrix.
-	
+
 	I'm inputting a table instead of each destination address so that I can make fewer calls to the API."""
 	addresses=[]
 	for restaurant in filtered_table.keys():
 		addresses.append(filtered_table[restaurant][0])
 	end='|'.join(addresses)
-	
+
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	payload = {'origins':start, 'destinations':end, 'key':key, 'units':'imperial', 'sensor':sensor}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
-	
+
 	return r.json()
-	
+
 def time_to_restos(thejson,start,start_time):
 	try: # I hope hope hope this isn't too hacky!!!
 		dict_of_durations=thejson['rows'][0]['elements']
-		
+
 		start_time_repr=datetime.datetime.strptime(start_time, '%I:%M%p')
 
 		info_table=[]
-		
+
 		for i in range(len(filtered_table)):
 			duration=dict_of_durations[i]['duration']['value']
 			distance=dict_of_durations[i]['distance']['value']
 			name=filtered_table.keys()[i]
-			
+
 			preaddress=thejson['destination_addresses'][i]
 			address=pull_town_from_address(preaddress)
 			time_delta=datetime.timedelta(seconds=duration)
 			end_time=datetime.datetime.strftime(start_time_repr+time_delta,'%I:%M%p')
 			print 'Since you started at',start_time,'you will arrive at',name,'at',end_time,'. It\'s in',address,'.'
 			minutes_away=duration
-			
+
 			info_table.append([name,preaddress,minutes_away,distance])
-			
+
 		return info_table
-	
+
 	except IndexError:
 		print 'There are no restaurants available in that time frame!'
 
@@ -334,33 +334,33 @@ def filter_resto_table(resto_table,review_cutoff=15):
 	df=df.sort(['rs'],ascending=False)
 
 	temp_filtered_resto_table=df.head(review_cutoff).T.to_dict('list') # makes new resto_table taking the review_cutoff most reviewed restos
-	
+
 	for row in temp_filtered_resto_table:
 		filtered_table[row]=temp_filtered_resto_table[row]
-	
+
 def do_everything(start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=15,too_long_step=60,time_block=30,cull_block=30,radius=40000,sensor='false'):
 	"""Input START and END location, and program will search Yelp after every step within RADIUS, return LIMIT # of restos, then tell you the time to drive to each of them from starting location.
-	
+
 	Search_limit is how many restos Yelp searches for at each search point. Max of search_limit is 20. Return_limit is how many restos I cut off to find the most reviewed ones.
-	
+
 	Review_cutoff is how many restos do you want to return after sorting them my # of reviews.
-	
+
 	Around what time do you want to start eating? Program will look 1.5 hours after that in terms of places to look, not time to final destinations."""
 	result=get_gmaps_json(start,end)
-	
+
 	start_time_repr=datetime.datetime.strptime(start_time, '%I:%M%p')
 	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
 	print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
-	
+
 	search_points=make_search_points(result,time_block,too_long_step)
 	search_points_to_return=cull_search_points(search_points,cull_block)
 	search_points=filter_search_points_by_eating_time(search_points_to_return,time_diff(start_time,eating_time_start))
-	
+
 	for row in range(len(search_points)):
 		yelp_table_to_dict(yelp_json_to_table(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]))),return_limit)
-	
+
 	filter_resto_table(resto_table, review_cutoff)
-	
+
 	# adds extra time and distance to each of the filtered restos
 	for each in range(len(filtered_table)):
 		address=filtered_table[filtered_table.keys()[each]][0] # 0 is for address; 1 for rating
@@ -370,7 +370,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 		if name in filtered_table.keys():
 			filtered_table[name].append(result[0])
 			filtered_table[name].append(result[1])
-	
+
 	# adds time and distance to each of the filtered restos
 	table2=time_to_restos(time_to_restos_json(start,filtered_table),start,start_time) # can change this to duration/distance from any location
 	for row in table2:
@@ -381,10 +381,10 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 		except:
 			print 'skipping',row[0]
 			pass
-	
+
 	return table2
 	#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
-		
+
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
@@ -408,7 +408,7 @@ def make_HTML_file(start_point,end_point,resto_table):
 			else:
 				output.append(input[i])
 		return ''.join(output)
-	  
+
 	def add_infowindow(resto,number):
 		resto_data=resto_table[resto]
 
@@ -438,16 +438,16 @@ def make_HTML_file(start_point,end_point,resto_table):
 	for resto in resto_table:
 		number+=1
 		infowindows.append(add_infowindow(resto,number))
-		
+
 	### Part 1: Take resto addresses and add their coordinates to a JS list called locations on the HTML file.
-	
+
 	def geocode_address(address,sensor='false'):
 		"""Input address and return lat long dictionary."""
 		payload = {'address':address,'sensor':sensor,'key': key}
 		site='https://maps.googleapis.com/maps/api/geocode/json'
 		r = requests.get(site, params=payload)
 		return r.json()
-		
+
 	def show_coordinates(thejson):
 		"""Inputs Geoccoding JSON and returns the lat long dict."""
 		return thejson['results'][0]['geometry']['location']
@@ -463,14 +463,14 @@ def make_HTML_file(start_point,end_point,resto_table):
 		return ''.join(location)
 
 	number=0
-	for resto in resto_table: 
+	for resto in resto_table:
 		number+=1
 		resto_data=resto_table[resto]
 		locations.append(add_location(show_coordinates(geocode_address(resto_data[0])),number)) # 0 being the address
 
-			
-	### Part 2: Take all the elements of the HTML file and write them.	
-		
+
+	### Part 2: Take all the elements of the HTML file and write them.
+
 	list_of_elements=range(9)
 
 	list_of_elements[0]="<!DOCTYPE html>\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\">\n    <meta charset=\"utf-8\">\n    <title>Directions service</title>\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src=\"https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false\"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"
@@ -486,11 +486,11 @@ def make_HTML_file(start_point,end_point,resto_table):
 	for each in list_of_elements:
 		file.write(each)
 	file.close()
-	
+
 def reset_tables():
 	globals()['resto_table']={}
 	globals()['filtered_table']={}
-	
+
 """
 if __name__=='__main__':
 	start=raw_input('Where will you start your day?\n')
@@ -504,8 +504,8 @@ if __name__=='__main__':
 #make_HTML_file('reno,nv','jackpot,nv',filtered_table)
 
 
-	
+
 #####
-""" For running Flask locally
+# For running Flask locally
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)

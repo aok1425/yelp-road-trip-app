@@ -1,9 +1,25 @@
 <!doctype html>
 <title>Yelp Road Trip app!!!</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
-  <h1>Yelp Road Trip app!!!</h1>
-  <div class=metanav>
-  </div>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+<div class="page">
+    <div class="page-header">
+      <h1>Yelp</h1>
+      <div class="tagline">Road trip</div>
+      <p>Tell us where you're going and we'll find top rated rated restaurants that are on the way.</p>
+    </div>
   {% block body %}{% endblock %}
 </div>
+
+<div class="loader-wrapper">
+    <div class="location_indicator"></div>
+    <p>...loading great restaurants</p>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+
+    $('form').submit(function(){
+        $('body').addClass('loading');
+    });
+
+</script>
