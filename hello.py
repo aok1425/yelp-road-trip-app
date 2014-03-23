@@ -14,7 +14,7 @@ def show_input_form():
 
 @app.route('/test')
 def show_path():
-	return app.root_path+"\\static\\map.html"
+	return app.root_path+"/static/map.html"
 	
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -388,7 +388,7 @@ def make_HTML_file(start_point,end_point,resto_table):
 	#file=open('c:/users/alex/desktop/flask/static/map.html','w')
 	#file=open('/static/map.html','w')
 	#file=open(os.path.join(app.root_path,"\\static\\map.html"),'w')
-	file=open(app.root_path+"\\static\\map.html",'w')
+	file=open(app.root_path+"/static/map.html",'w')
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
