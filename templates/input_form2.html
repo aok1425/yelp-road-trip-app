@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+		  <dt>Super-alpha version, so please:
+		  <dt>put locations that Google Maps would understand
+		  <dt>put times like '12:35pm'
+		  <dt>If you say you want to eat after you would arrive at your destination, you will get a 500 error message :)
+		  <dt>Now, for the main course...
+		  <dt>Where will you start your day?
+		  <dd><input type=text name=start>
+		  <dt>Where will you end your day?
+		  <dd><input type=text name=end>
+		  <dt>What time are you leaving?
+		  <dd><input type=text name=time_leaving>
+		  <dt>Around what time do you want to eat?
+		  <dd><input type=text name=eating_time>
+		  <dd><input type=submit value=Proceed>
+      </dl>
+    </form>
+{% endblock %}
+
