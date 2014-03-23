@@ -14,7 +14,8 @@ def show_input_form():
 
 @app.route('/test')
 def show_path():
-	return app.root_path+"/static/map.html"
+	return redirect(url_for('static', filename='openinyelpapp.html'))
+	#return app.root_path+"/static/map.html"
 	
 @app.route('/add', methods=['POST'])
 def add_entry():

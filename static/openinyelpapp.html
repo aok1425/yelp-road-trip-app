@@ -1,0 +1,17 @@
+// Replace biz/the-sentinel-san-francisco with whatever page you are directing the user to.
+
+- (BOOL)isYelpInstalled {
+   return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"yelp5.3:"]];
+}
+
+- (void)maybeDoSomethingWithYelp {
+    if ([self isYelpInstalled]) {
+        // Call into the Yelp app
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"yelp5.3:///biz/the-sentinel-san-francisco"]];
+     } else {
+        // Use the Yelp touch site
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://yelp.com/biz/the-sentinel-san-francisco"]];
+    }
+}
+
+<a href="yelp:///biz/the-sentinel-san-francisco">Does this open in Yelp?</a>
