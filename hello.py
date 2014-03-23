@@ -395,10 +395,10 @@ def convert_to_yelp_app_link(website_link):
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
-	file=open('c:/users/alex/desktop/map.html','w')
+	#file=open('c:/users/alex/desktop/map.html','w')
 	#file=open('/static/map.html','w')
 	#file=open(os.path.join(app.root_path,"\\static\\map.html"),'w')
-	#file=open(app.root_path+"/static/map.html",'w')
+	file=open(app.root_path+"/static/map.html",'w')
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
@@ -516,6 +516,6 @@ if __name__=='__main__':
 
 	
 #####
-""" For running Flask locally
+""" For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)
