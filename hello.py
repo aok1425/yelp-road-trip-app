@@ -25,7 +25,7 @@ def add_entry():
 	logging_input_data.append([start,end,time_leaving,eating_time])
 	print start,end,time_leaving,eating_time
 	#do_everything(start,end,1,1,time_leaving,eating_time,10,40,20,20)
-	do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','3:30pm',10,40,20,20)
+	do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
 	#make_HTML_file(start,end,filtered_table)
 	make_HTML_file('reno,nv','jackpot,nv',filtered_table)
 	
