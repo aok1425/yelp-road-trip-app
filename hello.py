@@ -487,7 +487,7 @@ def make_HTML_file(start_point,end_point,resto_table):
 	list_of_elements[1]=start_point #'2312,31321'
 	list_of_elements[2]="';\n\tvar end_point = '"
 	list_of_elements[3]=end_point #'2312,31321'
-	list_of_elements[4]="\';\n\n\tfunction initialize() {\n\t\tvar mapOptions = {\n\t\t  center: new google.maps.LatLng(-33.92, 151.25),\n\t\t  zoom: 2\n\t\t};\n\t\t\n\t"
+	list_of_elements[4]="\';\n\n\tfunction initialize() {\n\t\tvar mapOptions = {\n\t\t  center: new google.maps.LatLng(13.412849, 103.868251),\n\t\t  zoom: 15\n\t\t};\n\t\t\n\t"
 	list_of_elements[5]='\n\n'.join(infowindows)
 	list_of_elements[6]="\n\n\tvar map = new google.maps.Map(document.getElementById(\"map-canvas\"),mapOptions);\n\n    var locations = [\n\t"
 	list_of_elements[7]='\n\t'.join(locations)
