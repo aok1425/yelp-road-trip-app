@@ -12,6 +12,10 @@ def show_input_form():
 	#return app.root_path+"\\static\\map.html"
     return render_template('input_form.html')
 
+@app.route('/test')
+def show_path():
+	return app.root_path+"\\static\\map.html"
+	
 @app.route('/add', methods=['POST'])
 def add_entry():
 	start=request.form['start']
