@@ -9,6 +9,7 @@ filtered_table={}
 
 @app.route('/')
 def show_input_form():
+	#return app.root_path+"\\static\\map.html"
     return render_template('input_form.html')
 
 @app.route('/add', methods=['POST'])
@@ -380,7 +381,10 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
-	file=open('c:/users/alex/desktop/flask/static/map.html','w')
+	#file=open('c:/users/alex/desktop/flask/static/map.html','w')
+	#file=open('/static/map.html','w')
+	#file=open(os.path.join(app.root_path,"\\static\\map.html"),'w')
+	file=open(app.root_path+"\\static\\map.html",'w')
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
