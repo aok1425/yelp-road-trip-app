@@ -385,7 +385,13 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	
 	return table2
 	#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
-		
+
+def convert_to_yelp_app_link(website_link):
+	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""
+	unique_id=website_link[17:]
+	yelp_link_start='yelp://'
+	return yelp_link_start+unique_id
+	
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
@@ -433,6 +439,9 @@ def make_HTML_file(start_point,end_point,resto_table):
 		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
 		infowindow[17]=str(resto_data[3])
 		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'"
+		infowindow[19]="\n\'<a href=\""
+		infowindow[20]=convert_to_yelp_app_link(infowindow[17]) # which is the Yelp mobile link
+		infowindow[21]="\" target=\"\_blank\">visit page in iPhone app</a>\'"
 		return ''.join(infowindow)
 
 	number=0
@@ -507,6 +516,6 @@ if __name__=='__main__':
 
 	
 #####
-""" For running Flask locally
+""" For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)
