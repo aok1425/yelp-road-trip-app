@@ -14,14 +14,9 @@ def show_input_form():
 
 @app.route('/test')
 def show_path():
-<<<<<<< HEAD
 	return redirect(url_for('static', filename='openinyelpapp.html'))
 	#return app.root_path+"/static/map.html"
-	
-=======
-	return app.root_path+"/static/map.html"
 
->>>>>>> 65f929132294563608cd921038e5c1356426346b
 @app.route('/add', methods=['POST'])
 def add_entry():
 	start=request.form['start']
@@ -391,15 +386,12 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	return table2
 	#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
 
-<<<<<<< HEAD
 def convert_to_yelp_app_link(website_link):
 	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""
 	unique_id=website_link[17:]
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
 	
-=======
->>>>>>> 65f929132294563608cd921038e5c1356426346b
 def make_HTML_file(start_point,end_point,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
