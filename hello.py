@@ -23,7 +23,7 @@ def add_entry():
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
-
+	print start,end,time_leaving,eating_time
 	do_everything(start,end,1,1,time_leaving,eating_time,10,40,20,20)
 	#make_HTML_file(start,end,filtered_table)
 	
