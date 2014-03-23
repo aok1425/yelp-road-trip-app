@@ -24,6 +24,7 @@ def add_entry():
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
 	print start,end,time_leaving,eating_time
+	reset_tables()
 	do_everything(start,end,1,1,time_leaving,eating_time,10,40,20,20)
 	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
 	make_HTML_file(start,end,filtered_table)
@@ -486,7 +487,10 @@ def make_HTML_file(start_point,end_point,resto_table):
 		file.write(each)
 	file.close()
 	
-
+def reset_tables():
+	globals()['resto_table']={}
+	globals()['filtered_table']={}
+	
 """
 if __name__=='__main__':
 	start=raw_input('Where will you start your day?\n')
