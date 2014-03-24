@@ -25,8 +25,8 @@ def add_entry():
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
 	reset_tables()
-	do_everything(start,end,10,5,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-	#do_everything(start,end,1,1,time_leaving,eating_time,1,40,20,20)
+	#do_everything(start,end,10,5,time_leaving,eating_time,10,40,20,20)
+	do_everything(start,end,1,1,time_leaving,eating_time,1,40,20,20)
 	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
 	make_HTML_file(start,end,time_leaving,filtered_table)
 	#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
@@ -248,53 +248,39 @@ def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
 
-def extra_distance_json(start, end, filtered_table, sensor='false'):
-	"""Returns JSON response for extra distance to resto address.
-	GMaps Directions Matrix API accepts a max of 9 restos, making 11 elements including start and end."""
+def extra_distance_json(start, end, resto, sensor='false'):
+	"""Returns JSON response for extra distance to resto address."""
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-	
-	list_of_addresses=[filtered_table[name][0] for name in filtered_table.keys()]
-	origins=[start]
-	destinations=[end]
-	[origins.append(address) for address in list_of_addresses]
-	[destinations.append(address) for address in list_of_addresses]	
-	
-	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':key, 'units':'imperial', 'sensor':sensor}
+
+	payload = {'origins':start+'|'+resto, 'destinations':end+'|'+resto, 'key':key, 'units':'imperial', 'sensor':sensor}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
-	print len(filtered_table),'restos, ',len(filtered_table)+2,' elements.'
-	#return r.url
 	return r.json()
 
 def extra_distance_to_resto(thejson):
 	"""Takes in a JSON from Google Distance Matrix API and returns the diff to go to resto, in time and distance."""
 	durations,distances=[],[]
-	num_elements=len(thejson['rows'])
-	
+
 	for row in thejson['rows']:
 		for element in row['elements']:
 			try:
 				distances.append(element['distance']['value']) # in seconds
 				durations.append(element['duration']['value']) # in meters
 			except KeyError:
-				print 'GMaps can\'t understand an address. Program will crash here...'
+				print '\nGMaps can\'t understand an address. Program will crash here...'
 				print 'what is',row
 				print 'what is',element
-	
-	first_element_duration=durations[1:num_elements]
-	second_element_duration=[durations[len(durations)-n*num_elements] for n in range(1,num_elements)]
-	diff_list_duration=[durations[0]-first_element_duration[i]-second_element_duration[i] for i in range(len(first_element_duration))]
-	
-	first_element_distance=distances[1:num_elements]
-	second_element_distance=[distances[len(distances)-n*num_elements] for n in range(1,num_elements)]
-	diff_list_distance=[distances[0]-first_element_distance[i]-second_element_distance[i] for i in range(len(first_element_distance))]
-	
-	original_route_list_duration=durations[1:num_elements]
-	original_route_list_distance=distances[1:num_elements]
 
-	return diff_list_duration,diff_list_distance,original_route_list_duration,original_route_list_distance
+	route_w_resto=[durations[1]+durations[2],distances[1]+distances[2]] # time, then distance
+	original_route=[durations[0],distances[0]]
+	diff=[route_w_resto[0]-original_route[0],route_w_resto[1]-original_route[1]]
+
+	#print 'shorter route is',original_route[1]*0.000621371,'miles long and',"%0.2f" % (float(original_route[0])/3600),'hours to drive.'
+	#print 'longer route is',route_w_resto[1]*0.000621371,'miles long and',"%0.2f" % (float(route_w_resto[0])/3600),'hours to drive.'
+	#print 'It takes an extra',"%0.2f" % (float(diff[0])/60),'minutes and',diff[1]*0.000621371,'miles to get to the restaurant.'
+	return diff
 
 def time_to_restos_json(start,filtered_table,sensor='false'):
 	"""Input starting location, table of end locations, and get JSON back from Google Directions Matrix.
@@ -383,14 +369,31 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	print 'Finding extra distances and times for',len(filtered_table),'restos...'
 	# adds extra time and distance to each of the filtered restos
 	
-	thejson=extra_distance_json(start,end,filtered_table)
-	result=extra_distance_to_resto(thejson)
+	
+	
+	for each in range(len(filtered_table)):
+		address=filtered_table[filtered_table.keys()[each]][0] # 0 is for address; 1 for rating
+		name=filtered_table.keys()[each]
+		result=extra_distance_to_resto(extra_distance_json(start,end,address))
+		#print 'It takes an extra',"%0.1f" % int(float(result[0])/60),'minutes and',"%0.1f" % (result[1]*0.000621371),'miles to get to',name,'.'
+		if name in filtered_table.keys():
+			filtered_table[name].append(result[0])
+			filtered_table[name].append(result[1])
 			
-	for i in range(len(filtered_table.keys())):
-		for j in result:
-			filtered_table[filtered_table.keys()[i]].append(j[i])
+			
 			
 	print 'Done!'
+	# adds time and distance to each of the filtered restos
+	table2=time_to_restos(time_to_restos_json(start,filtered_table),start,start_time) # can change this to duration/distance from any location
+	for row in table2:
+		try:
+			filtered_table[row[0]].append(row[2])
+			filtered_table[row[0]].append(row[3])
+		except:
+			print 'skipping',row[0]
+			pass
+
+	return table2
 	#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
 
 def convert_to_yelp_app_link(website_link):

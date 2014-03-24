@@ -27,8 +27,8 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'san francisco';
-	var end_point = 'santa fe, nm';
+	var start_point = 'boston,ma';
+	var end_point = 'jackpot,nv';
 
 	function initialize() {
 		var mapOptions = {
@@ -37,19 +37,107 @@
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Kohnen\'s Country Bakery</h2>'+
+'<h2 id="firstHeading" class="firstHeading">The Tailor and the Cook</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image">'+
+'<p>40 reviews</p>'+
+'<p>259.9 mi away</p>'+
+'<p>You will arrive at 3:56pm</p>'+
+'<p>0.5 mi/-8.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/the-tailor-and-the-cook-utica" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/the-tailor-and-the-cook-utica" target="\_blank">view in iPhone app</a></p>'
+
+var contentString2= 
+'<h2 id="firstHeading" class="firstHeading">Bangkok Thai Restaurant</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>117 reviews</p>'+
-'<p>323.1 mi away</p>'+
-'<p>You will arrive at 7:47pm</p>'+
-'<p>0.4 mi/5.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/kohnens-country-bakery-tehachapi" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/kohnens-country-bakery-tehachapi" target="\_blank">visit page in iPhone app</a></p>'
+'<p>37 reviews</p>'+
+'<p>313.1 mi away</p>'+
+'<p>You will arrive at 4:44pm</p>'+
+'<p>-6.1 mi/-12.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/bangkok-thai-restaurant-liverpool" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/bangkok-thai-restaurant-liverpool" target="\_blank">view in iPhone app</a></p>'
+
+var contentString3= 
+'<h2 id="firstHeading" class="firstHeading">O\'scugnizzo Pizzeria</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>28 reviews</p>'+
+'<p>260.6 mi away</p>'+
+'<p>You will arrive at 3:58pm</p>'+
+'<p>36.6 mi/23.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/o-scugnizzo-pizzeria-utica" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/o-scugnizzo-pizzeria-utica" target="\_blank">view in iPhone app</a></p>'
+
+var contentString4= 
+'<h2 id="firstHeading" class="firstHeading">Lombardi Fruit & Imports Co</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image">'+
+'<p>20 reviews</p>'+
+'<p>312.0 mi away</p>'+
+'<p>You will arrive at 4:42pm</p>'+
+'<p>-56.2 mi/-54.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/lombardi-fruit-and-imports-co-syracuse" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/lombardi-fruit-and-imports-co-syracuse" target="\_blank">view in iPhone app</a></p>'
+
+var contentString5= 
+'<h2 id="firstHeading" class="firstHeading">Ocean Sushi</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>42 reviews</p>'+
+'<p>313.2 mi away</p>'+
+'<p>You will arrive at 4:43pm</p>'+
+'<p>-5.0 mi/-9.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/ocean-sushi-liverpool" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/ocean-sushi-liverpool" target="\_blank">view in iPhone app</a></p>'
+
+var contentString6= 
+'<h2 id="firstHeading" class="firstHeading">Pho Mekong House of Noodles</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>35 reviews</p>'+
+'<p>260.1 mi away</p>'+
+'<p>You will arrive at 3:58pm</p>'+
+'<p>43.7 mi/32.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/pho-mekong-house-of-noodles-utica" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/pho-mekong-house-of-noodles-utica" target="\_blank">view in iPhone app</a></p>'
+
+var contentString7= 
+'<h2 id="firstHeading" class="firstHeading">Robbie T\'s Pizza</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>14 reviews</p>'+
+'<p>310.0 mi away</p>'+
+'<p>You will arrive at 4:41pm</p>'+
+'<p>-54.5 mi/-53.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/robbie-ts-pizza-jamesville" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/robbie-ts-pizza-jamesville" target="\_blank">view in iPhone app</a></p>'
+
+var contentString8= 
+'<h2 id="firstHeading" class="firstHeading">Copper Top Tavern</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>25 reviews</p>'+
+'<p>314.8 mi away</p>'+
+'<p>You will arrive at 4:49pm</p>'+
+'<p>-5.9 mi/-14.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/copper-top-tavern-syracuse" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/copper-top-tavern-syracuse" target="\_blank">view in iPhone app</a></p>'
+
+var contentString9= 
+'<h2 id="firstHeading" class="firstHeading">Voss\' Bar-B-Q</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>17 reviews</p>'+
+'<p>262.5 mi away</p>'+
+'<p>You will arrive at 4:01pm</p>'+
+'<p>-6.8 mi/-13.0 min detour</p>'+
+'<a href="http://www.yelp.com/biz/voss-bar-b-q-yorkville" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/voss-bar-b-q-yorkville" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 35.1325102,-118.4486963,1],
+	[contentString1, 43.103511,-75.227735,1],
+	[contentString2, 43.128066,-76.220613,2],
+	[contentString3, 43.098755,-75.220446,3],
+	[contentString4, 43.0595538,-76.147698,4],
+	[contentString5, 43.136994,-76.226421,5],
+	[contentString6, 43.1000147,-75.2273424,6],
+	[contentString7, 42.9953735,-76.0716601,7],
+	[contentString8, 43.051538,-76.241118,8],
+	[contentString9, 43.1139121,-75.2762356,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
