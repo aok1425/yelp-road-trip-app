@@ -9,13 +9,7 @@ filtered_table={}
 
 @app.route('/')
 def show_input_form():
-	#return app.root_path+"\\static\\map.html"
     return render_template('input_form.html')
-
-@app.route('/test')
-def show_path():
-	return redirect(url_for('static', filename='openinyelpapp.html'))
-	#return app.root_path+"/static/map.html"
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -25,13 +19,12 @@ def add_entry():
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
 	reset_tables()
-	do_everything(start,end,10,5,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-	#do_everything(start,end,1,1,time_leaving,eating_time,1,40,20,20)
-	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
+	if request.form['button']=='Just find me the best ones! (takes longer)':
+		do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
+	else:
+		do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 	make_HTML_file(start,end,time_leaving,filtered_table)
-	#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
 
-	#return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
 	return redirect(url_for('static', filename='map.html'))
 
 # MY MASSIVE ASS SCRIPT
@@ -171,9 +164,10 @@ def time_diff(start_time,eating_time_start):
 
 	return seconds_diff
 
-def filter_search_points_by_eating_time(search_points,eating_time_start):
-	"""Takes search table and returns only those rows after eating_time start until eating_time_end, set at 1.5 hours here."""
-	eating_time_end=eating_time_start+1.5*60*60 # 1.5 hour duration
+def filter_search_points_by_eating_time(search_points,eating_time_start,duration=0.75,time_back=0.25):
+	"""Takes search table and returns only those rows after eating_time-time_back until eating_time_end, set at 1 hour here."""
+	eating_time_end=eating_time_start+duration*60*60 # 1 hour duration
+	eating_time_start=eating_time_start-time_back*60*60 # does yelp search at points up to a 1/4 hr before my eating time
 	filtered_search_points=[]
 
 	for i in range(len(search_points)):
@@ -265,7 +259,7 @@ def extra_distance_json(start, end, filtered_table, sensor='false'):
 
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
-	print len(filtered_table),'restos, ',len(filtered_table)+2,' elements.'
+	#print len(filtered_table),'restos, ',len(filtered_table)+2,' elements.'
 	#return r.url
 	return r.json()
 
@@ -316,7 +310,7 @@ def filter_resto_table(resto_table,review_cutoff=15):
 	for row in temp_filtered_resto_table:
 		filtered_table[row]=temp_filtered_resto_table[row]
 
-def do_everything(start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=15,too_long_step=60,time_block=30,cull_block=30,radius=40000,sensor='false'):
+def do_everything(start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=9,too_long_step=40,time_block=20,cull_block=20,just_best=False,radius=40000,sensor='false'):
 	"""Input START and END location, and program will search Yelp after every step within RADIUS, return LIMIT # of restos, then tell you the time to drive to each of them from starting location.
 
 	Search_limit is how many restos Yelp searches for at each search point. Max of search_limit is 20. Return_limit is how many restos I cut off to find the most reviewed ones.
@@ -331,15 +325,18 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
 	search_points=make_search_points(result,time_block,too_long_step)
-	search_points_to_return=cull_search_points(search_points,cull_block)
-	search_points=filter_search_points_by_eating_time(search_points_to_return,time_diff(start_time,eating_time_start))
+	search_points=cull_search_points(search_points,cull_block)
+	if just_best==False:
+		search_points=filter_search_points_by_eating_time(search_points,time_diff(start_time,eating_time_start))
+	else:
+		search_points=search_points[2:len(search_points)-3] # takes away two first and three last points. finds best restos along the way
 
 	for row in range(len(search_points)):
-		yelp_table_to_dict(yelp_json_to_table(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]))),return_limit)
+		yelp_table_to_dict(yelp_json_to_table(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]),sort_method=2)),return_limit)
 
 	filter_resto_table(resto_table, review_cutoff)
 	
-	print 'Finding extra distances and times for',len(filtered_table),'restos...'
+	print 'Finding distance and driving durations for',len(filtered_table),'restos...'
 	# adds extra time and distance to each of the filtered restos
 	
 	thejson=extra_distance_json(start,end,filtered_table)
@@ -399,13 +396,13 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table):
 		infowindow[6]="\" alt=\"Yelp rating image\">\'+\n\'<p>"
 		infowindow[7]=str(resto_data[2])
 		infowindow[8]=" reviews</p>\'+\n\'<p>"
-		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371))
+		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371)) # keepin this as 1 decimal place bc more important this be accurate
 		infowindow[10]=" mi away</p>'+\n\'<p>You will arrive at "
 		infowindow[11]=str(resto_destination_time)
 		infowindow[12]="</p>\'+\n\'<p>"
-		infowindow[13]=str("%0.1f" % (resto_data[6]*0.000621371))
+		infowindow[13]=str(int(resto_data[6]*0.000621371)) 
 		infowindow[14]=" mi/"
-		infowindow[15]=str("%0.1f" % int(float(resto_data[5])/60)) # converting to minutes
+		infowindow[15]=str(int(float(resto_data[5])/60)) # converting to minutes
 		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
 		infowindow[17]=str(resto_data[3])
 		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'+"
@@ -480,13 +477,13 @@ if __name__=='__main__':
 	do_everything(start,end,5,3,start_time,eating_time)
 	make_HTML_file(start,end,resto_table)
 """
-#do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm',4,40,20,20)
+#do_everything('reno,nv','jackpot,nv',20,20,'3:00pm','6:30pm',9,40,20,20)
 #make_HTML_file('reno,nv','jackpot,nv','3:00pm',filtered_table)
 
 
 
 #####
 
-""" For running Flask locally
+""" For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)

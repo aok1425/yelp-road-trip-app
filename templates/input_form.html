@@ -7,10 +7,11 @@
   <label for="end">End</label>
   <input type="text" name="end" placeholder="e.g. Las Vegas, NV">
   <label for="time_leaving">What time are you leaving?</label>
-  <input type="text" name="time_leaving" placeholder="e.g. 12:00pm">
+  <input type="time" name="time_leaving" placeholder="e.g. 12:00pm">
   <label for="eating_time">What time do you want to eat?</label>
-  <input type="text" name="eating_time" placeholder="e.g. 1:30pm">
-  <input type="submit" value="Proceed">
+  <input type="time" name="eating_time" placeholder="e.g. 1:30pm">
+  <input type="submit" name='button' value="Proceed">
+  <input type="submit" name='button' value="Forget about time, just find the best ones! (takes longer)">
 </form>
 
 {% endblock %}

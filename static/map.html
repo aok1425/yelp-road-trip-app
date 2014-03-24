@@ -27,8 +27,8 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'yosemite national park';
-	var end_point = 'yellowstone national park';
+	var start_point = 'santa fe, nm';
+	var end_point = 'los angeles';
 
 	function initialize() {
 		var mapOptions = {
@@ -37,107 +37,107 @@
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Willow Bay Recreation Area</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/b561c24f8341/ico/stars/v1/stars_2.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>652.2 mi away</p>'+
-'<p>You will arrive at 5:52pm</p>'+
-'<p>2.8 mi/7.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/willow-bay-recreation-area-american-falls" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/willow-bay-recreation-area-american-falls" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Criollo Latin Kitchen</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>211 reviews</p>'+
+'<p>383.5 mi away</p>'+
+'<p>You will arrive at 5:25pm</p>'+
+'<p>0 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/criollo-latin-kitchen-flagstaff" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/criollo-latin-kitchen-flagstaff" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h2 id="firstHeading" class="firstHeading">Aguila Con El Taco</h2>'+
-'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
-'<p>2 reviews</p>'+
-'<p>604.3 mi away</p>'+
-'<p>You will arrive at 5:13pm</p>'+
-'<p>5.6 mi/10.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/aguila-con-el-taco-rupert" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/aguila-con-el-taco-rupert" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Macy\'s European Coffee House & Bakery</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>350 reviews</p>'+
+'<p>383.7 mi away</p>'+
+'<p>You will arrive at 5:25pm</p>'+
+'<p>0 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/macys-european-coffee-house-and-bakery-flagstaff" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/macys-european-coffee-house-and-bakery-flagstaff" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h2 id="firstHeading" class="firstHeading">Alaska\'s Best</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>2 reviews</p>'+
-'<p>605.0 mi away</p>'+
-'<p>You will arrive at 5:17pm</p>'+
-'<p>5.9 mi/14.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/alaskas-best-rupert" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/alaskas-best-rupert" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Pine Country Restaurant</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>179 reviews</p>'+
+'<p>416.4 mi away</p>'+
+'<p>You will arrive at 5:53pm</p>'+
+'<p>0 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/pine-country-restaurant-williams" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/pine-country-restaurant-williams" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h2 id="firstHeading" class="firstHeading">R & B Drive In</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Rudy\'s Country Store & Bar-B-Que</h2>'+
 '<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>652.3 mi away</p>'+
-'<p>You will arrive at 5:53pm</p>'+
-'<p>3.0 mi/8.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/r-and-b-drive-in-american-falls" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/r-and-b-drive-in-american-falls" target="\_blank">view in iPhone app</a></p>'
+'<p>201 reviews</p>'+
+'<p>61.4 mi away</p>'+
+'<p>You will arrive at 12:58pm</p>'+
+'<p>1 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/rudys-country-store-and-bar-b-que-albuquerque" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/rudys-country-store-and-bar-b-que-albuquerque" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h2 id="firstHeading" class="firstHeading">Doc\'s Pizza</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>3 reviews</p>'+
-'<p>605.0 mi away</p>'+
-'<p>You will arrive at 5:16pm</p>'+
-'<p>5.8 mi/14.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/docs-pizza-rupert" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/docs-pizza-rupert" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">MartAnne\'s Cafe</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>264 reviews</p>'+
+'<p>416.4 mi away</p>'+
+'<p>You will arrive at 5:54pm</p>'+
+'<p>0 mi/9 min detour</p>'+
+'<a href="http://www.yelp.com/biz/martannes-cafe-flagstaff-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/martannes-cafe-flagstaff-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h2 id="firstHeading" class="firstHeading">Country Kitchen</h2>'+
-'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image">'+
-'<p>2 reviews</p>'+
-'<p>672.7 mi away</p>'+
-'<p>You will arrive at 6:23pm</p>'+
-'<p>17.5 mi/50.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/country-kitchen-aberdeen" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/country-kitchen-aberdeen" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Lola\'s Kitchen</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>186 reviews</p>'+
+'<p>733.8 mi away</p>'+
+'<p>You will arrive at 10:19pm</p>'+
+'<p>1 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/lolas-kitchen-barstow" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/lolas-kitchen-barstow" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h2 id="firstHeading" class="firstHeading">All Seasons Cafe</h2>'+
-'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>667.1 mi away</p>'+
-'<p>You will arrive at 6:08pm</p>'+
-'<p>11.0 mi/28.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/all-seasons-cafe-aberdeen" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/all-seasons-cafe-aberdeen" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">The Grove Cafe & Market</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>261 reviews</p>'+
+'<p>63.8 mi away</p>'+
+'<p>You will arrive at 12:59pm</p>'+
+'<p>4 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/the-grove-cafe-and-market-albuquerque" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/the-grove-cafe-and-market-albuquerque" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h2 id="firstHeading" class="firstHeading">Declo Country Store Gas & Deli</h2>'+
-'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>608.4 mi away</p>'+
-'<p>You will arrive at 5:15pm</p>'+
-'<p>6.3 mi/7.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/declo-country-store-gas-and-deli-declo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/declo-country-store-gas-and-deli-declo" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Beaver Street Brewery & Whistle Stop Cafe</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>401 reviews</p>'+
+'<p>383.7 mi away</p>'+
+'<p>You will arrive at 5:25pm</p>'+
+'<p>0 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/beaver-street-brewery-and-whistle-stop-cafe-flagstaff" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/beaver-street-brewery-and-whistle-stop-cafe-flagstaff" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h2 id="firstHeading" class="firstHeading">Tres Hermanos</h2>'+
-'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>2 reviews</p>'+
-'<p>651.3 mi away</p>'+
-'<p>You will arrive at 5:50pm</p>'+
-'<p>1.1 mi/3.0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/tres-hermanos-american-falls" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/tres-hermanos-american-falls" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Pieology Pizzeria</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>179 reviews</p>'+
+'<p>804.2 mi away</p>'+
+'<p>You will arrive at 11:18pm</p>'+
+'<p>0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/pieology-pizzeria-rancho-cucamonga-3" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/pieology-pizzeria-rancho-cucamonga-3" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 42.7971556,-112.8494014,1],
-	[contentString2, 42.6096384,-113.6790363,2],
-	[contentString3, 42.6186142,-113.6736069,3],
-	[contentString4, 42.7848326,-112.8523036,4],
-	[contentString5, 42.6175614,-113.6737744,5],
-	[contentString6, 42.98507,-112.908182,6],
-	[contentString7, 42.9431573,-112.8392303,7],
-	[contentString8, 42.5232307,-113.6281555,8],
-	[contentString9, 42.7908244,-112.8361459,9],
+	[contentString1, 35.1977393,-111.6476526,1],
+	[contentString2, 35.1962836,-111.6507286,2],
+	[contentString3, 35.250764,-112.1887632,3],
+	[contentString4, 35.107182,-106.604895,4],
+	[contentString5, 35.2509841,-112.1869276,5],
+	[contentString6, 34.8963445,-117.0074915,6],
+	[contentString7, 35.0827979,-106.6404699,7],
+	[contentString8, 35.1964848,-111.6510723,8],
+	[contentString9, 34.1052594,-117.5377468,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
