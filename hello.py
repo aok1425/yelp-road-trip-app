@@ -24,11 +24,11 @@ def add_entry():
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
 	logging_input_data.append([start,end,time_leaving,eating_time])
-	print start,end,time_leaving,eating_time
 	reset_tables()
-	do_everything(start,end,10,5,time_leaving,eating_time,10,40,20,20)
+	#do_everything(start,end,10,5,time_leaving,eating_time,10,40,20,20)
+	do_everything(start,end,1,1,time_leaving,eating_time,1,40,20,20)
 	#do_everything('reno,nv','jackpot,nv',1,1,'3:00pm','7:30pm',10,40,20,20)
-	make_HTML_file(start,end,filtered_table)
+	make_HTML_file(start,end,time_leaving,filtered_table)
 	#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
 
 	#return 'You want to start at '+start+', end at '+end+', leave at '+time_leaving+', and eat around '+eating_time+'.'
@@ -228,7 +228,10 @@ def yelp_json_to_table(thejson):
 	"""Takes JSON from Yelp Search API and adds restos' name, address, and rating to the dict resto_table."""
 	new_table=[]
 	for category in thejson['businesses']:
-		address=', '.join([category['location']['address'][0],category['location']['postal_code']])
+		try: # because of Ragtime in Elko, NV, which has no address on Yelp!
+			address=', '.join([category['location']['address'][0],category['location']['postal_code']])
+		except:
+			address='3 Oyster Bay Rd, 02125'
 		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url']])
 	return new_table
 
@@ -302,7 +305,7 @@ def time_to_restos(thejson,start,start_time):
 		start_time_repr=datetime.datetime.strptime(start_time, '%I:%M%p')
 
 		info_table=[]
-
+		print 'Finding times and distances to',len(filtered_table),'restaurants...'
 		for i in range(len(filtered_table)):
 			duration=dict_of_durations[i]['duration']['value']
 			distance=dict_of_durations[i]['distance']['value']
@@ -312,13 +315,13 @@ def time_to_restos(thejson,start,start_time):
 			address=pull_town_from_address(preaddress)
 			time_delta=datetime.timedelta(seconds=duration)
 			end_time=datetime.datetime.strftime(start_time_repr+time_delta,'%I:%M%p')
-			print 'Since you started at',start_time,'you will arrive at',name,'at',end_time,'. It\'s in',address,'.'
+			#print 'Since you started at',start_time,'you will arrive at',name,'at',end_time,'. It\'s in',address,'.'
 			minutes_away=duration
 
 			info_table.append([name,preaddress,minutes_away,distance])
-
+		print 'Done!'
 		return info_table
-
+		
 	except IndexError:
 		print 'There are no restaurants available in that time frame!'
 
@@ -361,21 +364,21 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 		yelp_table_to_dict(yelp_json_to_table(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]))),return_limit)
 
 	filter_resto_table(resto_table, review_cutoff)
-
+	
+	print 'Finding extra distances and times for',len(filtered_table),'restos...'
 	# adds extra time and distance to each of the filtered restos
 	for each in range(len(filtered_table)):
 		address=filtered_table[filtered_table.keys()[each]][0] # 0 is for address; 1 for rating
 		name=filtered_table.keys()[each]
 		result=extra_distance_to_resto(extra_distance_json(start,end,address))
-		print 'It takes an extra',"%0.1f" % int(float(result[0])/60),'minutes and',"%0.1f" % (result[1]*0.000621371),'miles to get to',name,'.'
+		#print 'It takes an extra',"%0.1f" % int(float(result[0])/60),'minutes and',"%0.1f" % (result[1]*0.000621371),'miles to get to',name,'.'
 		if name in filtered_table.keys():
 			filtered_table[name].append(result[0])
 			filtered_table[name].append(result[1])
-
+	print 'Done!'
 	# adds time and distance to each of the filtered restos
 	table2=time_to_restos(time_to_restos_json(start,filtered_table),start,start_time) # can change this to duration/distance from any location
 	for row in table2:
-		print row
 		try:
 			filtered_table[row[0]].append(row[2])
 			filtered_table[row[0]].append(row[3])
@@ -392,12 +395,10 @@ def convert_to_yelp_app_link(website_link):
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
 
-def make_HTML_file(start_point,end_point,resto_table):
+def make_HTML_file(start_point,end_point,time_leaving,resto_table):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
 	#file=open('c:/users/alex/desktop/map.html','w')
-	#file=open('/static/map.html','w')
-	#file=open(os.path.join(app.root_path,"\\static\\map.html"),'w')
 	file=open(app.root_path+"/static/map.html",'w')
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
@@ -416,8 +417,14 @@ def make_HTML_file(start_point,end_point,resto_table):
 				output.append(input[i])
 		return ''.join(output)
 
-	def add_infowindow(resto,number):
+	def add_infowindow(resto,number,time_leaving):
 		resto_data=resto_table[resto]
+		
+		start_time_repr=datetime.datetime.strptime(time_leaving, '%I:%M%p')
+		resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[7]),'%I:%M%p')
+		resto_destination_time = resto_destination_time.lstrip('0')
+		resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
+		#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
 		infowindow=range(22)
 		infowindow[0]="var contentString"
@@ -430,9 +437,9 @@ def make_HTML_file(start_point,end_point,resto_table):
 		infowindow[7]=str(resto_data[2])
 		infowindow[8]=" reviews</p>\'+\n\'<p>"
 		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371))
-		infowindow[10]=" mi/"
-		infowindow[11]=str("%0.1f" % int(float(resto_data[7])/60)) # converting to minutes
-		infowindow[12]=" mins away</p>\'+\n\'<p>"
+		infowindow[10]=" mi away</p>'+\n\'<p>You will arrive at "
+		infowindow[11]=str(resto_destination_time)
+		infowindow[12]="</p>\'+\n\'<p>"
 		infowindow[13]=str("%0.1f" % (resto_data[6]*0.000621371))
 		infowindow[14]=" mi/"
 		infowindow[15]=str("%0.1f" % int(float(resto_data[5])/60)) # converting to minutes
@@ -447,7 +454,7 @@ def make_HTML_file(start_point,end_point,resto_table):
 	number=0
 	for resto in resto_table:
 		number+=1
-		infowindows.append(add_infowindow(resto,number))
+		infowindows.append(add_infowindow(resto,number,time_leaving))
 
 	### Part 1: Take resto addresses and add their coordinates to a JS list called locations on the HTML file.
 
