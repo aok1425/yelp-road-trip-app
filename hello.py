@@ -42,6 +42,7 @@ def add_entry():
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
 
 # Google Distance Matrix API has limit of 100 elements/query
+# GMaps Distance Matrix API does not incorporate live traffic data!
 
 #len(yelp_json_to_table(yelp_search(20,radius=40000,location='fernley,nv')))
 #do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm')
@@ -367,6 +368,9 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	
 	print 'Finding extra distances and times for',len(filtered_table),'restos...'
 	# adds extra time and distance to each of the filtered restos
+	
+	
+	
 	for each in range(len(filtered_table)):
 		address=filtered_table[filtered_table.keys()[each]][0] # 0 is for address; 1 for rating
 		name=filtered_table.keys()[each]
@@ -375,6 +379,9 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 		if name in filtered_table.keys():
 			filtered_table[name].append(result[0])
 			filtered_table[name].append(result[1])
+			
+			
+			
 	print 'Done!'
 	# adds time and distance to each of the filtered restos
 	table2=time_to_restos(time_to_restos_json(start,filtered_table),start,start_time) # can change this to duration/distance from any location
@@ -448,7 +455,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table):
 		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'+"
 		infowindow[19]="\n\'<p><a href=\""
 		infowindow[20]=convert_to_yelp_app_link(infowindow[17]) # which is the Yelp mobile link
-		infowindow[21]="\" target=\"\_blank\">visit page in iPhone app</a></p>\'"
+		infowindow[21]="\" target=\"\_blank\">view in iPhone app</a></p>\'"
 		return ''.join(infowindow)
 
 	number=0
@@ -518,12 +525,12 @@ if __name__=='__main__':
 	make_HTML_file(start,end,resto_table)
 """
 #do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm',10,40,20,20)
-#make_HTML_file('reno,nv','jackpot,nv',filtered_table)
+#make_HTML_file('reno,nv','jackpot,nv','3:00pm',filtered_table)
 
 
 
 #####
 
-""" For running Flask locally
+""" For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)"""
+    app.run(debug=True)

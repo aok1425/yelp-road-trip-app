@@ -1,0 +1,30 @@
+do_everything
+4.76 s
+5.87 s
+make_html_file
+2.54 s
+
+STEP 1
+get_maps_json()
+0.30 s
+
+STEP 2
+make_search_points()
+cull_search_points()
+filter_search_points_by_eating_time()
+0.20 s
+
+STEP 3
+yelp_table_to_dict() for row in range
+0.89 s
+
+STEP 4
+filter_resto_table()
+0.01 s
+
+STEPS 1-4
+0.31 s
+
+STEP 5
+extra_distance_to_resto() for each resto in filtered_table--of which there are 10
+2.57 s
