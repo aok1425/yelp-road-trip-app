@@ -37,6 +37,7 @@ def add_entry():
 # MY MASSIVE ASS SCRIPT
 #####
 # btwn time_to_restos(), time_to_restos_json(), and resto_table, I am betting that resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though...
+# also assuming this to add the distance/duration/extra distance/extra duration to the dict filtered_table
 # schema of resto_table is [address,rating,# reviews,yelp link,rating img,duration to resto,distance to resto,minutes out of way,distance out of way]
 
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
@@ -283,62 +284,20 @@ def extra_distance_to_resto(thejson):
 				print 'what is',row
 				print 'what is',element
 	
-	first_element_duration=durations[1:num_elements]
-	second_element_duration=[durations[len(durations)-n*num_elements] for n in range(1,num_elements)]
-	diff_list_duration=[durations[0]-first_element_duration[i]-second_element_duration[i] for i in range(len(first_element_duration))]
-	
-	first_element_distance=distances[1:num_elements]
-	second_element_distance=[distances[len(distances)-n*num_elements] for n in range(1,num_elements)]
-	diff_list_distance=[distances[0]-first_element_distance[i]-second_element_distance[i] for i in range(len(first_element_distance))]
-	
 	original_route_list_duration=durations[1:num_elements]
 	original_route_list_distance=distances[1:num_elements]
+	
+	first_element_duration=original_route_list_duration
+	second_element_duration=[durations[len(durations)-n*num_elements] for n in range(1,num_elements)][::-1]
+	diff_list_duration=[first_element_duration[i]+second_element_duration[i]-durations[0] for i in range(len(first_element_duration))]
+	
+	first_element_distance=original_route_list_distance
+	second_element_distance=[distances[len(distances)-n*num_elements] for n in range(1,num_elements)][::-1]
+	diff_list_distance=[first_element_distance[i]+second_element_distance[i]-distances[0] for i in range(len(first_element_distance))]
+	
+
 
 	return diff_list_duration,diff_list_distance,original_route_list_duration,original_route_list_distance
-
-def time_to_restos_json(start,filtered_table,sensor='false'):
-	"""Input starting location, table of end locations, and get JSON back from Google Directions Matrix.
-
-	I'm inputting a table instead of each destination address so that I can make fewer calls to the API."""
-	addresses=[]
-	for restaurant in filtered_table.keys():
-		addresses.append(filtered_table[restaurant][0])
-	end='|'.join(addresses)
-
-	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-	payload = {'origins':start, 'destinations':end, 'key':key, 'units':'imperial', 'sensor':sensor}
-	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
-	r = requests.get(url, params=payload)
-	#print 'URL: %s' % (r.url,)
-
-	return r.json()
-
-def time_to_restos(thejson,start,start_time):
-	try: # I hope hope hope this isn't too hacky!!!
-		dict_of_durations=thejson['rows'][0]['elements']
-
-		start_time_repr=datetime.datetime.strptime(start_time, '%I:%M%p')
-
-		info_table=[]
-		print 'Finding times and distances to',len(filtered_table),'restaurants...'
-		for i in range(len(filtered_table)):
-			duration=dict_of_durations[i]['duration']['value']
-			distance=dict_of_durations[i]['distance']['value']
-			name=filtered_table.keys()[i]
-
-			preaddress=thejson['destination_addresses'][i]
-			address=pull_town_from_address(preaddress)
-			time_delta=datetime.timedelta(seconds=duration)
-			end_time=datetime.datetime.strftime(start_time_repr+time_delta,'%I:%M%p')
-			#print 'Since you started at',start_time,'you will arrive at',name,'at',end_time,'. It\'s in',address,'.'
-			minutes_away=duration
-
-			info_table.append([name,preaddress,minutes_away,distance])
-		print 'Done!'
-		return info_table
-		
-	except IndexError:
-		print 'There are no restaurants available in that time frame!'
 
 def pull_town_from_address(address):
 	split_address=address.split(', ')
@@ -528,6 +487,6 @@ if __name__=='__main__':
 
 #####
 
-""" For running Flask locally"""
+""" For running Flask locally
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)"""
