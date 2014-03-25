@@ -11,40 +11,62 @@ filtered_table={}
 def show_input_form():
     return render_template('input_form.html')
 
+def check_time(start,end,start_time,eating_time_start):
+	"""Did I put an eating time correctly, before I arrive?."""
+	result=get_gmaps_json(start,end)
+
+	start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
+	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
+	destination_time_repr=start_time_repr+datetime.timedelta(seconds=drive_duration)
+	destination_time=datetime.datetime.strftime(destination_time_repr,'%H:%M')	
+	print 'You will arrive at',end,'at',destination_time
+	
+	eating_time_repr=datetime.datetime.strptime(eating_time_start, '%H:%M')
+	
+	if eating_time_repr<destination_time_repr:
+		return 'yes'
+	else:
+		return destination_time
+	
 @app.route('/add', methods=['POST'])
 def add_entry():
 	start=request.form['start']
 	end=request.form['end']
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
+	
 	reset_tables()
-	logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
-	if request.form['button']=='Forget about time, just find the best ones! (takes longer)':
-		print 'LUCKY OPTION CHOSEN'
+	
+	if request.form['button']=='Forget time, just find the best! (takes longer)':
+		print 'I\'m feeling lucky option chosen.'
 		logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
 		do_everything(start,end,20,20,'12:00','15:00',9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,'12:00',filtered_table,just_best=True)
 	else:
-		print 'REGULAR OPTIONS CHOSEN'
-		logging_input_data.append([start,end,time_leaving,eating_time])
-		do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
+		print 'Regular option chosen.'
+		destination_time=check_time(start,end,time_leaving,eating_time)
+		if destination_time=='yes':
+			logging_input_data.append([start,end,time_leaving,eating_time])
+			do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
+		else:
+			print 'Bc eating time is too late, I will replace that w/destination time.'
+			destination_time_repr=datetime.datetime.strptime(destination_time, '%H:%M')
+			final_time_repr=destination_time_repr-datetime.timedelta(minutes=30) # choose a point 30 mins before final destination
+			final_time=datetime.datetime.strftime(final_time_repr,'%H:%M')	
+			logging_input_data.append([start,end,time_leaving,'destination time'])
+			do_everything(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,time_leaving,filtered_table)
 
 	return redirect(url_for('static', filename='map.html'))
 
-# MY MASSIVE ASS SCRIPT
-#####
+##### MY MASSIVE ASS SCRIPT
 # btwn time_to_restos(), time_to_restos_json(), and resto_table, I am betting that resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though...
 # also assuming this to add the distance/duration/extra distance/extra duration to the dict filtered_table
+
 # schema of resto_table is [address,rating,# reviews,yelp link,rating img,duration to resto,distance to resto,minutes out of way,distance out of way]
 
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
-
 # Google Distance Matrix API has limit of 100 elements/query
-# GMaps Distance Matrix API does not incorporate live traffic data!
-
-#len(yelp_json_to_table(yelp_search(20,radius=40000,location='fernley,nv')))
-#do_everything('reno,nv','jackpot,nv',7,5,'3:00pm','3:30pm')
 
 import oauth2, requests, datetime, pandas as pd
 from numpy import cumsum
@@ -248,7 +270,7 @@ def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
 
-def extra_distance_json(start, end, filtered_table, sensor='false'):
+def time_and_distance_json(start, end, filtered_table, sensor='false'):
 	"""Returns JSON response for extra distance to resto address.
 	GMaps Directions Matrix API accepts a max of 9 restos, making 11 elements including start and end."""
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
@@ -268,7 +290,7 @@ def extra_distance_json(start, end, filtered_table, sensor='false'):
 	#return r.url
 	return r.json()
 
-def extra_distance_to_resto(thejson):
+def time_and_distance_to_resto(thejson):
 	"""Takes in a JSON from Google Distance Matrix API and returns the diff to go to resto, in time and distance."""
 	durations,distances=[],[]
 	num_elements=len(thejson['rows'])
@@ -344,8 +366,8 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	print 'Finding distance and driving durations for',len(filtered_table),'restos...'
 	# adds extra time and distance to each of the filtered restos
 	
-	thejson=extra_distance_json(start,end,filtered_table)
-	result=extra_distance_to_resto(thejson)
+	thejson=time_and_distance_json(start,end,filtered_table)
+	result=time_and_distance_to_resto(thejson)
 			
 	for i in range(len(filtered_table.keys())):
 		for j in result:
@@ -412,7 +434,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 		else:
 			infowindow[10]=" mi away</p>'+\n\'<p>You will arrive in "
 			infowindow[11]=str(resto_destination_time)
-			infowindow[12]="mins.</p>\'+\n\'<p>"		
+			infowindow[12]=" mins.</p>\'+\n\'<p>"		
 		infowindow[13]=str(int(resto_data[6]*0.000621371)) 
 		infowindow[14]=" mi/"
 		infowindow[15]=str(int(float(resto_data[5])/60)) # converting to minutes
@@ -484,15 +506,7 @@ def reset_tables():
 	globals()['resto_table']={}
 	globals()['filtered_table']={}
 
-"""
-if __name__=='__main__':
-	start=raw_input('Where will you start your day?\n')
-	end=raw_input('What is your destination?\n')
-	start_time=raw_input('What time are you starting?\n')
-	eating_time=raw_input('What time do you want to eat?\n')
-	do_everything(start,end,5,3,start_time,eating_time)
-	make_HTML_file(start,end,resto_table)
-"""
+
 #do_everything('reno,nv','jackpot,nv',20,20,'3:00','6:30',9,40,20,20)
 #make_HTML_file('reno,nv','jackpot,nv','3:00pm',filtered_table)
 
