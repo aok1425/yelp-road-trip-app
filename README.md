@@ -1,3 +1,5 @@
+![logo](https://raw.github.com/aok1425/yelp-road-trip-app/master/static/logo.png "")
+
 This is a way to search Yelp by time. Let's say you're going on a road trip, but you don't know where you'll be around dinner time. That's what this app is for!
 
 ###How it works:
