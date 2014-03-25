@@ -405,9 +405,14 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 		infowindow[7]=str(resto_data[2])
 		infowindow[8]=" reviews</p>\'+\n\'<p>"
 		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371)) # keepin this as 1 decimal place bc more important this be accurate
-		infowindow[10]=" mi away</p>'+\n\'<p>You will arrive at "
-		infowindow[11]=str(resto_destination_time)
-		infowindow[12]="</p>\'+\n\'<p>"
+		if just_best==False:
+			infowindow[10]=" mi away</p>'+\n\'<p>You will arrive at "
+			infowindow[11]=str(resto_destination_time)
+			infowindow[12]="</p>\'+\n\'<p>"
+		else:
+			infowindow[10]=" mi away</p>'+\n\'<p>You will arrive in "
+			infowindow[11]=str(resto_destination_time)
+			infowindow[12]="mins.</p>\'+\n\'<p>"		
 		infowindow[13]=str(int(resto_data[6]*0.000621371)) 
 		infowindow[14]=" mi/"
 		infowindow[15]=str(int(float(resto_data[5])/60)) # converting to minutes
