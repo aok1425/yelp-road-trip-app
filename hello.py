@@ -10,6 +10,10 @@ filtered_table={}
 @app.route('/')
 def show_input_form():
     return render_template('input_form.html')
+	
+@app.route('/test')
+def test():
+    return url_for('static', filename='logo.png')
 
 def check_time(start,end,start_time,eating_time_start):
 	"""Did I put an eating time correctly, before I arrive?."""

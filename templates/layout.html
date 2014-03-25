@@ -3,13 +3,14 @@
 <title>Yelp Road Trip</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 <meta name="viewport" content="width=device-width, user-scalable=no, target-densityDpi=device-dpi, height=device-height">
-
+<meta name="description" content="Find the best restaurants at the time you want to eat. Or, just find the best ones on your route!" />
+<link rel="image_src" href="{{ url_for('static', filename='logo.png') }}" / >
 </head>
 <div class="page">
     <div class="page-header">
       <h1>Yelp</h1>
       <div class="tagline">Road trip</div>
-      <p>Find the best restaurants when you want to eat. Or, just find the best ones on your route!</p>
+      <p>Find the best restaurants at the time you want to eat. Or, just find the best ones on your route!</p>
     </div>
   {% block body %}{% endblock %}
 </div>
