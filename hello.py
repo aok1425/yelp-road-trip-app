@@ -18,7 +18,9 @@ def check_time(start,end,start_time,eating_time_start):
 	start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
 	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
 	destination_time_repr=start_time_repr+datetime.timedelta(seconds=drive_duration)
-	destination_time=datetime.datetime.strftime(destination_time_repr,'%H:%M')	
+	destination_time=datetime.datetime.strftime(destination_time_repr,'%I:%M%p')
+	destination_time = destination_time.lstrip('0')
+	destination_time = destination_time[:len(destination_time)-2]+destination_time[len(destination_time)-2:].lower() # makes the last two characters lowercase
 	print 'You will arrive at',end,'at',destination_time
 	
 	eating_time_repr=datetime.datetime.strptime(eating_time_start, '%H:%M')
@@ -27,6 +29,18 @@ def check_time(start,end,start_time,eating_time_start):
 		return 'yes'
 	else:
 		return destination_time
+	
+def change_loading_screen(end,destination_time): # not used bc loading page doesn't update like that
+	"""Adds time to destination on layout.html."""
+	#f=open('c:/users/alex/desktop/test.html','r')
+	f=open(app.root_path+"/templates/layout.html",'r')
+	g=f.readlines()
+	f.close()
+	#f=open('c:/users/alex/desktop/test.html','w')
+	f=open(app.root_path+"/templates/layout.html",'w')
+	g[18]='    <p>You will arrive in ' + end + ' at ' + destination_time + '.</p><p>...loading great restaurants</p>\n'
+	f.writelines(g)
+	f.close()
 	
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -45,13 +59,14 @@ def add_entry():
 	else:
 		print 'Regular option chosen.'
 		destination_time=check_time(start,end,time_leaving,eating_time)
+		#change_loading_screen(end,destination_time) # not used bc loading page doesn't update like that
 		print 'Checking the times...'
 		if destination_time=='yes':
 			logging_input_data.append([start,end,time_leaving,eating_time])
 			do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 		else:
 			print 'Bc eating time is too late, I will replace that w/destination time.'
-			destination_time_repr=datetime.datetime.strptime(destination_time, '%H:%M')
+			destination_time_repr=datetime.datetime.strptime(destination_time, '%I:%M%p')
 			final_time_repr=destination_time_repr-datetime.timedelta(minutes=45) # choose a point 30 mins before final destination
 			final_time=datetime.datetime.strftime(final_time_repr,'%H:%M')	
 			logging_input_data.append([start,end,time_leaving,'destination time'])
@@ -71,7 +86,7 @@ def add_entry():
 # Google Distance Matrix API has limit of 100 elements/query
 
 import oauth2, requests, datetime, pandas as pd, codecs
-from numpy import cumsum
+from numpy import cumsum, average
 
 key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 bingkey='Aigw5zUPIFl1h-DVWxs3co1hFyupx-K1oWe8ss2SRpdTfQJKGzILySBUdQ0GBFH3'
@@ -399,6 +414,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
+	coordinates=[]
 
 	### Part 0: Take dict resto_table and put JS infowindow code into a list on the HTML file
 	def fix_quotes(input):
@@ -467,7 +483,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 
 	def geocode_address(address,sensor='false'):
 		"""Input address and return lat long dictionary."""
-		payload = {'address':address,'sensor':sensor,'key': key}
+		payload = {'address':address+', USA','sensor':sensor,'key': key}
 		site='https://maps.googleapis.com/maps/api/geocode/json'
 		r = requests.get(site, params=payload)
 		return r.json()
@@ -492,22 +508,36 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 		number+=1
 		print 'Geocoding address',number,'out of',len_resto_table
 		resto_data=resto_table[resto]
-		locations.append(add_location(show_coordinates(geocode_address(resto_data[0])),number)) # 0 being the address
+		coordinate=show_coordinates(geocode_address(resto_data[0]))
+		coordinates.append(coordinate)
+		locations.append(add_location(coordinate,number)) # 0 being the address
 
+	lats=[row['lat'] for row in coordinates]
+	lngs=[row['lng'] for row in coordinates]
+	
+	avg_lat=average(sorted(lats)[1:len(lats)-1]) # removes the first and last values, in case 1 address was weird and messes up the center point
+	avg_lng=average(sorted(lngs)[1:len(lngs)-1])
 
 	### Part 2: Take all the elements of the HTML file and write them.
 
-	list_of_elements=range(9)
+	list_of_elements=range(13)
 
 	list_of_elements[0]="<!DOCTYPE html>\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\">\n    <meta charset=\"utf-8\">\n    <title>Directions service</title>\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src=\"https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false\"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"
 	list_of_elements[1]=start_point #'2312,31321'
 	list_of_elements[2]="';\n\tvar end_point = '"
 	list_of_elements[3]=end_point #'2312,31321'
-	list_of_elements[4]="\';\n\n\tfunction initialize() {\n\t\tvar mapOptions = {\n\t\t  center: new google.maps.LatLng(13.412849, 103.868251),\n\t\t  zoom: 15\n\t\t};\n\t\t\n\t"
-	list_of_elements[5]='\n\n'.join(infowindows)
-	list_of_elements[6]="\n\n\tvar map = new google.maps.Map(document.getElementById(\"map-canvas\"),mapOptions);\n\n    var locations = [\n\t"
-	list_of_elements[7]='\n\t'.join(locations)
-	list_of_elements[8]="\n    ];\n\n    var infowindow = new google.maps.InfoWindow();\n\n    var marker, i;\n\n    for (i = 0; i < locations.length; i++) {  \n      marker = new google.maps.Marker({\n        position: new google.maps.LatLng(locations[i][1], locations[i][2]),\n        map: map\n      });\n\n      google.maps.event.addListener(marker, \'click\', (function(marker, i) {\n        return function() {\n          infowindow.setContent(locations[i][0]);\n          infowindow.open(map, marker);\n        }\n      })(marker, i));\n\t  \n\t  google.maps.event.addListener(map, \'click\', function() {\n\t\tinfowindow.close(map,marker);\n\t});\n    }\n\n\tdirectionsDisplay = new google.maps.DirectionsRenderer();\n\t  directionsDisplay.setMap(map);\n\t}\n\n\tfunction calcRoute() {\n\t\tvar request = {\n\t\t  origin:start_point,\n\t\t  destination:end_point,\n\t\t  travelMode: google.maps.TravelMode.DRIVING\n\t\t};\n\t\t\n\t\tdirectionsService.route(request, function(response, status) {\n\t\t\tif (status == google.maps.DirectionsStatus.OK) {\n\t\t\t  directionsDisplay.setDirections(response);\n\t\t\t}\n\t\t});\n\t}\n\n\tcalcRoute()\n\tgoogle.maps.event.addDomListener(window, \'load\', initialize);\n    </script>\n  </head>\n  <body>\n    <div id=\"map-canvas\"/>\n  </body>\n</html>"
+	list_of_elements[4]="\';\n\n\tfunction initialize() {\n\t\tvar mapOptions = {\n\t\t  center: new google.maps.LatLng("
+	list_of_elements[5]=str(avg_lat)+", "
+	list_of_elements[6]=str(avg_lng)+"),\n\t\t  zoom: 9\n\t\t};\n\t\t\n\t"
+	list_of_elements[7]='\n\n'.join(infowindows)
+	list_of_elements[8]="\n\n\tvar map = new google.maps.Map(document.getElementById(\"map-canvas\"),mapOptions);\n\n    var locations = [\n\t"
+	list_of_elements[9]='\n\t'.join(locations)
+	list_of_elements[10]="\n    ];\n\n    var infowindow = new google.maps.InfoWindow();\n\n    var marker, i;\n\n    for (i = 0; i < locations.length; i++) {  \n      marker = new google.maps.Marker({\n        position: new google.maps.LatLng(locations[i][1], locations[i][2]),\n        map: map\n      });\n\n      google.maps.event.addListener(marker, \'click\', (function(marker, i) {\n        return function() {\n          infowindow.setContent(locations[i][0]);\n          infowindow.open(map, marker);\n        }\n      })(marker, i));\n\t  \n\t  google.maps.event.addListener(map, \'click\', function() {\n\t\tinfowindow.close(map,marker);\n\t});\n    }\n\n\tdirectionsDisplay = new google.maps.DirectionsRenderer();"
+	if just_best==False:
+		list_of_elements[11]="\n\t  directionsDisplay.setOptions({preserveViewport:true});"
+	else:
+		list_of_elements[11]=''
+	list_of_elements[12]="\n\t  directionsDisplay.setMap(map);\n\t}\n\n\tfunction calcRoute() {\n\t\tvar request = {\n\t\t  origin:start_point,\n\t\t  destination:end_point,\n\t\t  travelMode: google.maps.TravelMode.DRIVING\n\t\t};\n\t\t\n\t\tdirectionsService.route(request, function(response, status) {\n\t\t\tif (status == google.maps.DirectionsStatus.OK) {\n\t\t\t  directionsDisplay.setDirections(response);\n\t\t\t}\n\t\t});\n\t}\n\n\tcalcRoute()\n\tgoogle.maps.event.addDomListener(window, \'load\', initialize);\n    </script>\n  </head>\n  <body>\n    <div id=\"map-canvas\"/>\n  </body>\n</html>"
 
 	for each in list_of_elements:
 		file.write(each)

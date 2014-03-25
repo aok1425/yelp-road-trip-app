@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+	var directionsDisplay;
+	var directionsService = new google.maps.DirectionsService();
+	var map;
+
+	var start_point = 'jackpot,nv';
+	var end_point = 'reno,nv';
+
+	function initialize() {
+		var mapOptions = {
+		  center: new google.maps.LatLng(40.8366950857, -115.758043443),
+		  zoom: 9
+		};
+		
+	var contentString1= 
+'<h2 id="firstHeading" class="firstHeading">Star Hotel</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>69 reviews</p>'+
+'<p>117.3 mi away</p>'+
+'<p>You will arrive at 1:45pm</p>'+
+'<p>1 mi/7 min detour</p>'+
+'<a href="http://www.yelp.com/biz/star-hotel-elko-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/star-hotel-elko-2" target="\_blank">view in iPhone app</a></p>'
+
+var contentString2= 
+'<h2 id="firstHeading" class="firstHeading">Red Lion Hotel & Casino</h2>'+
+'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
+'<p>49 reviews</p>'+
+'<p>115.5 mi away</p>'+
+'<p>You will arrive at 1:41pm</p>'+
+'<p>0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/red-lion-hotel-and-casino-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/red-lion-hotel-and-casino-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString3= 
+'<h2 id="firstHeading" class="firstHeading">Sergio\'s Mexican Restaurant</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>41 reviews</p>'+
+'<p>116.8 mi away</p>'+
+'<p>You will arrive at 1:44pm</p>'+
+'<p>1 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/sergios-mexican-restaurant-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/sergios-mexican-restaurant-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString4= 
+'<h2 id="firstHeading" class="firstHeading">Flying Fish</h2>'+
+'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
+'<p>28 reviews</p>'+
+'<p>117.1 mi away</p>'+
+'<p>You will arrive at 1:45pm</p>'+
+'<p>1 mi/7 min detour</p>'+
+'<a href="http://www.yelp.com/biz/flying-fish-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/flying-fish-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString5= 
+'<h2 id="firstHeading" class="firstHeading">McAdoo\'s</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>24 reviews</p>'+
+'<p>117.0 mi away</p>'+
+'<p>You will arrive at 1:44pm</p>'+
+'<p>1 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/mcadoos-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/mcadoos-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString6= 
+'<h2 id="firstHeading" class="firstHeading">Pizza Barn</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>26 reviews</p>'+
+'<p>115.5 mi away</p>'+
+'<p>You will arrive at 1:41pm</p>'+
+'<p>0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/pizza-barn-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/pizza-barn-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString7= 
+'<h2 id="firstHeading" class="firstHeading">Chef Cheng\'s Chinese Restaurant</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>24 reviews</p>'+
+'<p>116.4 mi away</p>'+
+'<p>You will arrive at 1:43pm</p>'+
+'<p>2 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/chef-chengs-chinese-restaurant-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/chef-chengs-chinese-restaurant-elko" target="\_blank">view in iPhone app</a></p>'
+
+var contentString8= 
+'<h2 id="firstHeading" class="firstHeading">Luciano\'s</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>36 reviews</p>'+
+'<p>117.2 mi away</p>'+
+'<p>You will arrive at 1:45pm</p>'+
+'<p>1 mi/7 min detour</p>'+
+'<a href="http://www.yelp.com/biz/lucianos-elko-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/lucianos-elko-2" target="\_blank">view in iPhone app</a></p>'
+
+var contentString9= 
+'<h2 id="firstHeading" class="firstHeading">Blue Moon Asian Cuisine & Sushi Bar</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>24 reviews</p>'+
+'<p>116.3 mi away</p>'+
+'<p>You will arrive at 1:43pm</p>'+
+'<p>2 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/blue-moon-asian-cuisine-and-sushi-bar-elko" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/blue-moon-asian-cuisine-and-sushi-bar-elko" target="\_blank">view in iPhone app</a></p>'
+
+	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+
+    var locations = [
+	[contentString1, 40.829334,-115.762757,1],
+	[contentString2, 40.8498679,-115.7472405,2],
+	[contentString3, 40.8347717,-115.7610795,3],
+	[contentString4, 40.8308695,-115.7646452,4],
+	[contentString5, 40.8325815,-115.762772,5],
+	[contentString6, 40.8521751,-115.7441275,6],
+	[contentString7, 40.839136,-115.755913,7],
+	[contentString8, 40.829967,-115.7621421,8],
+	[contentString9, 40.839672,-115.7544,9],
+    ];
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+	  
+	  google.maps.event.addListener(map, 'click', function() {
+		infowindow.close(map,marker);
+	});
+    }
+
+	directionsDisplay = new google.maps.DirectionsRenderer();
+	  directionsDisplay.setOptions({preserveViewport:true});
+	  directionsDisplay.setMap(map);
+	}
+
+	function calcRoute() {
+		var request = {
+		  origin:start_point,
+		  destination:end_point,
+		  travelMode: google.maps.TravelMode.DRIVING
+		};
+		
+		directionsService.route(request, function(response, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+			  directionsDisplay.setDirections(response);
+			}
+		});
+	}
+
+	calcRoute()
+	google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"/>
+  </body>
+</html>
