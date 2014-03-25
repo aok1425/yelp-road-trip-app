@@ -37,7 +37,7 @@ def add_entry():
 	
 	reset_tables()
 	
-	if request.form['button']=='Forget time, just find the best! (takes longer)':
+	if request.form['button']=='Just find the best! (takes longer)':
 		print 'I\'m feeling lucky option chosen.'
 		logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
 		do_everything(start,end,20,20,'12:00','15:00',9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
