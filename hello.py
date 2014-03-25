@@ -17,13 +17,18 @@ def add_entry():
 	end=request.form['end']
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
-	logging_input_data.append([start,end,time_leaving,eating_time])
 	reset_tables()
-	if request.form['button']=='Just find me the best ones! (takes longer)':
-		do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
+	logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
+	if request.form['button']=='Forget about time, just find the best ones! (takes longer)':
+		print 'LUCKY OPTION CHOSEN'
+		logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
+		do_everything(start,end,20,20,'12:00','15:00',9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
+		make_HTML_file(start,end,'12:00',filtered_table,just_best=True)
 	else:
+		print 'REGULAR OPTIONS CHOSEN'
+		logging_input_data.append([start,end,time_leaving,eating_time])
 		do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-	make_HTML_file(start,end,time_leaving,filtered_table)
+		make_HTML_file(start,end,time_leaving,filtered_table)
 
 	return redirect(url_for('static', filename='map.html'))
 
@@ -156,8 +161,8 @@ def cull_search_points(search_points,cull_block=30):
 
 def time_diff(start_time,eating_time_start):
 	"""Take input and add it to start_time. Return desired start eating time as # of seconds past start time."""
-	eating_time_start=datetime.datetime.strptime(eating_time_start, '%I:%M%p')
-	start_time=datetime.datetime.strptime(start_time, '%I:%M%p')
+	eating_time_start=datetime.datetime.strptime(eating_time_start, '%H:%M')
+	start_time=datetime.datetime.strptime(start_time, '%H:%M')
 
 	diff=eating_time_start-start_time
 	seconds_diff=diff.seconds
@@ -251,8 +256,8 @@ def extra_distance_json(start, end, filtered_table, sensor='false'):
 	list_of_addresses=[filtered_table[name][0] for name in filtered_table.keys()]
 	origins=[start]
 	destinations=[end]
-	[origins.append(address) for address in list_of_addresses]
-	[destinations.append(address) for address in list_of_addresses]	
+	[origins.append(address+',USA') for address in list_of_addresses]
+	[destinations.append(address+',USA') for address in list_of_addresses]	
 	
 	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':key, 'units':'imperial', 'sensor':sensor}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
@@ -320,7 +325,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	Around what time do you want to start eating? Program will look 1.5 hours after that in terms of places to look, not time to final destinations."""
 	result=get_gmaps_json(start,end)
 
-	start_time_repr=datetime.datetime.strptime(start_time, '%I:%M%p')
+	start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
 	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
 	print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
@@ -355,7 +360,7 @@ def convert_to_yelp_app_link(website_link):
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
 
-def make_HTML_file(start_point,end_point,time_leaving,resto_table):
+def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=False):
 	"""Resto_addresses is a table of just addresses."""
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
 	#file=open('c:/users/alex/desktop/map.html','w')
@@ -377,14 +382,17 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table):
 				output.append(input[i])
 		return ''.join(output)
 
-	def add_infowindow(resto,number,time_leaving):
+	def add_infowindow(resto,number,time_leaving,just_best=False):
 		resto_data=resto_table[resto]
 		
-		start_time_repr=datetime.datetime.strptime(time_leaving, '%I:%M%p')
-		resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[7]),'%I:%M%p')
-		resto_destination_time = resto_destination_time.lstrip('0')
-		resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
-		#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
+		if just_best==False:
+			start_time_repr=datetime.datetime.strptime(time_leaving, '%H:%M')
+			resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[7]),'%I:%M%p')
+			resto_destination_time = resto_destination_time.lstrip('0')
+			resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
+			#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
+		else:
+			resto_destination_time=int(resto_data[7]/60)
 
 		infowindow=range(22)
 		infowindow[0]="var contentString"
@@ -414,7 +422,10 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table):
 	number=0
 	for resto in resto_table:
 		number+=1
-		infowindows.append(add_infowindow(resto,number,time_leaving))
+		if just_best==False:
+			infowindows.append(add_infowindow(resto,number,time_leaving))
+		else:
+			infowindows.append(add_infowindow(resto,number,'placeholder',just_best=True))
 
 	### Part 1: Take resto addresses and add their coordinates to a JS list called locations on the HTML file.
 
@@ -477,7 +488,7 @@ if __name__=='__main__':
 	do_everything(start,end,5,3,start_time,eating_time)
 	make_HTML_file(start,end,resto_table)
 """
-#do_everything('reno,nv','jackpot,nv',20,20,'3:00pm','6:30pm',9,40,20,20)
+#do_everything('reno,nv','jackpot,nv',20,20,'3:00','6:30',9,40,20,20)
 #make_HTML_file('reno,nv','jackpot,nv','3:00pm',filtered_table)
 
 
