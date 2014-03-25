@@ -27,8 +27,8 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'reno,nv';
-	var end_point = 'jackpot,nv';
+	var start_point = 'San Francisco';
+	var end_point = 'Las Vegas';
 
 	function initialize() {
 		var mapOptions = {
@@ -37,107 +37,107 @@
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Luthers Bar & Grill</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/b561c24f8341/ico/stars/v1/stars_2.png" alt="Yelp rating image">'+
-'<p>3 reviews</p>'+
-'<p>338.4 mi away</p>'+
-'<p>You will arrive at 4:41pm</p>'+
-'<p>0 mi/5 min detour</p>'+
-'<a href="http://www.yelp.com/biz/luthers-bar-and-grill-wells-2" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/luthers-bar-and-grill-wells-2" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Petra Mediterranean Restaurant</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>53 reviews</p>'+
+'<p>2231.3 mi away</p>'+
+'<p>You will arrive at 5:18am</p>'+
+'<p>3433 mi/2950 min detour</p>'+
+'<a href="http://www.yelp.com/biz/petra-mediterranean-restaurant-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/petra-mediterranean-restaurant-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h2 id="firstHeading" class="firstHeading">Four Way Bar Cafe & Casino Inc</h2>'+
-'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
-'<p>11 reviews</p>'+
-'<p>338.8 mi away</p>'+
-'<p>You will arrive at 4:39pm</p>'+
-'<p>0 mi/0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/four-way-bar-cafe-and-casino-inc-wells" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/four-way-bar-cafe-and-casino-inc-wells" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">H Domingo\'s Mexican & Seafood</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>27 reviews</p>'+
+'<p>324.0 mi away</p>'+
+'<p>You will arrive at 1:56am</p>'+
+'<p>5 mi/8 min detour</p>'+
+'<a href="http://www.yelp.com/biz/h-domingos-mexican-and-seafood-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/h-domingos-mexican-and-seafood-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h2 id="firstHeading" class="firstHeading">Wells China Town Restaurant Motel and Rv</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>4 reviews</p>'+
-'<p>337.8 mi away</p>'+
-'<p>You will arrive at 4:38pm</p>'+
-'<p>0 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/wells-china-town-restaurant-motel-and-rv-wells" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/wells-china-town-restaurant-motel-and-rv-wells" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Don Juan\'s Grill</h2>'+
+'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'<p>45 reviews</p>'+
+'<p>324.3 mi away</p>'+
+'<p>You will arrive at 1:58am</p>'+
+'<p>5 mi/11 min detour</p>'+
+'<a href="http://www.yelp.com/biz/don-juans-grill-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/don-juans-grill-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h2 id="firstHeading" class="firstHeading">Bella\'s Espresso House</h2>'+
-'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
-'<p>4 reviews</p>'+
-'<p>363.7 mi away</p>'+
-'<p>You will arrive at 5:01pm</p>'+
-'<p>0 mi/0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/bellas-espresso-house-wells" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/bellas-espresso-house-wells" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Blue Ginger Pho</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>60 reviews</p>'+
+'<p>322.6 mi away</p>'+
+'<p>You will arrive at 1:54am</p>'+
+'<p>2 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/blue-ginger-pho-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/blue-ginger-pho-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h2 id="firstHeading" class="firstHeading">Rag Time Cafe</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>6 reviews</p>'+
-'<p>398.3 mi away</p>'+
-'<p>You will arrive at 5:30pm</p>'+
-'<p>0 mi/0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/rag-time-cafe-jackpot" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/rag-time-cafe-jackpot" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Ramon\'s Mexican Restaurant</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>26 reviews</p>'+
+'<p>361.8 mi away</p>'+
+'<p>You will arrive at 2:24am</p>'+
+'<p>32 mi/26 min detour</p>'+
+'<a href="http://www.yelp.com/biz/ramons-mexican-restaurant-rosamond" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/ramons-mexican-restaurant-rosamond" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h2 id="firstHeading" class="firstHeading">McDonald\'s</h2>'+
-'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c7fb9aff59f9/ico/stars/v1/stars_2_half.png" alt="Yelp rating image">'+
-'<p>3 reviews</p>'+
-'<p>363.7 mi away</p>'+
-'<p>You will arrive at 5:01pm</p>'+
-'<p>0 mi/0 min detour</p>'+
-'<a href="http://www.yelp.com/biz/mcdonalds-wells" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/mcdonalds-wells" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Kohnen\'s Country Bakery</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>116 reviews</p>'+
+'<p>323.1 mi away</p>'+
+'<p>You will arrive at 1:56am</p>'+
+'<p>0 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/kohnens-country-bakery-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/kohnens-country-bakery-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h2 id="firstHeading" class="firstHeading">Ragtime Restaurant</h2>'+
-'<img src="http://s3-media3.ak.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>2883.8 mi away</p>'+
-'<p>You will arrive at 5:34am</p>'+
-'<p>5067 mi/4440 min detour</p>'+
-'<a href="http://www.yelp.com/biz/ragtime-restaurant-elko" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/ragtime-restaurant-elko" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Henry\'s Cafe</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>31 reviews</p>'+
+'<p>322.4 mi away</p>'+
+'<p>You will arrive at 1:54am</p>'+
+'<p>1 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/henrys-cafe-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/henrys-cafe-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h2 id="firstHeading" class="firstHeading">Quiznos</h2>'+
-'<img src="http://s3-media1.ak.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image">'+
-'<p>1 reviews</p>'+
-'<p>338.8 mi away</p>'+
-'<p>You will arrive at 4:40pm</p>'+
-'<p>0 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/quiznos-wells" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/quiznos-wells" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Thai Garden</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>31 reviews</p>'+
+'<p>361.4 mi away</p>'+
+'<p>You will arrive at 2:24am</p>'+
+'<p>32 mi/26 min detour</p>'+
+'<a href="http://www.yelp.com/biz/thai-garden-rosamond" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/thai-garden-rosamond" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h2 id="firstHeading" class="firstHeading">Subway</h2>'+
-'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>2 reviews</p>'+
-'<p>344.1 mi away</p>'+
-'<p>You will arrive at 4:44pm</p>'+
-'<p>11 mi/10 min detour</p>'+
-'<a href="http://www.yelp.com/biz/subway-wells-2" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/subway-wells-2" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Red House BBQ</h2>'+
+'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>170 reviews</p>'+
+'<p>323.4 mi away</p>'+
+'<p>You will arrive at 1:56am</p>'+
+'<p>0 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/red-house-bbq-tehachapi" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/red-house-bbq-tehachapi" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 41.111176,-114.963742,1],
-	[contentString2, 41.100897,-114.955522,2],
-	[contentString3, 41.107351,-114.975557,3],
-	[contentString4, 60.6596427,24.8097299,4],
-	[contentString5, 44.489577,-79.6907186,5],
-	[contentString6, 34.7614309,-82.7533917,6],
-	[contentString7, 42.3185347,-71.0391547,7],
-	[contentString8, 41.1028,-114.957982,8],
-	[contentString9, 44.4695418,-79.673251,9],
+	[contentString1, 37.8350645,-87.5919777,1],
+	[contentString2, 35.1242914,-118.4925825,2],
+	[contentString3, 40.6140529,-90.4731961,3],
+	[contentString4, 35.124705,-118.46862,4],
+	[contentString5, 34.865497,-118.1569424,5],
+	[contentString6, 35.1325102,-118.4486963,6],
+	[contentString7, 35.1270211,-118.4672581,7],
+	[contentString8, 34.8649559,-118.163024,8],
+	[contentString9, 35.1310861,-118.4415389,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();

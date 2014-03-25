@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-<title>Yelp Road Trip app!!!</title>
+<title>Yelp Road Trip</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 <meta name="viewport" content="width=device-width, user-scalable=no, target-densityDpi=device-dpi, height=device-height">
 
@@ -22,7 +22,13 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
 
-    $('form').submit(function(){
+    window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload()
+        }
+    };
+
+    $('.button, .link').click(function(){
         window.scrollTo(0,0);
         $('body').addClass('loading');
     });
