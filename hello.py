@@ -51,9 +51,10 @@ def add_entry():
 		else:
 			print 'Bc eating time is too late, I will replace that w/destination time.'
 			destination_time_repr=datetime.datetime.strptime(destination_time, '%H:%M')
-			final_time_repr=destination_time_repr-datetime.timedelta(minutes=30) # choose a point 30 mins before final destination
+			final_time_repr=destination_time_repr-datetime.timedelta(minutes=45) # choose a point 30 mins before final destination
 			final_time=datetime.datetime.strftime(final_time_repr,'%H:%M')	
 			logging_input_data.append([start,end,time_leaving,'destination time'])
+			print 'time I will input is',final_time
 			do_everything(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,time_leaving,filtered_table)
 
@@ -349,7 +350,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 
 	start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
 	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
-	print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
+	#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
 	search_points=make_search_points(result,time_block,too_long_step)
 	search_points=cull_search_points(search_points,cull_block)
