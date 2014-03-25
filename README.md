@@ -6,14 +6,14 @@ The app calcuates your location at the time you want to eat, and does Yelp searc
 The 'find the best' option is like the regular option, but it searches along the entire route, except for nearby the start and endpoints. The longer the route is, the more points it will search, and the longer the search will take.
 
 ##Wish List:
-*State the destination arrival time on the front page after the first three boxes are inputted.
-*Allow more than one concurrent user. :)
-*Make panel like the on the Yelp app to see all your results at once.
-*Add price information (e.g. $$$) using Foursquare's API.
-*Show only restaurants that will be open at arrival time, using Locu API.
-*Input validation/typeahead on locations, using WTForms under Flask.
+* State the destination arrival time on the front page after the first three boxes are inputted.
+* Allow more than one concurrent user. :)
+* Make panel like the on the Yelp app to see all your results at once.
+* Add price information (e.g. $$$) using Foursquare's API.
+* Show only restaurants that will be open at arrival time, using Locu API.
+* Input validation/typeahead on locations, using WTForms under Flask.
 
-Send me feedback! I'm at @aok1425 or the same Twitter handle on GMail. Thanks to Adam Wagner (@AdamWagner) for designing and implementing the front page, and Feifan Wang (@4thethrillofit) for telling me how to put this app on the internet.
+Send me feedback! I'm at @aok1425 or the same Twitter handle on GMail. Thanks to Adam Wagner for designing and implementing the front page, and Feifan Wang for telling me how to put this app on the internet.
 
 ##Known issues:
 Might not work if eating time is intended to be the next day. Same-day only!
@@ -46,12 +46,12 @@ Because both resto_table and filtered_table are dictionaries, if two restaurants
 I set 9 because that's the limit for Google Directions Matrix. If someone can find a way to break up all the restaurants-to-be-displayed into chunks of 9 or smaller, pass Google Directions Matrix API each of these chunks, then compile the end result, that would be great. 
 
 ##How the program works:
-*Program plugs start and end locations into Google Maps. It gets directions back.
-*Take steps longer than too_long_step and break their duration by time_block.
-*Cull_search_points() filters out only the points that occur every cull_block minutes.
-*Then, the program either filters these search points by eating_time_start, or, if the 'just find the best' button was clicked, it takes away the 2 starting and 3 ending search points.
-*The program does Yelp searches in each of these points, which returns search_limit number of restaurants (the max being 20), and after sorting this list by number of reviews, it puts the return_limit number of restaurants into the dictionary resto_table.
-*The review_cutoff-most reviewed restaurants go into filtered_table.
-*The program gets from Google Distance Matrix API the time and distance to each of the restaurants in filtered_table, and the extra time and distance to drive there.
-*It puts this information into filtered_table.
-*It makes an Google map HTML file from filtered_table and puts it in \static\map.html.
+* Program plugs start and end locations into Google Maps. It gets directions back.
+* Take steps longer than too_long_step and break their duration by time_block.
+* Cull_search_points() filters out only the points that occur every cull_block minutes.
+* Then, the program either filters these search points by eating_time_start, or, if the 'just find the best' button was clicked, it takes away the 2 starting and 3 ending search points.
+* The program does Yelp searches in each of these points, which returns search_limit number of restaurants (the max being 20), and after sorting this list by number of reviews, it puts the return_limit number of restaurants into the dictionary resto_table.
+* The review_cutoff-most reviewed restaurants go into filtered_table.
+* The program gets from Google Distance Matrix API the time and distance to each of the restaurants in filtered_table, and the extra time and distance to drive there.
+* It puts this information into filtered_table.
+* It makes an Google map HTML file from filtered_table and puts it in \static\map.html.
