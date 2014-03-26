@@ -10,10 +10,6 @@ filtered_table={}
 @app.route('/')
 def show_input_form():
     return render_template('input_form.html')
-	
-@app.route('/test')
-def test():
-    return url_for('static', filename='logo.png')
 
 def check_time(start,end,start_time,eating_time_start):
 	"""Did I put an eating time correctly, before I arrive?."""
@@ -45,6 +41,10 @@ def change_loading_screen(end,destination_time): # not used bc loading page does
 	g[18]='    <p>You will arrive in ' + end + ' at ' + destination_time + '.</p><p>...loading great restaurants</p>\n'
 	f.writelines(g)
 	f.close()
+	
+@app.route('/test')
+def test():
+    return 'You will arrive in ' + end + 'at ' + destination_time + '.'
 	
 @app.route('/add', methods=['POST'])
 def add_entry():
