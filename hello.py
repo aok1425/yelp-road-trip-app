@@ -1,9 +1,8 @@
-import os
+import os, codecs, datetime
 from flask import Flask, request, url_for, render_template, redirect, flash
 
 app = Flask(__name__)
 
-logging_input_data=[]
 resto_table={}
 filtered_table={}
 
@@ -45,6 +44,14 @@ def change_loading_screen(end,destination_time): # not used bc loading page does
 @app.route('/test')
 def test():
     return 'You will arrive in ' + end + 'at ' + destination_time + '.'
+
+@app.errorhandler(500)
+def pageNotFound(error):
+	print 'writing error file...'
+	with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
+		f.write('"'+'","'.join([str(datetime.datetime.now()),'ERROR',request.form['start'],request.form['end'],request.form['time_leaving'],request.form['eating_time']])+'"'+'\n')
+	print 'done writing'
+	return redirect(url_for('static', filename='error_page.htm'))
 	
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -57,8 +64,9 @@ def add_entry():
 	
 	if request.form['button']=='Just find the best! (takes longer)':
 		print 'I\'m feeling lucky option chosen.'
-		logging_input_data.append([start,end,'I\'m feeling lucky','I\'m feeling lucky'])
-		do_everything(start,end,20,20,'12:00','15:00',9,40,20,20,just_best=True) # GMaps Dist Matrix API can only handle 9
+		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
+			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
+		do_everything(start,end,20,20,'12:00','15:00',9,60,30,30,just_best=True) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,'12:00',filtered_table,just_best=True)
 	else:
 		print 'Regular option chosen.'
@@ -66,14 +74,16 @@ def add_entry():
 		#change_loading_screen(end,destination_time) # not used bc loading page doesn't update like that
 		print 'Checking the times...'
 		if destination_time=='yes':
-			logging_input_data.append([start,end,time_leaving,eating_time])
+			with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
+				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time])+'"'+'\n')
 			do_everything(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 		else:
 			print 'Bc eating time is too late, I will replace that w/destination time.'
 			destination_time_repr=datetime.datetime.strptime(destination_time, '%I:%M%p')
 			final_time_repr=destination_time_repr-datetime.timedelta(minutes=45) # choose a point 30 mins before final destination
 			final_time=datetime.datetime.strftime(final_time_repr,'%H:%M')	
-			logging_input_data.append([start,end,time_leaving,'destination time'])
+			with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
+				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time,destination_time,'eating time is after destination time'])+'"'+'\n')
 			print 'time I will input is',final_time
 			do_everything(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,time_leaving,filtered_table)
@@ -89,7 +99,7 @@ def add_entry():
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
 # Google Distance Matrix API has limit of 100 elements/query
 
-import oauth2, requests, datetime, pandas as pd, codecs
+import oauth2, requests, pandas as pd, codecs, datetime
 from numpy import cumsum, average
 
 key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
@@ -273,7 +283,11 @@ def yelp_json_to_table(thejson):
 	new_table=[]
 	for category in thejson['businesses']:
 		try: # because of Ragtime in Elko, NV, which has no address on Yelp!
-			address=', '.join([category['location']['address'][0],category['location']['postal_code']])
+			addresses=[]
+			for each_address in category['location']['address']:
+				addresses.append(each_address)
+			addresses.append(category['location']['postal_code'])
+			address=', '.join(addresses)
 		except:
 			address='3 Oyster Bay Rd, 02125'
 		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url']])
@@ -323,8 +337,8 @@ def time_and_distance_to_resto(thejson):
 				durations.append(element['duration']['value']) # in meters
 			except KeyError:
 				print 'GMaps can\'t understand an address. Program will crash here...'
-				print 'what is',row
-				print 'what is',element
+				#print 'what is',row
+				#print 'what is',element
 	
 	original_route_list_duration=durations[1:num_elements]
 	original_route_list_distance=distances[1:num_elements]
@@ -369,7 +383,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	print 'Pulling results from Google Directions'
 	result=get_gmaps_json(start,end)
 
-	start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
+	#start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
 	drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
 	#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
@@ -380,7 +394,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	if just_best==False:
 		search_points=filter_search_points_by_eating_time(search_points,time_diff(start_time,eating_time_start))
 	else:
-		search_points=search_points[2:len(search_points)-3] # takes away two first and three last points. finds best restos along the way
+		search_points=search_points[1:len(search_points)-2] # takes away first and two last points. finds best restos along the way
 
 	len_search_points=len(search_points)
 	counter=0
@@ -553,7 +567,7 @@ def reset_tables():
 	globals()['filtered_table']={}
 
 
-#do_everything('reno,nv','jackpot,nv',20,20,'3:00','6:30',9,40,20,20)
+#do_everything('sf','reno,nv',20,20,'12:00','15:30',9,40,20,20)
 #make_HTML_file('reno,nv','jackpot,nv','3:00',filtered_table)
 
 
@@ -562,4 +576,4 @@ def reset_tables():
 
 """ For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
