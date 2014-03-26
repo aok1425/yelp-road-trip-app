@@ -1,8 +1,8 @@
 ![logo](https://raw.github.com/aok1425/yelp-road-trip-app/master/static/logo.png "")
 
 This is a way to search Yelp by time. Let's say you're going on a road trip, but you don't know where you'll be around dinner time. That's what this app is for!
+
 [yelp-road-trip.herokuapp.com](http://yelp-road-trip.herokuapp.com)
-(http://yelp-road-trip.herokuapp.com)
 
 ##How it works:
 The app calcuates your location at the time you want to eat, and does Yelp searches there, 15 minutes before there, and up to 45 minutes after there. It then shows the 9 restaurants with the most number of reviews.
@@ -24,35 +24,27 @@ Send me feedback! I'm at [@aok1425](https://twitter.com/aok1425) or the same Twi
 * Estimated times and distances to restaurant don't incorporate live traffic data. Google doesn't allow this when you ask it multiple directions at the same time.
 * Some estimated times and distances are crazy. If Google Maps can't understand Yelp's address, I just changed that address to my old house. :)
 
-
-
 ##Other quandaries:
-
-####Finding the appropriate places to search:
+###Finding the appropriate places to search:
 For really long steps, like going on the highway for 100 miles, if that step is greater than `too_long_step`, the program divides that step's duration by `time_block`. It adds the endpoint of that step, for cases where the step doesn't divide evenly into `time_block`.
 
 Now, there is a "table" of steps, with the long steps divided by time_block. The program then makes a new "table", using only each step after `cull_block * n`. So if `cull_block` is set to 30, the program will take each step after 30 mins, 60 mins, etc. to make the new "table".
 
 A possible improvement on this would be to divide the big steps according to their position amongst all the steps before it, not according to itself. When big steps are divided, the program uses Bing Maps API to get a list of coordinate points after some interval. The program then divides this list of points by `cull_block`. So, setting cull_block to be small and dividing up even "small" steps would use the Bing Maps API more.
 
-
-####Improving the results:
+###Improving the results:
 Yelp can either search by their own "best" algorithm, by distance, or by highest rated. Ways #1 and 3 both privilege closeness to the search point. Originally, I'd wanted to find all the restaurants along a route, then take only the most reviewed out of those. If Yelp updates their API to find the most reviewed--which you can do on their website--then I just need search points roughly every 40,000 meters. (Yelp's max search distance is 40,000 meters, and this assumes a straight line route.)
 
-
-####Speeding it up:
+###Speeding it up:
 I think the main slowdown comes from doing Yelp searches at each point. I don't know how to have multiple searches running at the same time, and I don't think Yelp allows for multiple search points being passed to it at one time.
 
 It's probably possible to vectorize some of the other for loops, and/or implement more efficient data structures. Like, if I didn't use Pandas...
 
-
-####Restaurants with the same name:
+###Restaurants with the same name:
 Because both `resto_table` and `filtered_table` are dictionaries, if two restaurants have the same name, one replaces the other. Should probably implement a different data structure (Pandas DataFrame?) to fix this.
 
-
-####Displaying more than 9 results:
+###Displaying more than 9 results:
 I set 9 because that's the limit for Google Directions Matrix. If someone can find a way to break up all the restaurants-to-be-displayed into chunks of 9 or smaller, pass Google Directions Matrix API each of these chunks, then compile the end result, that would be great. 
-
 
 ##How the program works:
 * Program plugs start and end locations into Google Maps. It gets directions back.
