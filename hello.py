@@ -102,8 +102,10 @@ def add_entry():
 import oauth2, requests, pandas as pd, codecs, datetime
 from numpy import cumsum, average
 
-key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-bingkey='Aigw5zUPIFl1h-DVWxs3co1hFyupx-K1oWe8ss2SRpdTfQJKGzILySBUdQ0GBFH3'
+key='gmaps key'
+bingkey='bing key'
+# for yelp
+
 
 def get_gmaps_json(start,end,sensor='false'):
 	"""Input start and end locations, and it returns JSON from GMaps."""
@@ -251,16 +253,16 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	else:
 		payload['location']=location
 
-	consumer_key = 'p0z-o-8cwOH7c5h4GO8vhg'
-	consumer_secret = 'qwPaxGEydLqHlNTYTAls-AGwy28'
-	token = 'VPHPmXFuhRDtEYWPL56pAPgPFOdc1Gk0'
-	token_secret = 'SChhpSGhdwKgGGoqjQ-vplr-0C4'
-
 	# Make initial URL w/params
 	url = 'http://api.yelp.com/v2/search'
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
 
+	consumer_key = 'a key'
+	consumer_secret = 'b key'
+	token = 'c ley'
+	token_secret = 'd key'
+	
 	# Sign the URL
 	consumer = oauth2.Consumer(consumer_key, consumer_secret)
 
@@ -350,8 +352,6 @@ def time_and_distance_to_resto(thejson):
 	first_element_distance=original_route_list_distance
 	second_element_distance=[distances[len(distances)-n*num_elements] for n in range(1,num_elements)][::-1]
 	diff_list_distance=[first_element_distance[i]+second_element_distance[i]-distances[0] for i in range(len(first_element_distance))]
-	
-
 
 	return diff_list_duration,diff_list_distance,original_route_list_duration,original_route_list_distance
 
@@ -394,7 +394,7 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	if just_best==False:
 		search_points=filter_search_points_by_eating_time(search_points,time_diff(start_time,eating_time_start))
 	else:
-		search_points=search_points[1:len(search_points)-2] # takes away first and two last points. finds best restos along the way
+		search_points=search_points[1:len(search_points)-2] # takes away first and last points. finds best restos along the way
 
 	len_search_points=len(search_points)
 	counter=0
@@ -429,7 +429,6 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
 	#file=open('c:/users/alex/desktop/map.html','w')
 	file=codecs.open(app.root_path+"/static/map.html",'w','utf-8')
-	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	locations=[] # many locations to put on map
 	infowindows=[]
 	coordinates=[]
@@ -567,7 +566,7 @@ def reset_tables():
 	globals()['filtered_table']={}
 
 
-#do_everything('sf','reno,nv',20,20,'12:00','15:30',9,40,20,20)
+#do_everything('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #make_HTML_file('reno,nv','jackpot,nv','3:00',filtered_table)
 
 

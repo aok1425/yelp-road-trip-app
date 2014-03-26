@@ -27,117 +27,117 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'portland';
-	var end_point = 'texas';
+	var start_point = 'canton,oh';
+	var end_point = 'columbus, oh';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(40.3034006429, -111.692026314),
+		  center: new google.maps.LatLng(39.9760598571, -83.0051850286),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Communal</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Northstar Café</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>126 reviews</p>'+
-'<p>808.2 mi away</p>'+
-'<p>You will arrive at 11:55pm</p>'+
-'<p>1 mi/6 min detour</p>'+
-'<a href="http://www.yelp.com/biz/communal-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/communal-provo" target="\_blank">view in iPhone app</a></p>'
+'<p>403 reviews</p>'+
+'<p>126.5 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>1 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/northstar-caf%C3%A9-columbus-5" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/northstar-caf%C3%A9-columbus-5" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h2 id="firstHeading" class="firstHeading">Cubby\'s Chicago Beef</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>152 reviews</p>'+
-'<p>806.9 mi away</p>'+
-'<p>You will arrive at 11:55pm</p>'+
-'<p>3 mi/10 min detour</p>'+
-'<a href="http://www.yelp.com/biz/cubbys-chicago-beef-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/cubbys-chicago-beef-provo" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Katalina\'s Café Corner</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>231 reviews</p>'+
+'<p>126.6 mi away</p>'+
+'<p>You will arrive in 122 mins.</p>'+
+'<p>2 mi/7 min detour</p>'+
+'<a href="http://www.yelp.com/biz/katalinas-caf%C3%A9-corner-columbus-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/katalinas-caf%C3%A9-corner-columbus-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h2 id="firstHeading" class="firstHeading">Saffron Valley</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Mikey\'s Late Night Slice</h2>'+
 '<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>93 reviews</p>'+
-'<p>779.7 mi away</p>'+
-'<p>You will arrive at 11:29pm</p>'+
-'<p>2 mi/6 min detour</p>'+
-'<a href="http://www.yelp.com/biz/saffron-valley-south-jordan" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/saffron-valley-south-jordan" target="\_blank">view in iPhone app</a></p>'
+'<p>109 reviews</p>'+
+'<p>126.2 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>1 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/mikeys-late-night-slice-columbus" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/mikeys-late-night-slice-columbus" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h2 id="firstHeading" class="firstHeading">J Dawgs</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Café Brioso</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>136 reviews</p>'+
-'<p>808.2 mi away</p>'+
-'<p>You will arrive at 11:56pm</p>'+
-'<p>3 mi/9 min detour</p>'+
-'<a href="http://www.yelp.com/biz/j-dawgs-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/j-dawgs-provo" target="\_blank">view in iPhone app</a></p>'
+'<p>95 reviews</p>'+
+'<p>126.8 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>0 mi/1 min detour</p>'+
+'<a href="http://www.yelp.com/biz/caf%C3%A9-brioso-columbus-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/caf%C3%A9-brioso-columbus-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h2 id="firstHeading" class="firstHeading">Bombay House</h2>'+
-'<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>122 reviews</p>'+
-'<p>808.5 mi away</p>'+
-'<p>You will arrive at 11:56pm</p>'+
-'<p>2 mi/7 min detour</p>'+
-'<a href="http://www.yelp.com/biz/bombay-house-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/bombay-house-provo" target="\_blank">view in iPhone app</a></p>'
-
-var contentString6= 
-'<h2 id="firstHeading" class="firstHeading">Black Sheep Cafe</h2>'+
+'<h2 id="firstHeading" class="firstHeading">The Angry Baker</h2>'+
 '<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
 '<p>125 reviews</p>'+
-'<p>807.2 mi away</p>'+
-'<p>You will arrive at 11:56pm</p>'+
-'<p>2 mi/10 min detour</p>'+
-'<a href="http://www.yelp.com/biz/black-sheep-cafe-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/black-sheep-cafe-provo" target="\_blank">view in iPhone app</a></p>'
+'<p>126.8 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>1 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/the-angry-baker-columbus" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/the-angry-baker-columbus" target="\_blank">view in iPhone app</a></p>'
+
+var contentString6= 
+'<h2 id="firstHeading" class="firstHeading">Basi Italia</h2>'+
+'<img src="http://s3-media4.ak.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>128 reviews</p>'+
+'<p>126.9 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>1 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/basi-italia-columbus" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/basi-italia-columbus" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h2 id="firstHeading" class="firstHeading">Lone Star</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Ray Ray\'s Hog Pit</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>244 reviews</p>'+
-'<p>778.0 mi away</p>'+
-'<p>You will arrive at 11:28pm</p>'+
-'<p>10 mi/12 min detour</p>'+
-'<a href="http://www.yelp.com/biz/lone-star-salt-lake-city" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/lone-star-salt-lake-city" target="\_blank">view in iPhone app</a></p>'
+'<p>173 reviews</p>'+
+'<p>123.5 mi away</p>'+
+'<p>You will arrive in 117 mins.</p>'+
+'<p>1 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/ray-rays-hog-pit-columbus-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/ray-rays-hog-pit-columbus-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h2 id="firstHeading" class="firstHeading">Pizzeria 712</h2>'+
+'<h2 id="firstHeading" class="firstHeading">El Arepazo Latin Grill</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>150 reviews</p>'+
-'<p>803.5 mi away</p>'+
-'<p>You will arrive at 11:51pm</p>'+
-'<p>3 mi/8 min detour</p>'+
-'<a href="http://www.yelp.com/biz/pizzeria-712-orem" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/pizzeria-712-orem" target="\_blank">view in iPhone app</a></p>'
+'<p>160 reviews</p>'+
+'<p>126.8 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>0 mi/1 min detour</p>'+
+'<a href="http://www.yelp.com/biz/el-arepazo-latin-grill-columbus-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/el-arepazo-latin-grill-columbus-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h2 id="firstHeading" class="firstHeading">Nicolitalia Pizzeria</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Da Levee</h2>'+
 '<img src="http://s3-media2.ak.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>102 reviews</p>'+
-'<p>806.1 mi away</p>'+
-'<p>You will arrive at 11:53pm</p>'+
-'<p>1 mi/8 min detour</p>'+
-'<a href="http://www.yelp.com/biz/nicolitalia-pizzeria-provo" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/nicolitalia-pizzeria-provo" target="\_blank">view in iPhone app</a></p>'
+'<p>121 reviews</p>'+
+'<p>126.7 mi away</p>'+
+'<p>You will arrive in 120 mins.</p>'+
+'<p>1 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/da-levee-columbus" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/da-levee-columbus" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 40.235253,-111.658148,1],
-	[contentString2, 40.2511423,-111.6675969,2],
-	[contentString3, 40.5615242,-111.9227802,3],
-	[contentString4, 40.2453037,-111.670897,4],
-	[contentString5, 40.23994,-111.6586769,5],
-	[contentString6, 40.2698641,-111.6569362,6],
-	[contentString7, 40.6242925,-111.8258134,7],
-	[contentString8, 40.2915884,-111.6929708,8],
-	[contentString9, 40.2644418,-111.6700812,9],
+	[contentString1, 39.9816295,-83.0046014,1],
+	[contentString2, 39.983716,-83.015735,2],
+	[contentString3, 39.983474,-83.004482,3],
+	[contentString4, 39.9637922,-83.000365,4],
+	[contentString5, 39.9628536,-82.9764501,5],
+	[contentString6, 39.9782034,-83.0107106,6],
+	[contentString7, 40.015819,-83.012134,7],
+	[contentString8, 39.9634729,-82.9999712,8],
+	[contentString9, 39.978131,-83.004031,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
@@ -163,7 +163,6 @@ var contentString9=
     }
 
 	directionsDisplay = new google.maps.DirectionsRenderer();
-	  directionsDisplay.setOptions({preserveViewport:true});
 	  directionsDisplay.setMap(map);
 	}
 
