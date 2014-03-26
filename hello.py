@@ -546,7 +546,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	list_of_elements[3]=end_point #'2312,31321'
 	list_of_elements[4]="\';\n\n\tfunction initialize() {\n\t\tvar mapOptions = {\n\t\t  center: new google.maps.LatLng("
 	list_of_elements[5]=str(avg_lat)+", "
-	list_of_elements[6]=str(avg_lng)+"),\n\t\t  zoom: 9\n\t\t};\n\t\t\n\t"
+	list_of_elements[6]=str(avg_lng)+"),\n\t\t  zoom: 10\n\t\t};\n\t\t\n\t"
 	list_of_elements[7]='\n\n'.join(infowindows)
 	list_of_elements[8]="\n\n\tvar map = new google.maps.Map(document.getElementById(\"map-canvas\"),mapOptions);\n\n    var locations = [\n\t"
 	list_of_elements[9]='\n\t'.join(locations)

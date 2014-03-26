@@ -1,1 +1,5 @@
 # to calculate % of errors, it's (errors)/(all-errors) bc the values for an error show up once when it's entered, and again on the error
+"2014-03-26 13:24:00.713000","portland","sf","12:00","00:00"
+"2014-03-26 13:24:01.638000","ERROR","portland","sf","12:00","00:00"
+"2014-03-26 13:24:17.183000","portland","sf","12:00","23:59","9:39pm","eating time is after destination time"
+"2014-03-26 13:24:44.132000","portland","texas","12:00","23:59"
