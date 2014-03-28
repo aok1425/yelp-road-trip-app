@@ -6,3 +6,4 @@ numpy==1.8.0
 oauth2==1.5.211
 requests==2.2.1
 pandas==0.12.0
+grequests==0.2.0
