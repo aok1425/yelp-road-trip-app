@@ -276,9 +276,9 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	signed_url = oauth_request.to_url()
 	#print 'Signed URL: %s' % (signed_url,)
 
-	s=grequests.get(signed_url)
+	s=requests.get(signed_url)
 
-	return s
+	return s.json()
 
 def yelp_json_to_table(thejson):
 	"""Takes JSON from Yelp Search API and adds restos' name, address, and rating to the dict resto_table."""
@@ -396,21 +396,12 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	else:
 		search_points=search_points[1:len(search_points)-2] # takes away first and last points. finds best restos along the way
 
-		
 	len_search_points=len(search_points)
-	yelp_rs = []
-	
+	counter=0
 	for row in range(len_search_points):
-		yelp_rs.append(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]),sort_method=2))
-	
-	print 'Searching Yelp for all',len_search_points,'points at once...'
-	responses = grequests.map(yelp_rs)
-	thejsons = [response.json() for response in responses]
-
-	for response in thejsons:
-		yelp_table_to_dict(yelp_json_to_table(response),return_limit)
-	
-	print 'done'
+		counter+=1
+		print 'Searching on Yelp point',counter,'out of',len_search_points
+		yelp_table_to_dict(yelp_json_to_table(yelp_search(search_limit,radius,latlong=turn_latlong_list_to_string(search_points[row][2]),sort_method=2)),return_limit)
 
 	filter_resto_table(resto_table, review_cutoff)
 	
