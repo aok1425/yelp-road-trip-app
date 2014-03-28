@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+
+var start_point = 'reno,nv';
+var end_point = 'jackpot,nv';
+
+function initialize() {
+	var mapOptions = {
+	  center: new google.maps.LatLng(42.285419, -71.149494),
+	  zoom: 12
+	};
+	var map = new google.maps.Map(document.getElementById("map-canvas"),
+		mapOptions);
+
+	var marker1= new google.maps.Marker({
+		position: {lat: 39.5298904, lng: -119.8142697},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker2= new google.maps.Marker({
+		position: {lat: 39.534489, lng: -119.814298},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker3= new google.maps.Marker({
+		position: {lat: 39.513278, lng: -119.6446},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker4= new google.maps.Marker({
+		position: {lat: 39.577968, lng: -119.471581},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker5= new google.maps.Marker({
+		position: {lat: 39.605122, lng: -119.327552},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker6= new google.maps.Marker({
+		position: {lat: 39.912659, lng: -118.82129},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker7= new google.maps.Marker({
+		position: {lat: 40.171042, lng: -118.477737},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker8= new google.maps.Marker({
+		position: {lat: 40.648282, lng: -118.17675},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker9= new google.maps.Marker({
+		position: {lat: 40.988997, lng: -117.685391},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker10= new google.maps.Marker({
+		position: {lat: 40.916782, lng: -117.344579},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker11= new google.maps.Marker({
+		position: {lat: 40.649998, lng: -116.76211},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker12= new google.maps.Marker({
+		position: {lat: 40.643432, lng: -116.323698},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker13= new google.maps.Marker({
+		position: {lat: 40.719221, lng: -116.116299},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker14= new google.maps.Marker({
+		position: {lat: 40.783181, lng: -115.87306},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker15= new google.maps.Marker({
+		position: {lat: 40.921148, lng: -115.684329},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker16= new google.maps.Marker({
+		position: {lat: 41.100803, lng: -114.962145},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker17= new google.maps.Marker({
+		position: {lat: 41.53841, lng: -114.781819},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker18= new google.maps.Marker({
+		position: {lat: 41.984108, lng: -114.672417},
+		map: map,
+		title:"Hello World!"
+	});
+
+var marker19= new google.maps.Marker({
+		position: {lat: 41.984108, lng: -114.672417},
+		map: map,
+		title:"Hello World!"
+	});
+
+
+var marker_list=[marker1,marker2,marker3,marker4,marker5,marker6,marker7,marker8,marker9,marker10,marker11,marker12,marker13,marker14,marker15,marker16,marker17,marker18,marker19]
+  for (var marker in marker_list) {
+    var populationOptions = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: marker_list[marker].position,
+      radius: 40000
+    };
+    // Add the circle for this city to the map.
+    cityCircle = new google.maps.Circle(populationOptions);
+	}
+	
+directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
+}
+
+function calcRoute() {
+  var request = {
+      origin:start_point,
+      destination:end_point,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
+}
+
+calcRoute()
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"/>
+  </body>
+</html>

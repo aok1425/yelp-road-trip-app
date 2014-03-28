@@ -43,7 +43,7 @@ def change_loading_screen(end,destination_time): # not used bc loading page does
 	
 @app.route('/test')
 def test():
-    return 'You will arrive in ' + end + 'at ' + destination_time + '.'
+    return redirect(url_for('static', filename='search_points.htm'))
 
 @app.errorhandler(500)
 def pageNotFound(error):
