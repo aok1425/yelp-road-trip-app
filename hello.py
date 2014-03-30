@@ -66,7 +66,7 @@ def add_entry():
 		print 'I\'m feeling lucky option chosen.'
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
-		do_everything(start,end,20,20,'12:00','15:00',9,60,30,30,just_best=True) # GMaps Dist Matrix API can only handle 9
+		do_everything(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,'12:00',filtered_table,just_best=True)
 	else:
 		print 'Regular option chosen.'
@@ -394,9 +394,8 @@ def do_everything(start,end,search_limit,return_limit,start_time,eating_time_sta
 	if just_best==False:
 		search_points=filter_search_points_by_eating_time(search_points,time_diff(start_time,eating_time_start))
 	else:
-		search_points=search_points[1:len(search_points)-2] # takes away first and last points. finds best restos along the way
+		search_points=search_points[3:len(search_points)-2] # takes away first and last points. finds best restos along the way
 
-		
 	len_search_points=len(search_points)
 	yelp_rs = []
 	
