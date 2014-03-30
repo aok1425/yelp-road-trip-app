@@ -588,4 +588,4 @@ def reset_tables():
 
 """ For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
