@@ -102,8 +102,8 @@ def add_entry():
 import oauth2, requests, pandas as pd, codecs, datetime, grequests
 from numpy import cumsum, average
 
-key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-bingkey='Aigw5zUPIFl1h-DVWxs3co1hFyupx-K1oWe8ss2SRpdTfQJKGzILySBUdQ0GBFH3'
+key='gmapskey'
+bingkey='bingkey'
 # for yelp
 
 
@@ -258,10 +258,10 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	r = requests.get(url, params=payload)
 	#print 'URL: %s' % (r.url,)
 
-	consumer_key = 'p0z-o-8cwOH7c5h4GO8vhg'
-	consumer_secret = 'qwPaxGEydLqHlNTYTAls-AGwy28'
-	token = 'VPHPmXFuhRDtEYWPL56pAPgPFOdc1Gk0'
-	token_secret = 'SChhpSGhdwKgGGoqjQ-vplr-0C4'
+	consumer_key = 'sth'
+	consumer_secret = 'sth-AGwy28'
+	token = 'sth'
+	token_secret = 'sth-vplr-0C4'
 	
 	# Sign the URL
 	consumer = oauth2.Consumer(consumer_key, consumer_secret)
