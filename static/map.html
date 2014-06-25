@@ -27,117 +27,117 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'boston';
-	var end_point = 'maIne';
+	var start_point = 'sf';
+	var end_point = 'yellowstone';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(43.4778873857, -70.3851927714),
+		  center: new google.maps.LatLng(38.8481221714, -121.414184214),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Breaking New Grounds</h2>'+
-'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>20 reviews</p>'+
-'<p>72.8 mi away</p>'+
-'<p>You will arrive in 79 mins.</p>'+
-'<p>3 mi/18 min detour</p>'+
-'<a href="http://www.yelp.com/biz/breaking-new-grounds-perkins-cove" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/breaking-new-grounds-perkins-cove" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Sterling\'s Seafood Steakhouse</h2>'+
+'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>252 reviews</p>'+
+'<p>218.1 mi away</p>'+
+'<p>You will arrive in 206 mins.</p>'+
+'<p>1 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/sterlings-seafood-steakhouse-reno" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/sterlings-seafood-steakhouse-reno" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h2 id="firstHeading" class="firstHeading">Bite Into Maine</h2>'+
-'<img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image">'+
-'<p>70 reviews</p>'+
-'<p>110.3 mi away</p>'+
-'<p>You will arrive in 114 mins.</p>'+
-'<p>8 mi/22 min detour</p>'+
-'<a href="http://www.yelp.com/biz/bite-into-maine-cape-elizabeth-3" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/bite-into-maine-cape-elizabeth-3" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Chando\'s Tacos</h2>'+
+'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>838 reviews</p>'+
+'<p>91.3 mi away</p>'+
+'<p>You will arrive in 92 mins.</p>'+
+'<p>1 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/chandos-tacos-sacramento" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/chandos-tacos-sacramento" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h2 id="firstHeading" class="firstHeading">Hoaty\'s</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Ninja Sushi and Teriyaki</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>20 reviews</p>'+
-'<p>47.7 mi away</p>'+
-'<p>You will arrive in 57 mins.</p>'+
-'<p>3 mi/12 min detour</p>'+
-'<a href="http://www.yelp.com/biz/hoatys-hampton" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/hoatys-hampton" target="\_blank">view in iPhone app</a></p>'
+'<p>202 reviews</p>'+
+'<p>107.6 mi away</p>'+
+'<p>You will arrive in 106 mins.</p>'+
+'<p>4 mi/8 min detour</p>'+
+'<a href="http://www.yelp.com/biz/ninja-sushi-and-teriyaki-roseville" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/ninja-sushi-and-teriyaki-roseville" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h2 id="firstHeading" class="firstHeading">Big Top Deli</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Krush Burger</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>30 reviews</p>'+
-'<p>132.9 mi away</p>'+
-'<p>You will arrive in 130 mins.</p>'+
-'<p>2 mi/7 min detour</p>'+
-'<a href="http://www.yelp.com/biz/big-top-deli-brunswick-2" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/big-top-deli-brunswick-2" target="\_blank">view in iPhone app</a></p>'
+'<p>219 reviews</p>'+
+'<p>88.8 mi away</p>'+
+'<p>You will arrive in 89 mins.</p>'+
+'<p>1 mi/7 min detour</p>'+
+'<a href="http://www.yelp.com/biz/krush-burger-sacramento-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/krush-burger-sacramento-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h2 id="firstHeading" class="firstHeading">Flo\'s Hot Dogs</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Fireside Pizza Co</h2>'+
 '<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>71 reviews</p>'+
-'<p>70.2 mi away</p>'+
-'<p>You will arrive in 74 mins.</p>'+
-'<p>2 mi/14 min detour</p>'+
-'<a href="http://www.yelp.com/biz/flos-hot-dogs-cape-neddick" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/flos-hot-dogs-cape-neddick" target="\_blank">view in iPhone app</a></p>'
+'<p>161 reviews</p>'+
+'<p>195.8 mi away</p>'+
+'<p>You will arrive in 190 mins.</p>'+
+'<p>21 mi/30 min detour</p>'+
+'<a href="http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/fireside-pizza-co-olympic-valley-4" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h2 id="firstHeading" class="firstHeading">Bratskellar</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Hamro Aangan</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>37 reviews</p>'+
-'<p>58.1 mi away</p>'+
-'<p>You will arrive in 62 mins.</p>'+
-'<p>4 mi/9 min detour</p>'+
-'<a href="http://www.yelp.com/biz/bratskellar-portsmouth" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/bratskellar-portsmouth" target="\_blank">view in iPhone app</a></p>'
+'<p>309 reviews</p>'+
+'<p>13.8 mi away</p>'+
+'<p>You will arrive in 21 mins.</p>'+
+'<p>1 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/hamro-aangan-albany" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/hamro-aangan-albany" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h2 id="firstHeading" class="firstHeading">Ohno! Café</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Baagan</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>45 reviews</p>'+
-'<p>106.6 mi away</p>'+
-'<p>You will arrive in 107 mins.</p>'+
-'<p>0 mi/6 min detour</p>'+
-'<a href="http://www.yelp.com/biz/ohno-caf%C3%A9-portland-3" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/ohno-caf%C3%A9-portland-3" target="\_blank">view in iPhone app</a></p>'
+'<p>217 reviews</p>'+
+'<p>108.9 mi away</p>'+
+'<p>You will arrive in 106 mins.</p>'+
+'<p>5 mi/8 min detour</p>'+
+'<a href="http://www.yelp.com/biz/baagan-roseville" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/baagan-roseville" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h2 id="firstHeading" class="firstHeading">Saeng Thai House</h2>'+
-'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>40 reviews</p>'+
-'<p>106.2 mi away</p>'+
-'<p>You will arrive in 104 mins.</p>'+
-'<p>0 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/saeng-thai-house-portland" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/saeng-thai-house-portland" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Cottonwood Restaurant & Bar</h2>'+
+'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>208 reviews</p>'+
+'<p>215.1 mi away</p>'+
+'<p>You will arrive in 191 mins.</p>'+
+'<p>191 mi/182 min detour</p>'+
+'<a href="http://www.yelp.com/biz/cottonwood-restaurant-and-bar-truckee" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/cottonwood-restaurant-and-bar-truckee" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h2 id="firstHeading" class="firstHeading">The Last Unicorn Restaurant</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Punjabi Dhaba</h2>'+
 '<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>26 reviews</p>'+
-'<p>181.2 mi away</p>'+
-'<p>You will arrive in 175 mins.</p>'+
-'<p>1 mi/11 min detour</p>'+
-'<a href="http://www.yelp.com/biz/the-last-unicorn-restaurant-waterville" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/the-last-unicorn-restaurant-waterville" target="\_blank">view in iPhone app</a></p>'
+'<p>132 reviews</p>'+
+'<p>63.3 mi away</p>'+
+'<p>You will arrive in 65 mins.</p>'+
+'<p>0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/punjabi-dhaba-dixon" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/punjabi-dhaba-dixon" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 43.2377238,-70.591541,1],
-	[contentString2, 43.6233212,-70.2124489,2],
-	[contentString3, 42.9465603,-70.8332665,3],
-	[contentString4, 43.916952,-69.966579,4],
-	[contentString5, 43.2161483,-70.611851,5],
-	[contentString6, 43.0493609,-70.7710151,6],
-	[contentString7, 43.649337,-70.2638149,7],
-	[contentString8, 43.6523685,-70.2790995,8],
-	[contentString9, 44.5487777,-69.6300516,9],
+	[contentString1, 39.5254004,-119.8135266,1],
+	[contentString2, 38.6065752,-121.4470605,2],
+	[contentString3, 38.7810403,-121.2858021,3],
+	[contentString4, 38.5980606,-121.4865404,4],
+	[contentString5, 39.196739,-120.2349813,5],
+	[contentString6, 37.8905151,-122.2993639,6],
+	[contentString7, 38.7855311,-121.2867703,7],
+	[contentString8, 40.588407,-122.3581296,8],
+	[contentString9, 38.4435086,-121.858771,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();

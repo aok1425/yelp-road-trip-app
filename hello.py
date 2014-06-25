@@ -62,7 +62,7 @@ def add_entry():
 	
 	reset_tables()
 	
-	if request.form['button']=='Just find the best! (takes longer)':
+	if request.form['button']=='Find great restaurants':
 		print 'I\'m feeling lucky option chosen.'
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
