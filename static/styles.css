@@ -39,7 +39,9 @@ html, body, #map-canvas {
     opacity:0.8;
 }
 
-
+.page-text {
+    padding:1em 1em 0.5em 1em;
+}
 
 #panel {
     position: absolute;

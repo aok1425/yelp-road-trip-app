@@ -18,43 +18,40 @@
     <div class="page-header">
       <h1>Yelp</h1>
       <div class="tagline">Road trip</div>
-	  <p></p><p></p>
+    <p></p><p></p>
       <p><b>Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!</b></p>
     </div>
   {% block body %}{% endblock %}
 </div>
 
-<div class="body">
-<a href="http://github.com/mojombo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
-<p>This is a way to search Yelp by time. Let's say you're going on a road trip, but you don't know where you'll be around dinner time. That's what this app is for!</p>
+<div class="page-text">
+  <a href="http://github.com/mojombo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+  
+  <p>This is a way to search Yelp by time. Let's say you're going on a road trip, but you don't know where you'll be around dinner time. That's what this app is for!</p>
 
-<h1>
-<a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works:</h1>
+  <h1><a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works:</h1>
+    <p>The app calcuates your location at the time you want to eat, and does Yelp searches there, 15 minutes before there, and up to 45 minutes after there. It then shows the 9 restaurants with the most number of reviews.</p>
+  <p>The "find the best" option is like the regular option, but it searches along the entire route, except the start and end locations. The longer the route is, the more points it will search, and the longer the search will take.</p>
 
-<p>The app calcuates your location at the time you want to eat, and does Yelp searches there, 15 minutes before there, and up to 45 minutes after there. It then shows the 9 restaurants with the most number of reviews.</p>
+  <h1><a name="wish-list" class="anchor" href="#wish-list"><span class="octicon octicon-link"></span></a>Wish List:</h1>
+  <ul>
+    <li>State the destination arrival time on the front page after the first three boxes are inputted.</li>
+    <li>Allow more than one concurrent user. :)</li>
+    <li>Make panel like the on the Yelp app to see all your results at once.</li>
+    <li>Add price information (e.g. $$$) using Foursquare's API.</li>
+    <li>Show only restaurants that will be open at arrival time, using Locu API.</li>
+    <li>Input validation/typeahead on locations, using WTForms under Flask.</li>
+  </ul>
 
-<p>The "find the best" option is like the regular option, but it searches along the entire route, except the start and end locations. The longer the route is, the more points it will search, and the longer the search will take.</p>
+  <p>Send me feedback! I'm at <a href="https://twitter.com/aok1425">@aok1425</a> or the same Twitter handle on GMail. Or, via <a href="https://github.com/aok1425/yelp-road-trip-app/issues">GitHub Issues</a>. Thanks to <a href="https://github.com/AdamWagner">Adam Wagner</a> for designing and implementing the front page, and <a href="https://github.com/4thethrillofit">Feifan Wang</a> for telling me how to put this app on the internet.</p>
 
-<h1>
-<a name="wish-list" class="anchor" href="#wish-list"><span class="octicon octicon-link"></span></a>Wish List:</h1>
+  <h1><a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known issues:</h1>
+  <ul>
+    <li>Might not work if eating time is intended to be the next day. Same-day only!</li>
+    <li>Estimated times and distances to restaurant don't incorporate live traffic data. Google doesn't allow this when you ask it multiple directions at the same time.</li>
+    <li>Some estimated times and distances are crazy. If Google Maps can't understand Yelp's address, I just changed that address to my old house. :)</li>
+  </ul>
 
-<ul>
-<li>State the destination arrival time on the front page after the first three boxes are inputted.</li>
-<li>Allow more than one concurrent user. :)</li>
-<li>Make panel like the on the Yelp app to see all your results at once.</li>
-<li>Add price information (e.g. $$$) using Foursquare's API.</li>
-<li>Show only restaurants that will be open at arrival time, using Locu API.</li>
-<li>Input validation/typeahead on locations, using WTForms under Flask.</li>
-</ul><p>Send me feedback! I'm at <a href="https://twitter.com/aok1425">@aok1425</a> or the same Twitter handle on GMail. Or, via <a href="https://github.com/aok1425/yelp-road-trip-app/issues">GitHub Issues</a>. Thanks to <a href="https://github.com/AdamWagner">Adam Wagner</a> for designing and implementing the front page, and <a href="https://github.com/4thethrillofit">Feifan Wang</a> for telling me how to put this app on the internet.</p>
-
-<h1>
-<a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known issues:</h1>
-
-<ul>
-<li>Might not work if eating time is intended to be the next day. Same-day only!</li>
-<li>Estimated times and distances to restaurant don't incorporate live traffic data. Google doesn't allow this when you ask it multiple directions at the same time.</li>
-<li>Some estimated times and distances are crazy. If Google Maps can't understand Yelp's address, I just changed that address to my old house. :)</li>
-</ul></article>
 </div>
 
 <div class="loader-wrapper">
