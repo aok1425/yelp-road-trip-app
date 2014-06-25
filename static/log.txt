@@ -18,3 +18,4 @@
 "2014-03-29 18:35:56.923000","boston","lebanon, nh","I'm feeling lucky","I'm feeling lucky"
 "2014-03-29 18:36:02.933000","boston","lebanon, nh","I'm feeling lucky","I'm feeling lucky"
 "2014-03-29 18:39:52.178000","boston","lebanon, nh","I'm feeling lucky","I'm feeling lucky"
+"2014-06-25 14:06:48.621284","boston","maIne","I'm feeling lucky","I'm feeling lucky"

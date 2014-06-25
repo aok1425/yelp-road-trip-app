@@ -43,6 +43,11 @@ html, body, #map-canvas {
     padding:1em 1em 0.5em 1em;
 }
 
+#ribbon {
+    position:relative;
+    float:right;
+}
+
 #panel {
     position: absolute;
     top: 5px;
