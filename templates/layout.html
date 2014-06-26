@@ -1,27 +1,27 @@
 <!doctype html>
 <head>
-<title>Yelp Road Trip</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-<meta name="viewport" content="width=device-width, user-scalable=no, target-densityDpi=device-dpi, height=device-height">
-<meta name="description" content="Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!" />
-<meta property="og:image" content="http://yelp-road-trip.herokuapp.com/static/logo.jpg" />
-<meta property="og:title" content="Yelp Road Trip" />
-<meta property="og:description" content="Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!" />
-<meta property="og:url" content="http://yelp-road-trip.herokuapp.com" />
-<link rel="image_src" href="http://yelp-road-trip.herokuapp.com/static/logo.jpg" / >
+  <title>Yelp Road Trip</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  <meta name="viewport" content="width=device-width, user-scalable=no, target-densityDpi=device-dpi, height=device-height">
+  <meta name="description" content="Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!" />
+  <meta property="og:image" content="http://yelp-road-trip.herokuapp.com/static/logo.jpg" />
+  <meta property="og:title" content="Yelp Road Trip" />
+  <meta property="og:description" content="Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!" />
+  <meta property="og:url" content="http://yelp-road-trip.herokuapp.com" />
+  <link rel="image_src" href="http://yelp-road-trip.herokuapp.com/static/logo.jpg" / >
 </head>
 
 
 
 
 <div class="page">
-    <a id='ribbon' href="http://github.com/mojombo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
-    <div class="page-header">
-      <h1>Yelp</h1>
-      <div class="tagline">Road trip</div>
+  <a id='ribbon' href="http://github.com/mojombo"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+  <div class="page-header">
+    <h1>Yelp</h1>
+    <div class="tagline">Road trip</div>
     <p></p><p></p>
-      <p><b>Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!</b></p>
-    </div>
+    <p><b>Find the best restaurants at the time that you want to eat. Or, just find the best ones on your route!</b></p>
+  </div>
   {% block body %}{% endblock %}
 </div>
 
@@ -29,7 +29,7 @@
   <p>This is a way to search Yelp by time. Let's say you're going on a road trip, but you don't know where you'll be around dinner time. That's what this app is for!</p>
 
   <h1><a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works:</h1>
-    <p>The app calcuates your location at the time you want to eat, and does Yelp searches there, 15 minutes before there, and up to 45 minutes after there. It then shows the 9 restaurants with the most number of reviews.</p>
+  <p>The app calcuates your location at the time you want to eat, and does Yelp searches there, 15 minutes before there, and up to 45 minutes after there. It then shows the 9 restaurants with the most number of reviews.</p>
   <p>The "find the best" option is like the regular option, but it searches along the entire route, except the start and end locations. The longer the route is, the more points it will search, and the longer the search will take.</p>
 
   <h1><a name="wish-list" class="anchor" href="#wish-list"><span class="octicon octicon-link"></span></a>Wish List:</h1>
@@ -54,29 +54,29 @@
 </div>
 
 <div class="loader-wrapper">
-    <div class="location_indicator"></div>
-    <p>loading great restaurants</p>
+  <div class="location_indicator"></div>
+  <p>loading great restaurants</p>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script>
 
-    window.onpageshow = function(event) {
-        if (event.persisted) {
-            window.location.reload()
-        }
-    };
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      window.location.reload()
+    }
+  };
 
-    $('.button, .link').click(function(){
-        window.scrollTo(0,0);
-        $('body').addClass('loading');
-    });
+  $('.button, .link').click(function(){
+    window.scrollTo(0,0);
+    $('body').addClass('loading');
+  });
 
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-49514774-1', 'yelp-road-trip.herokuapp.com');

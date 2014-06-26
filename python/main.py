@@ -8,7 +8,7 @@
 # Google Distance Matrix API has limit of 100 elements/query
 
 import oauth2, requests, pandas as pd, codecs, datetime, grequests, sensitive_info
-from numpy import cumsum, average
+from numpy import cumsum
 
 key = sensitive_info.key
 bingkey = sensitive_info.bingkey
