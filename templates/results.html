@@ -10,12 +10,12 @@
 <title>Yelp Road Trip results</title>
 
 <!-- Bootstrap core CSS -->
-<link href="./../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="./css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="./../static/css/jumbotron-narrow.css" rel="stylesheet">
+<link href="./css/jumbotron-narrow.css" rel="stylesheet">
 <!-- Adam's CSS file -->
-<link rel='stylesheet' type='text/css' href="./../static/css/styles.css">
-<link href="./../static/css/navbar-fixed-top.css" rel="stylesheet">
+<link rel='stylesheet' type='text/css' href="./css/styles.css">
+<link href="./css/navbar-fixed-top.css" rel="stylesheet">
 
 </head>
 
@@ -35,8 +35,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ render_template('input_form.html') }}">Yelp Road Trip</a>
-      
+      <a class="navbar-brand" href="{{ url_for('static', filename='map.html') }}">Yelp Road Trip</a>
+
       <!--<div class="page-header">
         <h1>Yelp</h1>
         <div class="tagline">Road trip</div>
@@ -46,7 +46,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Map</a></li>
+        <li class="active"><a href="{{ url_for('static', filename='map.html') }}">Map</a></li>
         <li><a href="#">Results</a></li>
       </ul>
 

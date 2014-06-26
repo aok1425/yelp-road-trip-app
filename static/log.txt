@@ -86,3 +86,6 @@
 "2014-06-25 18:42:51.466168","sf","texas","01:00","02:00"
 "2014-06-25 18:42:54.911499","ERROR","sf","texas","01:00","02:00"
 "2014-06-25 18:45:03.235934","sf","kansas","01:00","03:01"
+"2014-06-26 13:20:31.953344","sf","seattle","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 13:21:06.978711","sf","seattle","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 13:23:15.009568","sf","seattle","I'm feeling lucky","I'm feeling lucky"
