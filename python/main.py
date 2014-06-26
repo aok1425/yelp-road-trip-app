@@ -7,12 +7,11 @@
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
 # Google Distance Matrix API has limit of 100 elements/query
 
-import oauth2, requests, pandas as pd, codecs, datetime, grequests
+import oauth2, requests, pandas as pd, codecs, datetime, grequests, sensitive_info
 from numpy import cumsum, average
 
-key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
-bingkey='Aigw5zUPIFl1h-DVWxs3co1hFyupx-K1oWe8ss2SRpdTfQJKGzILySBUdQ0GBFH3'
-# for yelp
+key = sensitive_info.key
+bingkey = sensitive_info.bingkey
 
 def get_gmaps_json(start,end,sensor='false'):
 	"""Input start and end locations, and it returns JSON from GMaps."""
@@ -268,7 +267,7 @@ class RestaurantFinder(object):
 		self.main(start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff,too_long_step,time_block,cull_block,just_best,radius,sensor)
 
 	def yelp_table_to_dict(self, table,cutoff=3):
-		"""Takes in a table, sorts the rows by the review count. Takes this table, and puts the first n restos into self.resto_table.
+		"""Takes in a table, sorts the rows by the review count. Takes this thisable, and puts the first n restos into self.resto_table.
 		Puts the cutoff-number of most reviewed restos into self.resto_table."""
 		sorted_table=sorted(table, key=lambda row: row[1],reverse=True)
 
