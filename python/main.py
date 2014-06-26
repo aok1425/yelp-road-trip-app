@@ -53,10 +53,8 @@ def break_up_step(start,end,time_block=30):
 		search_points.append(new_search_point)
 
 	last_coordinate_index=len(coordinates)-1
-	#print start[0]+duration*(segments+1),duration,coordinates[last_coordinate_index]
 	search_points.append([start[0]+duration*(segments+1),duration,coordinates[last_coordinate_index]]) # appends final search point as well
 
-	#for row in search_points: print row
 	return search_points
 
 def make_search_points(thejson,time_block=30,too_long_step=60):
@@ -66,8 +64,7 @@ def make_search_points(thejson,time_block=30,too_long_step=60):
 	some_distance=too_long_step*60 # if a step lasts 60 minutes, it will be broken up into 30 minute sub-steps where Yelp will search from
 	# some_distance needs to be at least 2x of time_blocks. otherwise, there will only be 1 segment
 	# and the whole point is to break up a long segment into multiple sub-segments!
-	#print 'time_Block is',time_block
-	#print 'too_long_step is',too_long_step
+
 	for each in steps:
 		duration=each['duration']['value']
 		durations.append(duration)
@@ -91,9 +88,6 @@ def make_search_points(thejson,time_block=30,too_long_step=60):
 		else:
 			table.append([cummdurations[i],durations[i],locs[i]])
 
-	#print 'from make_search_points()'
-	#for row in table: print row
-
 	return table
 
 # because only the search points that are AFTER 30 mins has passed will show up, if i'm at 28 mins, and the next step is 29 mins, then i'll only get a point at 28+29 mins
@@ -103,20 +97,12 @@ def cull_search_points(search_points,cull_block=30):
 	subset_search_points=[]
 	redundant_cumm_durations=[]
 
-	#print 'Before the cull'
-	#for row in search_points: print row
-
-	#for row in cumm_durations: print int(row)
-
 	for i in range(len(search_points)):
 		if str(int(cumm_durations[i])) not in [str(int(each)) for each in redundant_cumm_durations]: # maybe just int(12.123) might work.
 			redundant_cumm_durations.append(cumm_durations[i])
 			subset_search_points.append(search_points[i])
 
 	subset_search_points.append(search_points[len(search_points)-1]) # appends final destination as well
-
-	#print 'After the cull'
-	#for row in subset_search_points: print row
 
 	return subset_search_points
 
@@ -162,12 +148,11 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	# Make initial URL w/params
 	url = 'http://api.yelp.com/v2/search'
 	r = requests.get(url, params=payload)
-	#print 'URL: %s' % (r.url,)
 
-	consumer_key = 'p0z-o-8cwOH7c5h4GO8vhg'
-	consumer_secret = 'qwPaxGEydLqHlNTYTAls-AGwy28'
-	token = 'VPHPmXFuhRDtEYWPL56pAPgPFOdc1Gk0'
-	token_secret = 'SChhpSGhdwKgGGoqjQ-vplr-0C4'
+	consumer_key = sensitive_info.consumer_key
+	consumer_secret = sensitive_info.consumer_secret
+	token = sensitive_info.token
+	token_secret = sensitive_info.token_secret
 	
 	# Sign the URL
 	consumer = oauth2.Consumer(consumer_key, consumer_secret)
@@ -180,7 +165,6 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	token = oauth2.Token(token, token_secret)
 	oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
 	signed_url = oauth_request.to_url()
-	#print 'Signed URL: %s' % (signed_url,)
 
 	s=grequests.get(signed_url)
 
@@ -220,9 +204,7 @@ def time_and_distance_json(start, end, filtered_table, sensor='false'):
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
 	r = requests.get(url, params=payload)
-	#print 'URL: %s' % (r.url,)
-	#print len(filtered_table),'restos, ',len(filtered_table)+2,' elements.'
-	#return r.url
+
 	return r.json()
 
 def time_and_distance_to_resto(thejson):
@@ -237,8 +219,6 @@ def time_and_distance_to_resto(thejson):
 				durations.append(element['duration']['value']) # in meters
 			except KeyError:
 				print 'GMaps can\'t understand an address. Program will crash here...'
-				#print 'what is',row
-				#print 'what is',element
 	
 	original_route_list_duration=durations[1:num_elements]
 	original_route_list_distance=distances[1:num_elements]
@@ -279,7 +259,6 @@ class RestaurantFinder(object):
 		columns=['address','rating','rs','img link','yelp link']
 		df=pd.DataFrame(self.resto_table).T
 		df.columns=columns
-		#df=df.drop(['address','img link','yelp link'],axis=1)
 		df=df.sort(['rs'],ascending=False)
 
 		self.temp_filtered_resto_table=df.head(review_cutoff).T.to_dict('list') # makes new self.resto_table taking the review_cutoff most reviewed restos
@@ -289,18 +268,14 @@ class RestaurantFinder(object):
 
 	def main(self,start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=9,too_long_step=40,time_block=20,cull_block=20,just_best=False,radius=40000,sensor='false'):
 		"""Input START and END location, and program will search Yelp after every step within RADIUS, return LIMIT # of restos, then tell you the time to drive to each of them from starting location.
-
 		Search_limit is how many restos Yelp searches for at each search point. Max of search_limit is 20. Return_limit is how many restos I cut off to find the most reviewed ones.
-
 		Review_cutoff is how many restos do you want to return after sorting them my # of reviews.
-
 		Around what time do you want to start eating? Program will look 1.5 hours after that in terms of places to look, not time to final destinations."""
+		
 		print 'Pulling results from Google Directions'
 		result=get_gmaps_json(start,end)
 
-		#start_time_repr=datetime.datetime.strptime(start_time, '%H:%M')
 		drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
-		#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 
 		print 'Making search points'
 		search_points=make_search_points(result,time_block,too_long_step)

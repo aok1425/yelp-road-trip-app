@@ -88,8 +88,7 @@ def add_entry():
 
 def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=False):
 	"""Resto_addresses is a table of just addresses."""
-	# I'm assumong here that w/the dixt, the order will always be the same, so I can make mltuple lists out of it.
-	#file=open('c:/users/alex/desktop/map.html','w')
+
 	file=codecs.open(app.root_path+"/static/map.html",'w','utf-8')
 	locations=[] # many locations to put on map
 	infowindows=[]
@@ -116,7 +115,6 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 			resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[7]),'%I:%M%p')
 			resto_destination_time = resto_destination_time.lstrip('0')
 			resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
-			#print 'You will arrive at',end,'at',datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=drive_duration),'%I:%M%p')
 		else:
 			resto_destination_time=int(resto_data[7]/60)
 
@@ -227,7 +225,6 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 		file.write(each)
 	
 	file.close()
-
 
 def convert_to_yelp_app_link(website_link):
 	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""
