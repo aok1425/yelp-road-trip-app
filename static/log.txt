@@ -136,3 +136,7 @@
 "2014-06-26 22:53:13.601415","daLlas","austin","I'm feeling lucky","I'm feeling lucky"
 "2014-06-26 22:56:22.065003","dallas","tijuana, mexico","I'm feeling lucky","I'm feeling lucky"
 "2014-06-26 23:03:26.384633","dallas","kansas city","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 23:42:15.667854","","","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 23:42:40.065208","","","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 23:43:15.210081","sf","yellowstone","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 23:43:40.773359","","","I'm feeling lucky","I'm feeling lucky"
