@@ -1,9 +1,3 @@
-fix which navbar tab is highlighted
-
-if sth is broken, it's bc i added <meta name="apple-mobile-web-app-capable" content="yes"> manually to make_HTML_file
-
-make pics link to yelp pg
-
 fix data structures issue; have JSON move through until the final process; don't reshape into my own dict
 maybe use JSON module
 figure out from big pic perspective
@@ -11,3 +5,7 @@ figure out from big pic perspective
 from dallas to kansaS city, one is really far off
 
 fix lack of buttons on iphone
+maybe bc it's dropdown?
+
+add fullscreen to the maps templatE?
+    <meta name="viewport" content="width=device-width, minimal-ui"><meta charset="utf-8">
