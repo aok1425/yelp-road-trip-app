@@ -43,6 +43,10 @@ def change_loading_screen(end,destination_time): # not used bc loading page does
 def results():
     return render_template('results.html')
 
+@app.route('/test')
+def results():
+    return render_template('test.html')
+
 @app.route('/map')
 def map():
     return render_template('map.html')    
