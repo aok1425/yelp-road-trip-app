@@ -26,26 +26,25 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 
 	def add_infowindow(resto,number,time_leaving,just_best=False):
 		resto_data=resto_table[resto]
-		
 		if just_best==False:
 			start_time_repr=datetime.datetime.strptime(time_leaving, '%H:%M')
-			resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[7]),'%I:%M%p')
+			resto_destination_time=datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[8]),'%I:%M%p')
 			resto_destination_time = resto_destination_time.lstrip('0')
 			resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
 		else:
-			resto_destination_time=int(resto_data[7]/60)
+			resto_destination_time=int(resto_data[8]/60)
 
 		infowindow=range(22)
 		infowindow[0]="var contentString"
 		infowindow[1]=str(number)
-		infowindow[2]="= \n\'<h3 id=\"firstHeading\" class=\"firstHeading\">"
+		infowindow[2]="= \n\'<h4 id=\"firstHeading\" class=\"firstHeading\">"
 		infowindow[3]=fix_quotes(resto)
 		infowindow[4]="\'+\n\'<br><img src=\""
 		infowindow[5]=str(resto_data[4])
-		infowindow[6]="\" alt=\"Yelp rating image\">\'+\n\'</h3><p>"
+		infowindow[6]="\" alt=\"Yelp rating image\">\'+\n\'</h4><p>"
 		infowindow[7]=str(resto_data[2])
 		infowindow[8]=" reviews<br>\'+\n\'"
-		infowindow[9]=str("%0.1f" % (resto_data[8]*0.000621371)) # keepin this as 1 decimal place bc more important this be accurate
+		infowindow[9]=str("%0.1f" % (resto_data[9]*0.000621371)) # keepin this as 1 decimal place bc more important this be accurate
 		if just_best==False:
 			infowindow[10]=" mi away<br>'+\n\'You will arrive at "
 			infowindow[11]=str(resto_destination_time)
@@ -54,9 +53,9 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 			infowindow[10]=" mi away<br>'+\n\'You will arrive in "
 			infowindow[11]=str(resto_destination_time)
 			infowindow[12]=" mins.<br>\'+\n\'"		
-		infowindow[13]=str(int(resto_data[6]*0.000621371)) 
+		infowindow[13]=str(int(resto_data[7]*0.000621371)) 
 		infowindow[14]=" mi/"
-		infowindow[15]=str(int(float(resto_data[5])/60)) # converting to minutes
+		infowindow[15]=str(int(float(resto_data[6])/60)) # converting to minutes
 		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
 		infowindow[17]=str(resto_data[3])
 		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'+"
@@ -121,7 +120,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 
 	list_of_elements=range(14)
 
-	list_of_elements[0]="""<!DOCTYPE html>\n<html>\n  <head>\n    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">\n    <meta charset="utf-8">\n    <title>Directions service</title>\n    <link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"""
+	list_of_elements[0]="""<!DOCTYPE html>\n<html>\n  <head>\n    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">\n    <meta name="apple-mobile-web-app-capable" content="yes">\n<meta charset="utf-8">\n    <title>Directions service</title>\n    <link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"""
 	list_of_elements[1]=start_point #'2312,31321'
 	list_of_elements[2]="';\n\tvar end_point = '"
 	list_of_elements[3]=end_point #'2312,31321'
@@ -137,7 +136,7 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	else:
 		list_of_elements[11]=''
 	list_of_elements[12]="\n\t  directionsDisplay.setMap(map);\n\t}\n\n\tfunction calcRoute() {\n\t\tvar request = {\n\t\t  origin:start_point,\n\t\t  destination:end_point,\n\t\t  travelMode: google.maps.TravelMode.DRIVING\n\t\t};\n\t\t\n\t\tdirectionsService.route(request, function(response, status) {\n\t\t\tif (status == google.maps.DirectionsStatus.OK) {\n\t\t\t  directionsDisplay.setDirections(response);\n\t\t\t}\n\t\t});\n\t}\n\n\tcalcRoute()\n\tgoogle.maps.event.addDomListener(window, \'load\', initialize);\n    </script>\n  </head>\n"
-	list_of_elements[13]="""<body>\n\n<nav class="navbar navbar-default navbar-fixed-top" role="navigation">\n  <div class="container-fluid">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class="navbar-header">\n      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="\\#bs-example-navbar-collapse-1">\n        <span class="sr-only">Toggle navigation</span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n      </button>\n      <a class="navbar-brand" href="{{ url_for(\'show_input_form\') }}">Yelp Road Trip</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\n      <ul class="nav navbar-nav">\n        <li class="active"><a href="#">Map</a></li>\n        <li><a href="{{ url_for(\'results\') }}">Results</a></li>\n      </ul>\n\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n    <div id="map-canvas"/>\n  </body>\n</html>"""
+	list_of_elements[13]="""<body>\n\n<nav class="navbar navbar-default navbar-fixed-top" role="navigation">\n  <div class="container-fluid">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class="navbar-header">\n      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="\\#bs-example-navbar-collapse-1">\n        <span class="sr-only">Toggle navigation</span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n      </button>\n      <a class="navbar-brand" href="{{ url_for(\'show_input_form\') }}">Yelp Road Trip</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\n      <ul class="nav navbar-nav">\n        <li class="active"><a href="{{ url_for('map') }}">Map</a></li>\n        <li><a href="{{ url_for(\'results\') }}">Results</a></li>\n      </ul>\n\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n    <div id="map-canvas"/>\n  </body>\n</html>"""
 
 	for each in list_of_elements:
 		file.write(each)

@@ -2,6 +2,7 @@
 #[address,rating,# reviews,yelp link,rating img,duration to resto,distance to resto,minutes out of way,distance out of way]
 
 import codecs
+import pandas as pd
 
 def write_resturants(resto_table_keys, resto_table, resto_destination_time, html_file, just_best):
 	"""For each restaurant in the dict, make string of these restaurants in HTML file."""
@@ -10,13 +11,13 @@ def write_resturants(resto_table_keys, resto_table, resto_destination_time, html
 	for resto_name in resto_table_keys:
 		resto_data = resto_table[resto_name]
 
-		info = ['resto pic', resto_name, str(resto_data[4]), str(resto_data[2]), str(int(resto_data[8]*0.000621371))]
+		info = [resto_data[5], resto_name, str(resto_data[4]), str(resto_data[2]), str(int(resto_data[9]*0.000621371))]
 		if just_best==False:
-			info.append(str(resto_destination_time))
+			info.append(str(int(float(resto_data[6])/60)))
 		else:
-			info.append(str(resto_destination_time))
-		info.append(str(int(resto_data[6]*0.000621371)))
-		info.append(str(int(float(resto_data[5])/60))) # converting to minutes
+			info.append(str(int(float(resto_data[6])/60)))
+		info.append(str(int(resto_data[7]*0.000621371)))
+		info.append(str(int(float(resto_data[6])/60))) # converting to minutes
 		info.append(str(resto_data[3]))
 		info.append(convert_to_yelp_app_link(str(resto_data[3]))) # which is the Yelp mobile link
 
@@ -31,18 +32,26 @@ def write_resturants(resto_table_keys, resto_table, resto_destination_time, html
 
 def write_results_file(resto_destination_time, search, just_best):
 	"""Opens HTML file and writes to it."""
-	html_file = codecs.open("./templates/results.html",'w','utf-8')
+	sorted_resto_keys = sort_restos(search.filtered_table)
 
-	html_file.write("""<!DOCTYPE html>\n<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta charset="utf-8">\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="description" content="Results page for Yelp Road Trip app">\n<meta name="author" content="Alexander Ko">\n\n<title>Yelp Road Trip results</title>\n\n<!-- Bootstrap core CSS -->\n<link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n<!-- Custom styles for this template -->\n<link href="./../static/css/jumbotron-narrow.css" rel="stylesheet">\n<link href="./../static/css/navbar-fixed-top.css" rel="stylesheet">\n\n</head>\n\n\n<body class=" hasGoogleVoiceExt">\n\n<div class="container">\n\n<nav class="navbar navbar-default navbar-fixed-top" role="navigation">\n  <div class="container-fluid">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class="navbar-header">\n      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">\n        <span class="sr-only">Toggle navigation</span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n      </button>\n      <a class="navbar-brand" href="{{ url_for(\'show_input_form\') }}">Yelp Road Trip</a>\n\n      <!--<div class="page-header">\n        <h1>Yelp</h1>\n        <div class="tagline">Road trip</div>\n      </div>-->\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\n      <ul class="nav navbar-nav">\n        <li class="active"><a href="./map.html">Map</a></li>\n        <li><a href="#">Results</a></li>\n      </ul>\n\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n\n<div class="row marketing">""")
+	html_file = codecs.open("./templates/results.html",'w','utf-8')
+	html_file.write("""<!DOCTYPE html>\n<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta charset="utf-8">\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<meta name="description" content="Results page for Yelp Road Trip app">\n<meta name="author" content="Alexander Ko">\n\n<title>Yelp Road Trip results</title>\n\n<!-- Bootstrap core CSS -->\n<link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n<!-- Custom styles for this template -->\n<link href="./../static/css/jumbotron-narrow.css" rel="stylesheet">\n<link href="./../static/css/navbar-fixed-top.css" rel="stylesheet">\n\n</head>\n\n\n<body class=" hasGoogleVoiceExt">\n\n<div class="container">\n\n<nav class="navbar navbar-default navbar-fixed-top" role="navigation">\n  <div class="container-fluid">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class="navbar-header">\n      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">\n        <span class="sr-only">Toggle navigation</span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n        <span class="icon-bar"></span>\n      </button>\n      <a class="navbar-brand" href="{{ url_for(\'show_input_form\') }}">Yelp Road Trip</a>\n\n      <!--<div class="page-header">\n        <h1>Yelp</h1>\n        <div class="tagline">Road trip</div>\n      </div>-->\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\n      <ul class="nav navbar-nav">\n        <li class="active"><a href="{{ url_for(\'map\') }}">Map</a></li>\n        <li><a href="#">Results</a></li>\n      </ul>\n\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n\n<div class="row marketing">""")
 
 	# I do this twice bc there are 2 columns for the HTML file
-	write_resturants(search.filtered_table.keys()[:4], search.filtered_table, resto_destination_time, html_file, just_best)
+	write_resturants(sorted_resto_keys[:4], search.filtered_table, resto_destination_time, html_file, just_best)
 	html_file.write('\n</div>\n')
-	write_resturants(search.filtered_table.keys()[4:], search.filtered_table, resto_destination_time, html_file, just_best)
+	write_resturants(sorted_resto_keys[4:], search.filtered_table, resto_destination_time, html_file, just_best)
 
 	html_file.write("""\n</div> <!-- /container -->\n\n\n<!-- Bootstrap core JavaScript\n================================================== -->\n<!-- Placed at the end of the document so the pages load faster -->\n\n\n<iframe id="rdbIndicator" width="100%" height="270" border="0" src="./results_files/indicator.html" style="display: none; border: 0; position: fixed; left: 0; top: 0; z-index: 2147483647"></iframe></body></html>""")
 
 	html_file.close()
+
+def sort_restos(filtered_table):
+	"""Take dict of restos and their attributes, and get a sorted list of keys as a list, sorted by distance to resto."""
+	df = pd.DataFrame(filtered_table).T
+	df = df.sort(columns=6)
+
+	return df.index
 
 def convert_to_yelp_app_link(website_link):
 	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""

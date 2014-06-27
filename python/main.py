@@ -174,6 +174,10 @@ def yelp_json_to_table(thejson):
 	"""Takes JSON from Yelp Search API and adds restos' name, address, and rating to the dict self.resto_table."""
 	new_table=[]
 	for category in thejson['businesses']:
+		try: # bc rockys-pub in mansfield, oh doesn't have a pic
+			image_url = category['image_url']
+		except:
+			image_url = "something"
 		try: # because of Ragtime in Elko, NV, which has no address on Yelp!
 			addresses=[]
 			for each_address in category['location']['address']:
@@ -182,7 +186,7 @@ def yelp_json_to_table(thejson):
 			address=', '.join(addresses)
 		except:
 			address='3 Oyster Bay Rd, 02125'
-		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url']])
+		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url'],image_url])
 	return new_table
 
 def turn_latlong_list_to_string(item):
@@ -256,7 +260,7 @@ class RestaurantFinder(object):
 
 	def filter_resto_table(self, resto_table,review_cutoff=15):
 		"""Takes self.resto_table, and filters it. Now, I have it filtering by # of reviews only. Adds the result to the dict filtered_table"""
-		columns=['address','rating','rs','img link','yelp link']
+		columns=['address','rating','rs','img link','yelp link','yelp pic']
 		df=pd.DataFrame(self.resto_table).T
 		df.columns=columns
 		df=df.sort(['rs'],ascending=False)
@@ -318,4 +322,4 @@ class RestaurantFinder(object):
 
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #a.filtered_table
-#make_HTML_file('reno,nv','jackpot,nv','3:00',filtered_table)
+#make_HTML_file('reno,nv','jackpot,nv','3:00',a.filtered_table)
