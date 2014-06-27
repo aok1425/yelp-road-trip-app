@@ -28,117 +28,117 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'fargo';
-	var end_point = 'boise';
+	var start_point = 'sf';
+	var end_point = 'fresno, ca';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(45.6691628, -110.514734414),
+		  center: new google.maps.LatLng(37.5946101143, -120.992997971),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h3 id="firstHeading" class="firstHeading">Kobe\'s Japanese Steak House and Sushi'+
-'<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'</h3><p>19 reviews<br>'+
-'197.0 mi away<br>'+
-'You will arrive in 166 mins.<br>'+
-'1 mi/5 min detour</p>'+
-'<a href="http://www.yelp.com/biz/kobes-japanese-steak-house-and-sushi-bar-bismarck" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/kobes-japanese-steak-house-and-sushi-bar-bismarck" target="\_blank">view in iPhone app</a></p>'
+'<h3 id="firstHeading" class="firstHeading">Viva Taco Bus'+
+'<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'</h3><p>36 reviews<br>'+
+'104.6 mi away<br>'+
+'You will arrive in 102 mins.<br>'+
+'0 mi/5 min detour</p>'+
+'<a href="http://www.yelp.com/biz/viva-taco-bus-turlock" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/viva-taco-bus-turlock" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h3 id="firstHeading" class="firstHeading">Mark\'s In and Out'+
+'<h3 id="firstHeading" class="firstHeading">Beirut Falafel Hut'+
 '<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'</h3><p>25 reviews<br>'+
-'725.6 mi away<br>'+
-'You will arrive in 599 mins.<br>'+
-'1 mi/4 min detour</p>'+
-'<a href="http://www.yelp.com/biz/marks-in-and-out-livingston" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/marks-in-and-out-livingston" target="\_blank">view in iPhone app</a></p>'
+'</h3><p>80 reviews<br>'+
+'92.7 mi away<br>'+
+'You will arrive in 92 mins.<br>'+
+'2 mi/8 min detour</p>'+
+'<a href="http://www.yelp.com/biz/beirut-falafel-hut-modesto" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/beirut-falafel-hut-modesto" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h3 id="firstHeading" class="firstHeading">Harper and Madison'+
+'<h3 id="firstHeading" class="firstHeading">Kitty\'s Kitchen'+
 '<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'</h3><p>39 reviews<br>'+
-'608.9 mi away<br>'+
-'You will arrive in 506 mins.<br>'+
-'0 mi/10 min detour</p>'+
-'<a href="http://www.yelp.com/biz/harper-and-madison-billings" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/harper-and-madison-billings" target="\_blank">view in iPhone app</a></p>'
+'</h3><p>50 reviews<br>'+
+'76.5 mi away<br>'+
+'You will arrive in 77 mins.<br>'+
+'2 mi/8 min detour</p>'+
+'<a href="http://www.yelp.com/biz/kittys-kitchen-manteca" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/kittys-kitchen-manteca" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h3 id="firstHeading" class="firstHeading">The Garage Soup Shack & Mesquite Grill'+
-'<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'</h3><p>70 reviews<br>'+
-'749.3 mi away<br>'+
-'You will arrive in 620 mins.<br>'+
-'5 mi/3 min detour</p>'+
-'<a href="http://www.yelp.com/biz/the-garage-soup-shack-and-mesquite-grill-bozeman" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/the-garage-soup-shack-and-mesquite-grill-bozeman" target="\_blank">view in iPhone app</a></p>'
+'<h3 id="firstHeading" class="firstHeading">Agave Azul'+
+'<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'</h3><p>29 reviews<br>'+
+'100.2 mi away<br>'+
+'You will arrive in 100 mins.<br>'+
+'6 mi/13 min detour</p>'+
+'<a href="http://www.yelp.com/biz/agave-azul-hughson" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/agave-azul-hughson" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h3 id="firstHeading" class="firstHeading">Winger\'s Grill & Bar'+
-'<br><img src="http://s3-media3.fl.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image">'+
-'</h3><p>16 reviews<br>'+
-'1176.6 mi away<br>'+
-'You will arrive in 1014 mins.<br>'+
-'0 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/wingers-grill-and-bar-mountain-home" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/wingers-grill-and-bar-mountain-home" target="\_blank">view in iPhone app</a></p>'
+'<h3 id="firstHeading" class="firstHeading">Cafe Garré'+
+'<br><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image">'+
+'</h3><p>33 reviews<br>'+
+'49.6 mi away<br>'+
+'You will arrive in 53 mins.<br>'+
+'7 mi/12 min detour</p>'+
+'<a href="http://www.yelp.com/biz/cafe-garr%C3%A9-livermore-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/cafe-garr%C3%A9-livermore-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h3 id="firstHeading" class="firstHeading">Main Street Overeasy'+
+'<h3 id="firstHeading" class="firstHeading">Jantz Cafe & Bakery'+
 '<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'</h3><p>52 reviews<br>'+
-'749.6 mi away<br>'+
-'You will arrive in 621 mins.<br>'+
-'5 mi/3 min detour</p>'+
-'<a href="http://www.yelp.com/biz/main-street-overeasy-bozeman" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/main-street-overeasy-bozeman" target="\_blank">view in iPhone app</a></p>'
+'</h3><p>75 reviews<br>'+
+'123.2 mi away<br>'+
+'You will arrive in 120 mins.<br>'+
+'2 mi/9 min detour</p>'+
+'<a href="http://www.yelp.com/biz/jantz-cafe-and-bakery-atwater" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/jantz-cafe-and-bakery-atwater" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h3 id="firstHeading" class="firstHeading">Sir Scott\'s Oasis Steakhouse and Lounge'+
-'<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'</h3><p>31 reviews<br>'+
-'769.1 mi away<br>'+
-'You will arrive in 636 mins.<br>'+
-'1 mi/4 min detour</p>'+
-'<a href="http://www.yelp.com/biz/sir-scotts-oasis-steakhouse-and-lounge-manhattan" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/sir-scotts-oasis-steakhouse-and-lounge-manhattan" target="\_blank">view in iPhone app</a></p>'
+'<h3 id="firstHeading" class="firstHeading">Picassos Gourmet Deli'+
+'<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'</h3><p>45 reviews<br>'+
+'91.4 mi away<br>'+
+'You will arrive in 90 mins.<br>'+
+'0 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/picassos-gourmet-deli-modesto" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/picassos-gourmet-deli-modesto" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h3 id="firstHeading" class="firstHeading">Blue\'s Bbq'+
+'<h3 id="firstHeading" class="firstHeading">New Thai Cuisine'+
 '<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'</h3><p>30 reviews<br>'+
-'607.8 mi away<br>'+
-'You will arrive in 502 mins.<br>'+
-'5 mi/10 min detour</p>'+
-'<a href="http://www.yelp.com/biz/blues-bbq-billings" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/blues-bbq-billings" target="\_blank">view in iPhone app</a></p>'
+'</h3><p>60 reviews<br>'+
+'129.1 mi away<br>'+
+'You will arrive in 123 mins.<br>'+
+'0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/new-thai-cuisine-merced" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/new-thai-cuisine-merced" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h3 id="firstHeading" class="firstHeading">Sparky\'s Garage'+
-'<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'</h3><p>26 reviews<br>'+
-'864.4 mi away<br>'+
-'You will arrive in 729 mins.<br>'+
-'0 mi/6 min detour</p>'+
-'<a href="http://www.yelp.com/biz/sparkys-garage-dillon" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/sparkys-garage-dillon" target="\_blank">view in iPhone app</a></p>'
+'<h3 id="firstHeading" class="firstHeading">In-N-Out Burger'+
+'<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'</h3><p>84 reviews<br>'+
+'62.3 mi away<br>'+
+'You will arrive in 63 mins.<br>'+
+'0 mi/1 min detour</p>'+
+'<a href="http://www.yelp.com/biz/in-n-out-burger-tracy" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/in-n-out-burger-tracy" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 46.8317653,-100.8066111,1],
-	[contentString2, 45.6575881,-110.5685963,2],
-	[contentString3, 45.7884385,-108.5184318,3],
-	[contentString4, 45.6797134,-111.0305077,4],
-	[contentString5, 43.1417129,-115.6606846,5],
-	[contentString6, 45.6794649,-111.036809,6],
-	[contentString7, 45.8570033,-111.3345017,7],
-	[contentString8, 45.8133639,-108.4729229,8],
-	[contentString9, 45.2085675,-112.6413715,9],
+	[contentString1, 37.500841,-120.849554,1],
+	[contentString2, 37.6384544,-120.9780413,2],
+	[contentString3, 37.8052,-121.2167654,3],
+	[contentString4, 37.594403,-120.869152,4],
+	[contentString5, 37.6657331,-121.6979143,5],
+	[contentString6, 37.3607563,-120.6033301,6],
+	[contentString7, 37.6401883,-121.0003638,7],
+	[contentString8, 37.3029709,-120.4901504,8],
+	[contentString9, 37.7618947,-121.4337792,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();

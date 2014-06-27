@@ -103,3 +103,6 @@
 "2014-06-26 18:57:49.872808","fargo","boise","I'm feeling lucky","I'm feeling lucky"
 "2014-06-26 18:58:48.024273","fargo","boise","I'm feeling lucky","I'm feeling lucky"
 "2014-06-26 18:59:28.522287","fargo","boise","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 19:04:31.421728","sf","reno","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 19:06:55.749596","sf","livermore","I'm feeling lucky","I'm feeling lucky"
+"2014-06-26 19:07:05.599626","sf","fresno, ca","I'm feeling lucky","I'm feeling lucky"
