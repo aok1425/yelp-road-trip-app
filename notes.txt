@@ -3,9 +3,13 @@ maybe use JSON module
 figure out from big pic perspective
 
 from dallas to kansaS city, one is really far off
+really weird error sf to sonoma county
 
 fix lack of buttons on iphone
 maybe bc it's dropdown?
 
 add fullscreen to the maps templatE?
     <meta name="viewport" content="width=device-width, minimal-ui"><meta charset="utf-8">
+
+
+figure out import * thing, esp w colums dict in write_results_file

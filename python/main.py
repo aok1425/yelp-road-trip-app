@@ -189,6 +189,20 @@ def yelp_json_to_table(thejson):
 		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url'],image_url])
 	return new_table
 
+columns = {
+	'address':0,
+	'rating':1,
+	'reviews':2,
+	'url':3,
+	'rating_img':4,
+	'pic':5,
+	'time_to_resto':6,
+	'distance_to_resto':7,
+	'time_detour':8,
+	'distance_detour':9,
+	'iphone_link':10
+}
+
 def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
@@ -241,7 +255,27 @@ def pull_town_from_address(address):
 	split_address=address.split(', ')
 	return ', '.join(split_address[1:3])
 
+def preprocess_resto_info(row):
+	"""Takes in a row from resto_table, and returns the same row but cleaned so it can be displayed."""
+	new_row = []
 
+	for element in row:
+		if (element == row[columns['time_to_resto']]) or (element == row[columns['time_detour']]):
+			new_element = element/float(60)
+		elif (element == row[columns['distance_to_resto']]) or (element == row[columns['distance_detour']]):
+			new_element = element * 0.000621371
+		else:
+			new_element = element
+		new_row.append(new_element)
+
+	new_row.append(convert_to_yelp_app_link(row[columns['url']]))
+	return new_row
+
+def convert_to_yelp_app_link(website_link):
+	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""
+	unique_id=website_link[17:]
+	yelp_link_start='yelp://'
+	return yelp_link_start+unique_id
 
 class RestaurantFinder(object):
 	"""Takes start and end points, and returns a dictionary of applicable restaurants."""
@@ -260,15 +294,15 @@ class RestaurantFinder(object):
 
 	def filter_resto_table(self, resto_table,review_cutoff=15):
 		"""Takes self.resto_table, and filters it. Now, I have it filtering by # of reviews only. Adds the result to the dict filtered_table"""
-		columns=['address','rating','rs','img link','yelp link','yelp pic']
+		columns=['address','rating','reviews','img link','yelp link','yelp pic']
 		df=pd.DataFrame(self.resto_table).T
 		df.columns=columns
-		df=df.sort(['rs'],ascending=False)
+		df=df.sort(['reviews'],ascending=False)
 
 		self.temp_filtered_resto_table=df.head(review_cutoff).T.to_dict('list') # makes new self.resto_table taking the review_cutoff most reviewed restos
 
 		for row in self.temp_filtered_resto_table:
-			self.filtered_table[row]=self.temp_filtered_resto_table[row]
+			self.filtered_table[row] = self.temp_filtered_resto_table[row]
 
 	def main(self,start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=9,too_long_step=40,time_block=20,cull_block=20,just_best=False,radius=40000,sensor='false'):
 		"""Input START and END location, and program will search Yelp after every step within RADIUS, return LIMIT # of restos, then tell you the time to drive to each of them from starting location.
@@ -316,10 +350,12 @@ class RestaurantFinder(object):
 		for i in range(len(self.filtered_table.keys())):
 			for j in result:
 				self.filtered_table[self.filtered_table.keys()[i]].append(j[i])
+			self.filtered_table[self.filtered_table.keys()[i]] = preprocess_resto_info(self.filtered_table[self.filtered_table.keys()[i]])
 				
 		print 'done'
 		#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
 
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #a.filtered_table
-#make_HTML_file('reno,nv','jackpot,nv','3:00',a.filtered_table)
+#make_HTML_file('canton,oh','columbus,oh','3:00',a.filtered_table)
+#write_results_file('destination time', a)

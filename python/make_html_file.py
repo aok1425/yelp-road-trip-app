@@ -1,6 +1,49 @@
-import codecs, grequests, datetime
+import codecs
+import grequests
+import datetime
 from python.sensitive_info import *
+from python.main import columns
 from numpy import average
+
+def time_thing(just_best):
+	"""Returns the appropriate phrase depending on I'm Feeling Lucky."""
+	if just_best==True:
+		return 'You will arrive in %i minutes'
+	else:
+		return 'You will arrive at %s'
+
+def fix_quotes(input):
+	"""Take a string that might contain single quotes and adds backslash before each one."""
+	# doesn't account for double quotes
+	output=[]
+	for i in range(len(input)):
+		if input[i]=="'":
+			output.append('\\')
+			output.append(input[i])
+		else:
+			output.append(input[i])
+	return ''.join(output)
+
+def geocode_address(address,sensor='false'):
+	"""Input address and returns back the response object."""
+	payload = {'address':address+', USA','sensor':sensor,'key': key}
+	site='https://maps.googleapis.com/maps/api/geocode/json'
+	r = grequests.get(site, params=payload)
+	return r
+
+def show_coordinates(thejson):
+	"""Inputs Geoccoding JSON and returns the lat long dict."""
+	return thejson['results'][0]['geometry']['location']
+
+def add_location(latlngdict,number):
+	"""Takes latlong dict and puts it as a string into locations. When written, this will be a JS location object."""
+	location=range(4)
+	location[0]='[contentString' # to change
+	location[1]=str(number)+', '
+	location[2]=str(latlngdict['lat'])+','+str(latlngdict['lng'])+','
+	location[3]=str(number)+'],'
+
+	return ''.join(location)
 
 def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=False):
 	"""Resto_addresses is a table of just addresses."""
@@ -12,18 +55,6 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	coordinates=[]
 
 	### Part 0: Take dict resto_table and put JS infowindow code into a list on the HTML file
-	def fix_quotes(input):
-		"""Take a string that might contain single quotes and adds backslash before each one."""
-		# doesn't account for double quotes
-		output=[]
-		for i in range(len(input)):
-			if input[i]=="'":
-				output.append('\\')
-				output.append(input[i])
-			else:
-				output.append(input[i])
-		return ''.join(output)
-
 	def add_infowindow(resto,number,time_leaving,just_best=False):
 		resto_data=resto_table[resto]
 		if just_best==False:
@@ -34,35 +65,27 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 		else:
 			resto_destination_time=int(resto_data[8]/60)
 
-		infowindow=range(22)
-		infowindow[0]="var contentString"
-		infowindow[1]=str(number)
-		infowindow[2]="= \n\'<h4 id=\"firstHeading\" class=\"firstHeading\">"
-		infowindow[3]=fix_quotes(resto)
-		infowindow[4]="\'+\n\'<br><img src=\""
-		infowindow[5]=str(resto_data[4])
-		infowindow[6]="\" alt=\"Yelp rating image\">\'+\n\'</h4><p>"
-		infowindow[7]=str(resto_data[2])
-		infowindow[8]=" reviews<br>\'+\n\'"
-		infowindow[9]=str("%0.1f" % (resto_data[9]*0.000621371)) # keepin this as 1 decimal place bc more important this be accurate
-		if just_best==False:
-			infowindow[10]=" mi away<br>'+\n\'You will arrive at "
-			infowindow[11]=str(resto_destination_time)
-			infowindow[12]="<br>\'+\n\'"
-		else:
-			infowindow[10]=" mi away<br>'+\n\'You will arrive in "
-			infowindow[11]=str(resto_destination_time)
-			infowindow[12]=" mins.<br>\'+\n\'"		
-		infowindow[13]=str(int(resto_data[7]*0.000621371)) 
-		infowindow[14]=" mi/"
-		infowindow[15]=str(int(float(resto_data[6])/60)) # converting to minutes
-		infowindow[16]=" min detour</p>\'+\n\'<a href=\""
-		infowindow[17]=str(resto_data[3])
-		infowindow[18]="\" target=\"\_blank\">visit Yelp page</a>\'+"
-		infowindow[19]="\n\'<p><a href=\""
-		infowindow[20]=convert_to_yelp_app_link(infowindow[17]) # which is the Yelp mobile link
-		infowindow[21]="\" target=\"\_blank\">view in iPhone app</a></p>\'"
-		return ''.join(infowindow)
+		first_batch = tuple([
+			number,
+			resto_data[columns['url']],
+			fix_quotes(resto),
+			resto_data[columns['url']],
+			resto_data[columns['rating_img']],
+			resto_data[columns['reviews']],
+			resto_data[columns['distance_to_resto']]
+			])
+
+		second_batch = tuple([
+			resto_data[columns['distance_detour']],
+			resto_data[columns['time_detour']],
+			resto_data[columns['iphone_link']]
+			])
+
+		text = """var contentString%i= \n\'<h4 class="media-heading"><a href="%s" target="\\_blank">%s</a>\'+\n\'<br><a href="%s" target="\\_blank"><img src="%s" alt="Yelp rating image"></a>\'+\n\'</h4><p>%i reviews<br>\'+\n\'%.f mi away<br>\'+\n\'""" % first_batch
+		text += time_thing(just_best) % resto_destination_time
+		text += """<br>\'+\n\'%.f mi/%.f min detour</p>\'+\n\'<p><a href="%s" target="\\_blank">view in iPhone app</a></p>\'""" % second_batch
+
+		return text
 
 	number=0
 	for resto in resto_table:
@@ -73,28 +96,6 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 			infowindows.append(add_infowindow(resto,number,'placeholder',just_best=True))
 
 	### Part 1: Take resto addresses and add their coordinates to a JS list called locations on the HTML file.
-
-	def geocode_address(address,sensor='false'):
-		"""Input address and returns back the response object."""
-		payload = {'address':address+', USA','sensor':sensor,'key': key}
-		site='https://maps.googleapis.com/maps/api/geocode/json'
-		r = grequests.get(site, params=payload)
-		return r
-
-	def show_coordinates(thejson):
-		"""Inputs Geoccoding JSON and returns the lat long dict."""
-		return thejson['results'][0]['geometry']['location']
-
-	def add_location(latlngdict,number):
-		"""Takes latlong dict and puts it as a string into locations. When written, this will be a JS location object."""
-		location=range(4)
-		location[0]='[contentString' # to change
-		location[1]=str(number)+', '
-		location[2]=str(latlngdict['lat'])+','+str(latlngdict['lng'])+','
-		location[3]=str(number)+'],'
-
-		return ''.join(location)
-
 	address_table = [resto_table[resto][0] for resto in resto_table]
 		
 	rs = [geocode_address(address) for address in address_table]
@@ -117,10 +118,9 @@ def make_HTML_file(start_point,end_point,time_leaving,resto_table,just_best=Fals
 	avg_lng=average(sorted(lngs)[1:len(lngs)-1])
 
 	### Part 2: Take all the elements of the HTML file and write them.
-
 	list_of_elements=range(14)
 
-	list_of_elements[0]="""<!DOCTYPE html>\n<html>\n  <head>\n    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">\n    <meta name="apple-mobile-web-app-capable" content="yes">\n<meta charset="utf-8">\n    <title>Directions service</title>\n    <link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"""
+	list_of_elements[0]="""<!DOCTYPE html>\n<html>\n  <head>\n    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">\n    <meta name="viewport" content="width=device-width, minimal-ui"><meta charset="utf-8">\n<meta charset="utf-8">\n    <title>Directions service</title>\n    <link href="./../static/css/bootstrap.min.css" rel="stylesheet">\n    <style>\n      html, body, #map-canvas {\n        height: 100%;\n        margin: 0px;\n        padding: 0px\n      }\n      #panel {\n        position: absolute;\n        top: 5px;\n        left: 50%;\n        margin-left: -180px;\n        z-index: 5;\n        background-color: #fff;\n        padding: 5px;\n        border: 1px solid #999;\n      }\n    </style>\n    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>\n    <script>\n\tvar directionsDisplay;\n\tvar directionsService = new google.maps.DirectionsService();\n\tvar map;\n\n\tvar start_point = \'"""
 	list_of_elements[1]=start_point #'2312,31321'
 	list_of_elements[2]="';\n\tvar end_point = '"
 	list_of_elements[3]=end_point #'2312,31321'

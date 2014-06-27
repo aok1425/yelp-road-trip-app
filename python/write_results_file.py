@@ -4,6 +4,22 @@
 import codecs
 import pandas as pd
 
+just_best=False
+
+columns = {
+	'address':0,
+	'rating':1,
+	'reviews':2,
+	'url':3,
+	'rating_img':4,
+	'pic':5,
+	'time_detour':6,
+	'distance_detour':7,
+	'time_to_resto':8,
+	'distance_to_resto':9,
+	'iphone_link':10
+}
+
 def write_resturants(resto_table_keys, resto_table, resto_destination_time, html_file, just_best):
 	"""For each restaurant in the dict, make string of these restaurants in HTML file."""
 	text = """\n<div class="col-lg-6">\n"""
@@ -11,22 +27,28 @@ def write_resturants(resto_table_keys, resto_table, resto_destination_time, html
 	for resto_name in resto_table_keys:
 		resto_data = resto_table[resto_name]
 
-		info = [resto_data[5], resto_name, str(resto_data[4]), str(resto_data[2]), str(int(resto_data[9]*0.000621371))]
-		if just_best==False:
-			info.append(str(int(float(resto_data[6])/60)))
-		else:
-			info.append(str(int(float(resto_data[6])/60)))
-		info.append(str(int(resto_data[7]*0.000621371)))
-		info.append(str(int(float(resto_data[6])/60))) # converting to minutes
-		info.append(str(resto_data[3]))
-		info.append(convert_to_yelp_app_link(str(resto_data[3]))) # which is the Yelp mobile link
+		first_batch = tuple([
+			resto_data[columns['url']],
+			resto_data[columns['pic']],
+			resto_data[columns['url']],
+			resto_name,
+			resto_data[columns['rating_img']],
+			resto_data[columns['reviews']],
+			resto_data[columns['distance_to_resto']]
+			])
 
-		text += """<div class="media">\n<a class="pull-right" href="#">\n<img class="media-object" class=\'img-responsive\' src="%s">\n</a>\n<div class="media-body">\n<h4 class="media-heading">%s\n<br><img src="%s" alt="Yelp rating image"></h4>\n<p>%s reviews\n<br>%s mi away\n<br>""" % tuple(info[:5])
+		second_batch = tuple([
+			resto_data[columns['distance_detour']],
+			resto_data[columns['time_detour']],
+			resto_data[columns['iphone_link']]
+			])
+
+		text += """<div class="media">\n<a class="pull-right" href="%s">\n<img class="media-object" class=\'img-responsive\' src="%s">\n</a>\n<div class="media-body">\n<h4 class="media-heading"><a href="%s">%s</a>\n<br><img src="%s" alt="Yelp rating image"></h4>\n<p>%i reviews\n<br>%.f mi away\n<br>""" % first_batch
 		if just_best == False:
-			text += """You will arrive in %s mins""" % info[5]
+			text += """You will arrive in %.f mins""" % resto_data[columns['time_to_resto']]
 		else:
-			text += """You will arrive at %s""" % info[5]
-		text += """\n<br>%s mi/%s min detour\n<br><a href=\'%s\'>visit Yelp page</a>\n<br><a href=\'%s'>view in iPhone app</a>\n</p>\n</div>\n</div>\n""" % tuple(info[6:])
+			text += """You will arrive at %.f""" % resto_data[columns['time_to_resto']]
+		text += """\n<br>%.f mi/%.f min detour\n<br><a href=\'%s'>view in iPhone app</a>\n</p>\n</div>\n</div>\n""" % second_batch
 
 	html_file.write(text)
 
@@ -49,14 +71,8 @@ def write_results_file(resto_destination_time, search, just_best):
 def sort_restos(filtered_table):
 	"""Take dict of restos and their attributes, and get a sorted list of keys as a list, sorted by distance to resto."""
 	df = pd.DataFrame(filtered_table).T
-	df = df.sort(columns=6)
+	df = df.sort(columns=columns['time_to_resto'])
 
 	return df.index
-
-def convert_to_yelp_app_link(website_link):
-	"""Takes a Yelp mobile website link and converts it to open in the iPhone app"""
-	unique_id=website_link[17:]
-	yelp_link_start='yelp://'
-	return yelp_link_start+unique_id
 
 #write_results_file('3:00pm', False)
