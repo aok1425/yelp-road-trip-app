@@ -7,6 +7,8 @@ html, body, #map-canvas {
     font-family:helvetica-neue, helvetica, arial, sans-serif;
     background-color: #FDFAF5;
     color:#332F45;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .page-header {
