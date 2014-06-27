@@ -44,7 +44,7 @@ def results():
     return render_template('results.html')
 
 @app.route('/test')
-def results():
+def test():
     return render_template('test.html')
 
 @app.route('/map')
