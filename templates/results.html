@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)http://getbootstrap.com/examples/jumbotron-narrow/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,15 +9,12 @@
 <title>Yelp Road Trip results</title>
 
 <!-- Bootstrap core CSS -->
-<link href="./css/bootstrap.min.css" rel="stylesheet">
+<link href="./../static/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<link href="./css/jumbotron-narrow.css" rel="stylesheet">
-<!-- Adam's CSS file -->
-<link rel='stylesheet' type='text/css' href="./css/styles.css">
-<link href="./css/navbar-fixed-top.css" rel="stylesheet">
+<link href="./../static/css/jumbotron-narrow.css" rel="stylesheet">
+<link href="./../static/css/navbar-fixed-top.css" rel="stylesheet">
 
 </head>
-
 
 
 <body class=" hasGoogleVoiceExt">
@@ -35,7 +31,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ url_for('static', filename='map.html') }}">Yelp Road Trip</a>
+      <a class="navbar-brand" href="{{ url_for('show_input_form') }}">Yelp Road Trip</a>
 
       <!--<div class="page-header">
         <h1>Yelp</h1>
@@ -46,7 +42,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{{ url_for('static', filename='map.html') }}">Map</a></li>
+        <li class="active"><a href="./map.html">Map</a></li>
         <li><a href="#">Results</a></li>
       </ul>
 
@@ -55,160 +51,154 @@
 </nav>
 
 <div class="row marketing">
-  <div class="col-lg-6">
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
+<div class="col-lg-6">
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Kobe's Japanese Steak House and Sushi
+<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
+<p>19 reviews
+<br>197 mi away
+<br>You will arrive at destination time
+<br>1 mi/5 min detour
+<br><a href='http://www.yelp.com/biz/kobes-japanese-steak-house-and-sushi-bar-bismarck'>visit Yelp page</a>
+<br><a href='yelp://om/biz/kobes-japanese-steak-house-and-sushi-bar-bismarck'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Mark's In and Out
+<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></h4>
+<p>25 reviews
+<br>725 mi away
+<br>You will arrive at destination time
+<br>1 mi/4 min detour
+<br><a href='http://www.yelp.com/biz/marks-in-and-out-livingston'>visit Yelp page</a>
+<br><a href='yelp://om/biz/marks-in-and-out-livingston'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Harper and Madison
+<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></h4>
+<p>39 reviews
+<br>608 mi away
+<br>You will arrive at destination time
+<br>0 mi/10 min detour
+<br><a href='http://www.yelp.com/biz/harper-and-madison-billings'>visit Yelp page</a>
+<br><a href='yelp://om/biz/harper-and-madison-billings'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">The Garage Soup Shack & Mesquite Grill
+<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
+<p>70 reviews
+<br>749 mi away
+<br>You will arrive at destination time
+<br>5 mi/3 min detour
+<br><a href='http://www.yelp.com/biz/the-garage-soup-shack-and-mesquite-grill-bozeman'>visit Yelp page</a>
+<br><a href='yelp://om/biz/the-garage-soup-shack-and-mesquite-grill-bozeman'>view in iPhone app</a>
+</p>
+</div>
+</div>
 
 </div>
 
-  <div class="col-lg-6">
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
-    <div class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" class='img-responsive' src="http://s3-media4.fl.yelpcdn.com/bphoto/o3Kg04y4IVt0MdRcvUhJvQ/60s.jpg">
-      </a>
-    <div class="media-body">
-      <h4 class="media-heading">Fireside Pizza Co
-        <br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
-        <p>161 reviews
-        <br>195 mi away
-          <br>You will arrive in 190 mins
-          <br>21 mi/30 min detour
-          <br><a href='http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4'>visit Yelp page</a>
-          <br><a href='yelp://om/biz/fireside-pizza-co-olympic-valley-4'>view in iPhone app</a>
-        </p>
-    </div>
-    </div>
-
+<div class="col-lg-6">
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Winger's Grill & Bar
+<br><img src="http://s3-media3.fl.yelpcdn.com/assets/2/www/img/34bc8086841c/ico/stars/v1/stars_3.png" alt="Yelp rating image"></h4>
+<p>16 reviews
+<br>1176 mi away
+<br>You will arrive at destination time
+<br>0 mi/2 min detour
+<br><a href='http://www.yelp.com/biz/wingers-grill-and-bar-mountain-home'>visit Yelp page</a>
+<br><a href='yelp://om/biz/wingers-grill-and-bar-mountain-home'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Main Street Overeasy
+<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
+<p>52 reviews
+<br>749 mi away
+<br>You will arrive at destination time
+<br>5 mi/3 min detour
+<br><a href='http://www.yelp.com/biz/main-street-overeasy-bozeman'>visit Yelp page</a>
+<br><a href='yelp://om/biz/main-street-overeasy-bozeman'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Sir Scott's Oasis Steakhouse and Lounge
+<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
+<p>31 reviews
+<br>769 mi away
+<br>You will arrive at destination time
+<br>1 mi/4 min detour
+<br><a href='http://www.yelp.com/biz/sir-scotts-oasis-steakhouse-and-lounge-manhattan'>visit Yelp page</a>
+<br><a href='yelp://om/biz/sir-scotts-oasis-steakhouse-and-lounge-manhattan'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Blue's Bbq
+<br><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></h4>
+<p>30 reviews
+<br>607 mi away
+<br>You will arrive at destination time
+<br>5 mi/10 min detour
+<br><a href='http://www.yelp.com/biz/blues-bbq-billings'>visit Yelp page</a>
+<br><a href='yelp://om/biz/blues-bbq-billings'>view in iPhone app</a>
+</p>
+</div>
+</div>
+<div class="media">
+<a class="pull-right" href="#">
+<img class="media-object" class='img-responsive' src="resto pic">
+</a>
+<div class="media-body">
+<h4 class="media-heading">Sparky's Garage
+<br><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></h4>
+<p>26 reviews
+<br>864 mi away
+<br>You will arrive at destination time
+<br>0 mi/6 min detour
+<br><a href='http://www.yelp.com/biz/sparkys-garage-dillon'>visit Yelp page</a>
+<br><a href='yelp://om/biz/sparkys-garage-dillon'>view in iPhone app</a>
+</p>
+</div>
 </div>
 
 </div> <!-- /container -->

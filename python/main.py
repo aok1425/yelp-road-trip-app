@@ -316,5 +316,6 @@ class RestaurantFinder(object):
 		print 'done'
 		#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
 
-#main('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
+#a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
+#a.filtered_table
 #make_HTML_file('reno,nv','jackpot,nv','3:00',filtered_table)

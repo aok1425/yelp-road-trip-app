@@ -2,6 +2,7 @@ import os, codecs, datetime
 from flask import Flask, request, url_for, render_template, redirect, flash
 from python.main import *
 from python.make_html_file import *
+from python.write_results_file import *
 
 app = Flask(__name__)
 
@@ -38,9 +39,9 @@ def change_loading_screen(end,destination_time): # not used bc loading page does
 	f.writelines(g)
 	f.close()
 	
-@app.route('/test')
-def test():
-    return redirect(url_for('static', filename='search_points.html'))
+@app.route('/results')
+def results():
+    return render_template('results.html')
 
 @app.errorhandler(500)
 def pageNotFound(error):
@@ -65,6 +66,7 @@ def add_entry():
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
 		make_HTML_file(start,end,'12:00',search.filtered_table,just_best=True)
+		write_results_file('destination time', search, just_best=True)
 	else:
 		print 'Regular option chosen.'
 		destination_time=check_time(start,end,time_leaving,eating_time)
@@ -83,10 +85,11 @@ def add_entry():
 				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time,destination_time,'eating time is after destination time'])+'"'+'\n')
 			print 'time I will input is',final_time
 			search = RestaurantFinder(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-		make_HTML_file(start,end,time_leaving,search.filtered_table)
+		make_HTML_file(start,end,time_leaving,search.filtered_table,just_best=False)
+		write_results_file('destination time', search, just_best=False)
 
-	return redirect(url_for('static', filename='map.html'))
+	return render_template('map.html')
 
 """ For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -4,7 +4,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Directions service</title>
-    <link href="./../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <style>
       html, body, #map-canvas {
         height: 100%;
@@ -29,116 +29,116 @@
 	var map;
 
 	var start_point = 'sf';
-	var end_point = 'seattle';
+	var end_point = 'san luis obispo';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(43.6540782571, -122.561867086),
+		  center: new google.maps.LatLng(36.5898922, -121.385077686),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h2 id="firstHeading" class="firstHeading">Hi-Lo Cafe</h2>'+
-'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>132 reviews</p>'+
-'<p>283.7 mi away</p>'+
-'<p>You will arrive in 254 mins.</p>'+
-'<p>0 mi/1 min detour</p>'+
-'<a href="http://www.yelp.com/biz/hi-lo-cafe-weed" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/hi-lo-cafe-weed" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Colosseum New York Pizza</h2>'+
+'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>452 reviews</p>'+
+'<p>48.7 mi away</p>'+
+'<p>You will arrive in 53 mins.</p>'+
+'<p>6 mi/10 min detour</p>'+
+'<a href="http://www.yelp.com/biz/colosseum-new-york-pizza-milpitas-5" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/colosseum-new-york-pizza-milpitas-5" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h2 id="firstHeading" class="firstHeading">Brunch Box</h2>'+
-'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>429 reviews</p>'+
-'<p>634.8 mi away</p>'+
-'<p>You will arrive in 576 mins.</p>'+
+'<h2 id="firstHeading" class="firstHeading">Taqueria Cancun</h2>'+
+'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>87 reviews</p>'+
+'<p>79.3 mi away</p>'+
+'<p>You will arrive in 80 mins.</p>'+
 '<p>1 mi/5 min detour</p>'+
-'<a href="http://www.yelp.com/biz/brunch-box-portland-2" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/brunch-box-portland-2" target="\_blank">view in iPhone app</a></p>'
+'<a href="http://www.yelp.com/biz/taqueria-cancun-gilroy" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/taqueria-cancun-gilroy" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h2 id="firstHeading" class="firstHeading">PBJ\'s</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Chez Sovan</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>285 reviews</p>'+
-'<p>636.2 mi away</p>'+
-'<p>You will arrive in 577 mins.</p>'+
-'<p>1 mi/6 min detour</p>'+
-'<a href="http://www.yelp.com/biz/pbjs-portland" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/pbjs-portland" target="\_blank">view in iPhone app</a></p>'
+'<p>325 reviews</p>'+
+'<p>46.5 mi away</p>'+
+'<p>You will arrive in 48 mins.</p>'+
+'<p>0 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/chez-sovan-san-jose" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/chez-sovan-san-jose" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h2 id="firstHeading" class="firstHeading">Curry Corner</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Urbane Cafe</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>144 reviews</p>'+
-'<p>756.9 mi away</p>'+
-'<p>You will arrive in 684 mins.</p>'+
-'<p>3 mi/5 min detour</p>'+
-'<a href="http://www.yelp.com/biz/curry-corner-olympia-3" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/curry-corner-olympia-3" target="\_blank">view in iPhone app</a></p>'
+'<p>120 reviews</p>'+
+'<p>232.0 mi away</p>'+
+'<p>You will arrive in 212 mins.</p>'+
+'<p>1 mi/2 min detour</p>'+
+'<a href="http://www.yelp.com/biz/urbane-cafe-san-luis-obispo" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/urbane-cafe-san-luis-obispo" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h2 id="firstHeading" class="firstHeading">The Portland Soup Company</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Salinas City BBQ</h2>'+
 '<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>115 reviews</p>'+
-'<p>633.9 mi away</p>'+
-'<p>You will arrive in 572 mins.</p>'+
-'<p>1 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/the-portland-soup-company-portland" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/the-portland-soup-company-portland" target="\_blank">view in iPhone app</a></p>'
+'<p>273 reviews</p>'+
+'<p>106.8 mi away</p>'+
+'<p>You will arrive in 104 mins.</p>'+
+'<p>2 mi/6 min detour</p>'+
+'<a href="http://www.yelp.com/biz/salinas-city-bbq-salinas" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/salinas-city-bbq-salinas" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h2 id="firstHeading" class="firstHeading">Rose Garden</h2>'+
-'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>130 reviews</p>'+
-'<p>53.4 mi away</p>'+
-'<p>You will arrive in 56 mins.</p>'+
-'<p>0 mi/2 min detour</p>'+
-'<a href="http://www.yelp.com/biz/rose-garden-vacaville" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/rose-garden-vacaville" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Cafe 152 Burger Co.</h2>'+
+'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>120 reviews</p>'+
+'<p>77.6 mi away</p>'+
+'<p>You will arrive in 77 mins.</p>'+
+'<p>1 mi/4 min detour</p>'+
+'<a href="http://www.yelp.com/biz/cafe-152-burger-co-gilroy" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/cafe-152-burger-co-gilroy" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h2 id="firstHeading" class="firstHeading">King Estate Winery</h2>'+
-'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>105 reviews</p>'+
-'<p>507.4 mi away</p>'+
-'<p>You will arrive in 469 mins.</p>'+
-'<p>6 mi/31 min detour</p>'+
-'<a href="http://www.yelp.com/biz/king-estate-winery-eugene" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/king-estate-winery-eugene" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">Bello Mundo Cafe</h2>'+
+'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
+'<p>102 reviews</p>'+
+'<p>232.0 mi away</p>'+
+'<p>You will arrive in 211 mins.</p>'+
+'<p>0 mi/1 min detour</p>'+
+'<a href="http://www.yelp.com/biz/bello-mundo-cafe-san-luis-obispo-2" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/bello-mundo-cafe-san-luis-obispo-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h2 id="firstHeading" class="firstHeading">Homegrown Smoker BBQ</h2>'+
-'<img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image">'+
-'<p>123 reviews</p>'+
-'<p>2137.3 mi away</p>'+
-'<p>You will arrive in 1827 mins.</p>'+
-'<p>3863 mi/3283 min detour</p>'+
-'<a href="http://www.yelp.com/biz/homegrown-smoker-bbq-portland" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/homegrown-smoker-bbq-portland" target="\_blank">view in iPhone app</a></p>'
+'<h2 id="firstHeading" class="firstHeading">In-N-Out Burger</h2>'+
+'<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
+'<p>92 reviews</p>'+
+'<p>66.7 mi away</p>'+
+'<p>You will arrive in 67 mins.</p>'+
+'<p>0 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/in-n-out-burger-morgan-hill" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/in-n-out-burger-morgan-hill" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h2 id="firstHeading" class="firstHeading">Bo Kwon\'s KOi Fusion</h2>'+
+'<h2 id="firstHeading" class="firstHeading">Artisan</h2>'+
 '<img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image">'+
-'<p>114 reviews</p>'+
-'<p>624.3 mi away</p>'+
-'<p>You will arrive in 563 mins.</p>'+
-'<p>1 mi/4 min detour</p>'+
-'<a href="http://www.yelp.com/biz/bo-kwons-koi-fusion-portland-2" target="\_blank">visit Yelp page</a>'+
-'<p><a href="yelp://om/biz/bo-kwons-koi-fusion-portland-2" target="\_blank">view in iPhone app</a></p>'
+'<p>612 reviews</p>'+
+'<p>204.9 mi away</p>'+
+'<p>You will arrive in 187 mins.</p>'+
+'<p>1 mi/3 min detour</p>'+
+'<a href="http://www.yelp.com/biz/artisan-paso-robles" target="\_blank">visit Yelp page</a>'+
+'<p><a href="yelp://om/biz/artisan-paso-robles" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 41.4210667,-122.3840114,1],
-	[contentString2, 45.5207826,-122.6764204,2],
-	[contentString3, 45.5295072,-122.6986689,3],
-	[contentString4, 47.0625837,-122.7409888,4],
-	[contentString5, 45.509867,-122.6812479,5],
-	[contentString6, 38.3480666,-121.9983592,6],
-	[contentString7, 43.8536547,-123.2471073,7],
-	[contentString8, 32.1805645,-90.2650529,8],
-	[contentString9, 45.395603,-122.753373,9],
+	[contentString1, 37.4080303,-121.8889441,1],
+	[contentString2, 37.0055171,-121.552074,2],
+	[contentString3, 37.3598646,-121.8913575,3],
+	[contentString4, 35.2808557,-120.66175,4],
+	[contentString5, 36.683167,-121.671321,5],
+	[contentString6, 37.0197588,-121.5780448,6],
+	[contentString7, 35.2816558,-120.6618009,7],
+	[contentString8, 37.1524471,-121.6548027,8],
+	[contentString9, 35.626835,-120.6885563,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
