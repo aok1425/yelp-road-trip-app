@@ -3,8 +3,7 @@
 
 <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
   <label for="start">Start</label>
-  <br><span id='latitude'></span>, <span id='longitude'></span>
-  <input type="text" name="start" placeholder="e.g. SF" value='i want to put the above here!'>  
+  <input type="text" id='latlong' name="start" placeholder="e.g. SF">  
   <label for="end">End</label>
   <input type="text" name="end" placeholder="e.g. Yellowstone">
   <input class="button" type="submit" name='button' value="Find great restaurants">
@@ -39,15 +38,14 @@
     {
       var latitude = parseFloat( p.coords.latitude ).toFixed(2);
       var longitude = parseFloat( p.coords.longitude ).toFixed(2);
-      document.getElementById('latitude').innerHTML = latitude;
-      document.getElementById('longitude').innerHTML = longitude;   
-      document.getElementById('coordinates').style.display = 'block';
+      document.getElementById('latlong').value = latitude + ',' + longitude;  
     }
     
     function error_callback(p)
     {
       document.getElementById('result').innerHTML = '<span class="error">' + p.message + '</span>';     
     }   
+
   </script> 
 
 {% endblock %}
