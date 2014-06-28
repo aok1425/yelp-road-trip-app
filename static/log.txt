@@ -167,3 +167,5 @@
 "2014-06-27 16:42:37.793442","dallas","austin","I'm feeling lucky","I'm feeling lucky"
 "2014-06-27 16:43:02.827703","dallas","austin","I'm feeling lucky","I'm feeling lucky"
 "2014-06-27 16:44:17.672640","dallas","austin","I'm feeling lucky","I'm feeling lucky"
+"2014-06-27 16:51:32.222850","37.75,-122.42","yosemite","I'm feeling lucky","I'm feeling lucky"
+"2014-06-27 16:55:59.302004","37.79,-122.41","seattle","I'm feeling lucky","I'm feeling lucky"

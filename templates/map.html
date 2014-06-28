@@ -29,108 +29,108 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'dallas';
-	var end_point = 'austin';
+	var start_point = '37.79,-122.41';
+	var end_point = 'seattle';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(31.2141589143, -97.3322792571),
+		  center: new google.maps.LatLng(43.8743355571, -122.513858571),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/wildfire-georgetown" target="\_blank">Wildfire</a>'+
-'<br><a href="http://www.yelp.com/biz/wildfire-georgetown" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>83 reviews<br>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/hi-lo-cafe-weed" target="\_blank">Hi-Lo Cafe</a>'+
+'<br><a href="http://www.yelp.com/biz/hi-lo-cafe-weed" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>132 reviews<br>'+
 '0 mi away<br>'+
-'You will arrive in 2 minutes<br>'+
-'168 mi/152 min detour</p>'+
-'<p><a href="yelp://om/biz/wildfire-georgetown" target="\_blank">view in iPhone app</a></p>'
+'You will arrive in 4 minutes<br>'+
+'283 mi/253 min detour</p>'+
+'<p><a href="yelp://om/biz/hi-lo-cafe-weed" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/fazolis-waco-2" target="\_blank">Fazoli\'s</a>'+
-'<br><a href="http://www.yelp.com/biz/fazolis-waco-2" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>13 reviews<br>'+
-'0 mi away<br>'+
-'You will arrive in 1 minutes<br>'+
-'95 mi/86 min detour</p>'+
-'<p><a href="yelp://om/biz/fazolis-waco-2" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/bo-kwons-koi-fusion-portland-2" target="\_blank">Bo Kwon\'s KOi Fusion</a>'+
+'<br><a href="http://www.yelp.com/biz/bo-kwons-koi-fusion-portland-2" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>114 reviews<br>'+
+'1 mi away<br>'+
+'You will arrive in 9 minutes<br>'+
+'623 mi/562 min detour</p>'+
+'<p><a href="yelp://om/biz/bo-kwons-koi-fusion-portland-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/baris-waco-2" target="\_blank">Baris</a>'+
-'<br><a href="http://www.yelp.com/biz/baris-waco-2" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>43 reviews<br>'+
-'6 mi away<br>'+
-'You will arrive in 1 minutes<br>'+
-'99 mi/92 min detour</p>'+
-'<p><a href="yelp://om/biz/baris-waco-2" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/pbjs-portland" target="\_blank">PBJ\'s</a>'+
+'<br><a href="http://www.yelp.com/biz/pbjs-portland" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>285 reviews<br>'+
+'2 mi away<br>'+
+'You will arrive in 9 minutes<br>'+
+'635 mi/577 min detour</p>'+
+'<p><a href="yelp://om/biz/pbjs-portland" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/pita-fusion-round-rock" target="\_blank">Pita Fusion</a>'+
-'<br><a href="http://www.yelp.com/biz/pita-fusion-round-rock" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>151 reviews<br>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/curry-corner-olympia-3" target="\_blank">Curry Corner</a>'+
+'<br><a href="http://www.yelp.com/biz/curry-corner-olympia-3" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>144 reviews<br>'+
 '3 mi away<br>'+
-'You will arrive in 2 minutes<br>'+
-'181 mi/162 min detour</p>'+
-'<p><a href="yelp://om/biz/pita-fusion-round-rock" target="\_blank">view in iPhone app</a></p>'
+'You will arrive in 11 minutes<br>'+
+'756 mi/684 min detour</p>'+
+'<p><a href="yelp://om/biz/curry-corner-olympia-3" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/pho-viet-round-rock" target="\_blank">Pho Viet</a>'+
-'<br><a href="http://www.yelp.com/biz/pho-viet-round-rock" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>158 reviews<br>'+
-'2 mi away<br>'+
-'You will arrive in 2 minutes<br>'+
-'180 mi/162 min detour</p>'+
-'<p><a href="yelp://om/biz/pho-viet-round-rock" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/australian-pie-company-burien" target="\_blank">Australian Pie Company</a>'+
+'<br><a href="http://www.yelp.com/biz/australian-pie-company-burien" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>108 reviews<br>'+
+'4 mi away<br>'+
+'You will arrive in 12 minutes<br>'+
+'799 mi/727 min detour</p>'+
+'<p><a href="yelp://om/biz/australian-pie-company-burien" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/frenkies-pasta-and-pizza-hillsboro" target="\_blank">Frenkie\'s Pasta and Pizza</a>'+
-'<br><a href="http://www.yelp.com/biz/frenkies-pasta-and-pizza-hillsboro" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>17 reviews<br>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/the-portland-soup-company-portland" target="\_blank">The Portland Soup Company</a>'+
+'<br><a href="http://www.yelp.com/biz/the-portland-soup-company-portland" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>117 reviews<br>'+
 '1 mi away<br>'+
-'You will arrive in 0 minutes<br>'+
-'62 mi/59 min detour</p>'+
-'<p><a href="yelp://om/biz/frenkies-pasta-and-pizza-hillsboro" target="\_blank">view in iPhone app</a></p>'
+'You will arrive in 9 minutes<br>'+
+'633 mi/572 min detour</p>'+
+'<p><a href="yelp://om/biz/the-portland-soup-company-portland" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/cafe-homestead-waco" target="\_blank">Cafe Homestead</a>'+
-'<br><a href="http://www.yelp.com/biz/cafe-homestead-waco" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image"></a>'+
-'</h4><p>18 reviews<br>'+
-'7 mi away<br>'+
-'You will arrive in 1 minutes<br>'+
-'91 mi/85 min detour</p>'+
-'<p><a href="yelp://om/biz/cafe-homestead-waco" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/rose-garden-vacaville" target="\_blank">Rose Garden</a>'+
+'<br><a href="http://www.yelp.com/biz/rose-garden-vacaville" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>130 reviews<br>'+
+'1 mi away<br>'+
+'You will arrive in 0 minutes<br>'+
+'52 mi/55 min detour</p>'+
+'<p><a href="yelp://om/biz/rose-garden-vacaville" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/taqueria-mexicano-grill-3-temple" target="\_blank">Taqueria Mexicano Grill 3</a>'+
-'<br><a href="http://www.yelp.com/biz/taqueria-mexicano-grill-3-temple" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>19 reviews<br>'+
-'1 mi away<br>'+
-'You will arrive in 1 minutes<br>'+
-'133 mi/119 min detour</p>'+
-'<p><a href="yelp://om/biz/taqueria-mexicano-grill-3-temple" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/king-estate-winery-eugene" target="\_blank">King Estate Winery</a>'+
+'<br><a href="http://www.yelp.com/biz/king-estate-winery-eugene" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>105 reviews<br>'+
+'7 mi away<br>'+
+'You will arrive in 7 minutes<br>'+
+'506 mi/469 min detour</p>'+
+'<p><a href="yelp://om/biz/king-estate-winery-eugene" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/jakes-texas-tea-house-waco" target="\_blank">Jake\'s Texas Tea House</a>'+
-'<br><a href="http://www.yelp.com/biz/jakes-texas-tea-house-waco" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>14 reviews<br>'+
-'2 mi away<br>'+
-'You will arrive in 1 minutes<br>'+
-'95 mi/88 min detour</p>'+
-'<p><a href="yelp://om/biz/jakes-texas-tea-house-waco" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/homegrown-smoker-bbq-portland" target="\_blank">Homegrown Smoker BBQ</a>'+
+'<br><a href="http://www.yelp.com/biz/homegrown-smoker-bbq-portland" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>123 reviews<br>'+
+'3863 mi away<br>'+
+'You will arrive in 30 minutes<br>'+
+'2136 mi/1826 min detour</p>'+
+'<p><a href="yelp://om/biz/homegrown-smoker-bbq-portland" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 30.636062,-97.678348,1],
-	[contentString2, 31.5489234,-97.124944,2],
-	[contentString3, 31.5296963,-97.1819098,3],
-	[contentString4, 30.4820263,-97.6566937,4],
-	[contentString5, 30.4810053,-97.6592037,5],
-	[contentString6, 32.011987,-97.130634,6],
-	[contentString7, 31.6664007,-97.1527382,7],
-	[contentString8, 31.0803757,-97.4111024,8],
-	[contentString9, 31.555628,-97.133673,9],
+	[contentString1, 41.4210667,-122.3840114,1],
+	[contentString2, 45.395603,-122.753373,2],
+	[contentString3, 45.5295072,-122.6986689,3],
+	[contentString4, 47.0625837,-122.7409888,4],
+	[contentString5, 47.4666232,-122.3403608,5],
+	[contentString6, 45.509867,-122.6812479,6],
+	[contentString7, 38.3480666,-121.9983592,7],
+	[contentString8, 43.8536547,-123.2471073,8],
+	[contentString9, 32.1805645,-90.2650529,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
