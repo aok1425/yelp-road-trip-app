@@ -103,7 +103,7 @@ def add_entry():
 	return render_template('map.html')
 
 class Search(db.Model):
-    timestamp = db.Column(db.DateTime.__init__(), primary_key=True)
+    timestamp = db.Column(db.DateTime, primary_key=True)
     starting_loc = db.Column(db.String(80))
     destination = db.Column(db.String(80))
     start_time = db.Column(db.String(80))
