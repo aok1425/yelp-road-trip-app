@@ -284,7 +284,7 @@ class RestaurantFinder(object):
 		self.filtered_table = {}
 		self.main(start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff,too_long_step,time_block,cull_block,just_best,radius,sensor)
 
-	def yelp_table_to_dict(self, table,cutoff=3):
+	def yelp_table_to_dict(self, table, cutoff=3):
 		"""Takes in a table, sorts the rows by the review count. Takes this thisable, and puts the first n restos into self.resto_table.
 		Puts the cutoff-number of most reviewed restos into self.resto_table."""
 		sorted_table=sorted(table, key=lambda row: row[1],reverse=True)
