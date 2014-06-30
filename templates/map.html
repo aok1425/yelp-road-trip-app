@@ -29,108 +29,58 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = 'canton,oh';
-	var end_point = 'columbus,oh';
+	var start_point = '37.75,-122.42';
+	var end_point = 'santa cruz';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(40.9016211143, -81.8055643143),
+		  center: new google.maps.LatLng(37.18141845, -122.0351872),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/mrs-yoders-kitchen-millersburg" target="\_blank">Mrs Yoder\'s Kitchen</a>'+
-'<br><a href="http://www.yelp.com/biz/mrs-yoders-kitchen-millersburg" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>27 reviews<br>'+
-'13 mi away<br>'+
-'You will arrive in 35 minutes<br>'+
-'27 mi/35 min detour</p>'+
-'<p><a href="yelp://om/biz/mrs-yoders-kitchen-millersburg" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/eat-on-monday-truck-mountain-view-2" target="\_blank">Eat On Monday Truck</a>'+
+'<br><a href="http://www.yelp.com/biz/eat-on-monday-truck-mountain-view-2" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>130 reviews<br>'+
+'-1 mi away<br>'+
+'You will arrive in 40 minutes<br>'+
+'37 mi/41 min detour</p>'+
+'<p><a href="yelp://om/biz/eat-on-monday-truck-mountain-view-2" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/broken-rocks-cafe-and-bakery-wooster" target="\_blank">Broken Rocks Cafe & Bakery</a>'+
-'<br><a href="http://www.yelp.com/biz/broken-rocks-cafe-and-bakery-wooster" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>55 reviews<br>'+
-'1 mi away<br>'+
-'You will arrive in 35 minutes<br>'+
-'33 mi/36 min detour</p>'+
-'<p><a href="yelp://om/biz/broken-rocks-cafe-and-bakery-wooster" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/aptos-st-bbq-aptos" target="\_blank">Aptos St. BBQ</a>'+
+'<br><a href="http://www.yelp.com/biz/aptos-st-bbq-aptos" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>418 reviews<br>'+
+'15 mi away<br>'+
+'You will arrive in 83 minutes<br>'+
+'79 mi/83 min detour</p>'+
+'<p><a href="yelp://om/biz/aptos-st-bbq-aptos" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/coccia-house-pizza-wooster" target="\_blank">Coccia House Pizza</a>'+
-'<br><a href="http://www.yelp.com/biz/coccia-house-pizza-wooster" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>36 reviews<br>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/toofu-sunnyvale" target="\_blank">Toofu</a>'+
+'<br><a href="http://www.yelp.com/biz/toofu-sunnyvale" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>31 reviews<br>'+
 '2 mi away<br>'+
-'You will arrive in 34 minutes<br>'+
-'32 mi/34 min detour</p>'+
-'<p><a href="yelp://om/biz/coccia-house-pizza-wooster" target="\_blank">view in iPhone app</a></p>'
+'You will arrive in 41 minutes<br>'+
+'38 mi/42 min detour</p>'+
+'<p><a href="yelp://om/biz/toofu-sunnyvale" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/kasai-japanese-restaurant-wadsworth" target="\_blank">Kasai Japanese Restaurant</a>'+
-'<br><a href="http://www.yelp.com/biz/kasai-japanese-restaurant-wadsworth" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>36 reviews<br>'+
-'17 mi away<br>'+
-'You will arrive in 33 minutes<br>'+
-'32 mi/34 min detour</p>'+
-'<p><a href="yelp://om/biz/kasai-japanese-restaurant-wadsworth" target="\_blank">view in iPhone app</a></p>'
-
-var contentString5= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/casa-del-rio-restaurant-wadsworth" target="\_blank">Casa Del Rio Restaurant</a>'+
-'<br><a href="http://www.yelp.com/biz/casa-del-rio-restaurant-wadsworth" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>29 reviews<br>'+
-'15 mi away<br>'+
-'You will arrive in 31 minutes<br>'+
-'31 mi/32 min detour</p>'+
-'<p><a href="yelp://om/biz/casa-del-rio-restaurant-wadsworth" target="\_blank">view in iPhone app</a></p>'
-
-var contentString6= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/primos-deli-akron" target="\_blank">Primo\'s Deli</a>'+
-'<br><a href="http://www.yelp.com/biz/primos-deli-akron" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>47 reviews<br>'+
-'19 mi away<br>'+
-'You will arrive in 27 minutes<br>'+
-'26 mi/28 min detour</p>'+
-'<p><a href="yelp://om/biz/primos-deli-akron" target="\_blank">view in iPhone app</a></p>'
-
-var contentString7= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/edgars-restaurant-akron" target="\_blank">Edgar\'s Restaurant</a>'+
-'<br><a href="http://www.yelp.com/biz/edgars-restaurant-akron" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>22 reviews<br>'+
-'25 mi away<br>'+
-'You will arrive in 30 minutes<br>'+
-'27 mi/30 min detour</p>'+
-'<p><a href="yelp://om/biz/edgars-restaurant-akron" target="\_blank">view in iPhone app</a></p>'
-
-var contentString8= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/city-square-steakhouse-wooster" target="\_blank">City Square Steakhouse</a>'+
-'<br><a href="http://www.yelp.com/biz/city-square-steakhouse-wooster" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>35 reviews<br>'+
-'1 mi away<br>'+
-'You will arrive in 35 minutes<br>'+
-'33 mi/36 min detour</p>'+
-'<p><a href="yelp://om/biz/city-square-steakhouse-wooster" target="\_blank">view in iPhone app</a></p>'
-
-var contentString9= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/docs-soup-herb-deli-mansfield" target="\_blank">Doc\'s Soup Herb Deli</a>'+
-'<br><a href="http://www.yelp.com/biz/docs-soup-herb-deli-mansfield" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>29 reviews<br>'+
-'5 mi away<br>'+
-'You will arrive in 70 minutes<br>'+
-'66 mi/70 min detour</p>'+
-'<p><a href="yelp://om/biz/docs-soup-herb-deli-mansfield" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank">Gary\'s Old Fashioned Snappy Dogs</a>'+
+'<br><a href="http://www.yelp.com/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image"></a>'+
+'</h4><p>31 reviews<br>'+
+'2 mi away<br>'+
+'You will arrive in 79 minutes<br>'+
+'74 mi/79 min detour</p>'+
+'<p><a href="yelp://om/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 40.624404,-81.785537,1],
-	[contentString2, 40.7981475,-81.9392904,2],
-	[contentString3, 40.7982173,-81.9285397,3],
-	[contentString4, 41.0577759,-81.7366289,4],
-	[contentString5, 41.045705,-81.727886,5],
-	[contentString6, 41.060375,-81.581282,6],
-	[contentString7, 41.0944707,-81.571021,7],
-	[contentString8, 40.7975961,-81.9397862,8],
-	[contentString9, 40.753531,-82.531542,9],
+	[contentString1, 37.386812,-122.0751549,1],
+	[contentString2, 36.9768675,-121.899506,2],
+	[contentString3, 37.3859694,-122.0268927,3],
+	[contentString4, 36.9621444,-122.0434817,4],
     ];
 
     var infowindow = new google.maps.InfoWindow();

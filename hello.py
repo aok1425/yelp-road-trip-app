@@ -73,7 +73,7 @@ def add_entry():
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
-		make_HTML_file(start, end, search.filtered_table, just_best=True, time_leaving=None)
+		write_HTML_file(start, end, search.filtered_table, just_best=True)
 		#write_results_file('destination time', search, just_best=True)
 	else:
 		print 'Regular option chosen.'

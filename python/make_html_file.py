@@ -44,7 +44,7 @@ def convert_to_yelp_app_link(website_link):
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
 
-class make_HTML_file(object):
+class write_HTML_file(object):
 	def __init__(self, start_point, end_point, resto_table, just_best, time_leaving=None):
 		self.just_best = just_best
 		self.resto_table = resto_table
@@ -60,15 +60,6 @@ class make_HTML_file(object):
 
 	def add_infowindow(self, resto, number):
 		resto_data = self.resto_table[resto]
-		
-		if self.just_best==False:
-			start_time_repr = datetime.datetime.strptime(self.time_leaving, '%H:%M')
-			resto_destination_time = datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[8]),'%I:%M%p')
-			resto_destination_time = resto_destination_time.lstrip('0')
-			resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
-		
-		elif self.just_best==True:
-			resto_destination_time = resto_data[8]
 
 		first_batch = tuple([
 			number,
@@ -79,6 +70,15 @@ class make_HTML_file(object):
 			resto_data[columns['reviews']],
 			resto_data[columns['distance_to_resto']]
 			])
+		
+		if self.just_best==False:
+			start_time_repr = datetime.datetime.strptime(self.time_leaving, '%H:%M')
+			resto_destination_time = datetime.datetime.strftime(start_time_repr+datetime.timedelta(seconds=resto_data[8]),'%I:%M%p')
+			resto_destination_time = resto_destination_time.lstrip('0')
+			resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
+		
+		elif self.just_best==True:
+			resto_destination_time = resto_data[8]
 
 		second_batch = tuple([
 			resto_data[columns['distance_detour']],
