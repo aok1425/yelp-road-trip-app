@@ -29,58 +29,108 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = '37.75,-122.42';
-	var end_point = 'santa cruz';
+	var start_point = 'boston';
+	var end_point = 'memphis';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(37.18141845, -122.0351872),
+		  center: new google.maps.LatLng(40.2670356429, -76.7442475571),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/eat-on-monday-truck-mountain-view-2" target="\_blank">Eat On Monday Truck</a>'+
-'<br><a href="http://www.yelp.com/biz/eat-on-monday-truck-mountain-view-2" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>130 reviews<br>'+
-'-1 mi away<br>'+
-'You will arrive in 40 minutes<br>'+
-'37 mi/41 min detour</p>'+
-'<p><a href="yelp://om/biz/eat-on-monday-truck-mountain-view-2" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/devon-seafood-grill-hershey" target="\_blank">Devon Seafood Grill</a>'+
+'<br><a href="http://www.yelp.com/biz/devon-seafood-grill-hershey" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>135 reviews<br>'+
+'381 mi away<br>'+
+'You will arrive at 1:59pm<br>'+
+'8 mi/18 min detour</p>'+
+'<p><a href="yelp://om/biz/devon-seafood-grill-hershey" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/aptos-st-bbq-aptos" target="\_blank">Aptos St. BBQ</a>'+
-'<br><a href="http://www.yelp.com/biz/aptos-st-bbq-aptos" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>418 reviews<br>'+
-'15 mi away<br>'+
-'You will arrive in 83 minutes<br>'+
-'79 mi/83 min detour</p>'+
-'<p><a href="yelp://om/biz/aptos-st-bbq-aptos" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/the-chocolate-avenue-grill-hershey" target="\_blank">The Chocolate Avenue Grill</a>'+
+'<br><a href="http://www.yelp.com/biz/the-chocolate-avenue-grill-hershey" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>157 reviews<br>'+
+'382 mi away<br>'+
+'You will arrive at 2:01pm<br>'+
+'9 mi/20 min detour</p>'+
+'<p><a href="yelp://om/biz/the-chocolate-avenue-grill-hershey" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/toofu-sunnyvale" target="\_blank">Toofu</a>'+
-'<br><a href="http://www.yelp.com/biz/toofu-sunnyvale" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>31 reviews<br>'+
-'2 mi away<br>'+
-'You will arrive in 41 minutes<br>'+
-'38 mi/42 min detour</p>'+
-'<p><a href="yelp://om/biz/toofu-sunnyvale" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/meijis-vietnamese-harrisburg" target="\_blank">Meiji\'s Vietnamese</a>'+
+'<br><a href="http://www.yelp.com/biz/meijis-vietnamese-harrisburg" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>78 reviews<br>'+
+'387 mi away<br>'+
+'You will arrive at 2:02pm<br>'+
+'4 mi/10 min detour</p>'+
+'<p><a href="yelp://om/biz/meijis-vietnamese-harrisburg" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank">Gary\'s Old Fashioned Snappy Dogs</a>'+
-'<br><a href="http://www.yelp.com/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank"><img src="http://s3-media1.fl.yelpcdn.com/assets/2/www/img/f1def11e4e79/ico/stars/v1/stars_5.png" alt="Yelp rating image"></a>'+
-'</h4><p>31 reviews<br>'+
-'2 mi away<br>'+
-'You will arrive in 79 minutes<br>'+
-'74 mi/79 min detour</p>'+
-'<p><a href="yelp://om/biz/garys-old-fashioned-snappy-dogs-santa-cruz-2" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/au-bon-lieu-harrisburg-3" target="\_blank">Au Bon Lieu</a>'+
+'<br><a href="http://www.yelp.com/biz/au-bon-lieu-harrisburg-3" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>88 reviews<br>'+
+'390 mi away<br>'+
+'You will arrive at 2:06pm<br>'+
+'5 mi/12 min detour</p>'+
+'<p><a href="yelp://om/biz/au-bon-lieu-harrisburg-3" target="\_blank">view in iPhone app</a></p>'
+
+var contentString5= 
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/hershey-pantry-hershey" target="\_blank">Hershey Pantry</a>'+
+'<br><a href="http://www.yelp.com/biz/hershey-pantry-hershey" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>154 reviews<br>'+
+'381 mi away<br>'+
+'You will arrive at 2:00pm<br>'+
+'9 mi/20 min detour</p>'+
+'<p><a href="yelp://om/biz/hershey-pantry-hershey" target="\_blank">view in iPhone app</a></p>'
+
+var contentString6= 
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/jackson-house-harrisburg" target="\_blank">Jackson House</a>'+
+'<br><a href="http://www.yelp.com/biz/jackson-house-harrisburg" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>71 reviews<br>'+
+'389 mi away<br>'+
+'You will arrive at 2:05pm<br>'+
+'4 mi/12 min detour</p>'+
+'<p><a href="yelp://om/biz/jackson-house-harrisburg" target="\_blank">view in iPhone app</a></p>'
+
+var contentString7= 
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/bulls-head-public-house-lititz" target="\_blank">Bulls Head Public House</a>'+
+'<br><a href="http://www.yelp.com/biz/bulls-head-public-house-lititz" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>75 reviews<br>'+
+'372 mi away<br>'+
+'You will arrive at 1:59pm<br>'+
+'23 mi/44 min detour</p>'+
+'<p><a href="yelp://om/biz/bulls-head-public-house-lititz" target="\_blank">view in iPhone app</a></p>'
+
+var contentString8= 
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/shakedown-bbq-grantville-2" target="\_blank">Shakedown BBQ</a>'+
+'<br><a href="http://www.yelp.com/biz/shakedown-bbq-grantville-2" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>76 reviews<br>'+
+'375 mi away<br>'+
+'You will arrive at 1:51pm<br>'+
+'4 mi/9 min detour</p>'+
+'<p><a href="yelp://om/biz/shakedown-bbq-grantville-2" target="\_blank">view in iPhone app</a></p>'
+
+var contentString9= 
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/issei-noodle-carlisle" target="\_blank">Issei Noodle</a>'+
+'<br><a href="http://www.yelp.com/biz/issei-noodle-carlisle" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>76 reviews<br>'+
+'408 mi away<br>'+
+'You will arrive at 2:22pm<br>'+
+'2 mi/7 min detour</p>'+
+'<p><a href="yelp://om/biz/issei-noodle-carlisle" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 37.386812,-122.0751549,1],
-	[contentString2, 36.9768675,-121.899506,2],
-	[contentString3, 37.3859694,-122.0268927,3],
-	[contentString4, 36.9621444,-122.0434817,4],
+	[contentString1, 40.2856998,-76.651102,1],
+	[contentString2, 40.284254,-76.6531096,2],
+	[contentString3, 40.2754691,-76.8541988,3],
+	[contentString4, 40.2608565,-76.8807532,4],
+	[contentString5, 40.292755,-76.632418,5],
+	[contentString6, 40.26862,-76.885165,6],
+	[contentString7, 40.156887,-76.3067839,7],
+	[contentString8, 40.3892019,-76.6529863,8],
+	[contentString9, 40.2015951,-77.1913499,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();
@@ -106,6 +156,7 @@ var contentString4=
     }
 
 	directionsDisplay = new google.maps.DirectionsRenderer();
+	  directionsDisplay.setOptions({preserveViewport:true});
 	  directionsDisplay.setMap(map);
 	}
 

@@ -1,7 +1,9 @@
-import os, codecs, datetime
+import os
+import codecs
+import datetime
 from flask import Flask, request, url_for, render_template, redirect, flash
 from python.main import *
-from python.make_html_file import *
+from python.write_map_file import *
 from python.write_results_file import *
 
 app = Flask(__name__)
@@ -65,16 +67,14 @@ def add_entry():
 	end=request.form['end']
 	time_leaving=request.form['time_leaving']
 	eating_time=request.form['eating_time']
-		
-	print app.root_path
 
 	if request.form['button']=='Find great restaurants':
 		print 'I\'m feeling lucky option chosen.'
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
-		write_HTML_file(start, end, search.filtered_table, just_best=True)
-		#write_results_file('destination time', search, just_best=True)
+		write_map_file(start, end, search.filtered_table, just_best=True)
+		write_results_file(search.filtered_table, time_leaving, just_best=True)
 	else:
 		print 'Regular option chosen.'
 		destination_time=check_time(start,end,time_leaving,eating_time)
@@ -93,11 +93,11 @@ def add_entry():
 				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time,destination_time,'eating time is after destination time'])+'"'+'\n')
 			print 'time I will input is',final_time
 			search = RestaurantFinder(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-		make_HTML_file(start,end,search.filtered_table,just_best=False,time_leaving=time_leaving)
-		write_results_file('destination time', search, just_best=False)
+		write_map_file(start, end, search.filtered_table, just_best=False, time_leaving=time_leaving)
+		write_results_file(search.filtered_table, time_leaving, just_best=False, time_leaving=time_leaving)
 
 	return render_template('map.html')
 
 """ For running Flask locally"""
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

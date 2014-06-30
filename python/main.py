@@ -1,13 +1,16 @@
-##### MY MASSIVE ASS SCRIPT
-# btwn time_to_restos(), time_to_restos_json(), and self.resto_table, I am betting that self.resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though...
+# btwn time_to_restos(), time_to_restos_json(), and self.resto_table, I am betting that self.resto_table.keys() will always match up w/[sth out of the JSON?]. keys() is sometimes random though, no?
 # also assuming this to add the distance/duration/extra distance/extra duration to the dict filtered_table
-
-# schema of self.resto_table is [address,rating,# reviews,yelp link,rating img,duration to resto,distance to resto,minutes out of way,distance out of way]
 
 # if time_block using Bing Maps points < cull_block, cull_search_points() won't filter out any too-long steps
 # Google Distance Matrix API has limit of 100 elements/query
 
-import oauth2, requests, pandas as pd, codecs, datetime, grequests, sensitive_info
+import oauth2
+import requests
+import pandas as pd
+import codecs
+import datetime
+import grequests
+import sensitive_info
 from numpy import cumsum
 
 key = sensitive_info.key
@@ -189,20 +192,6 @@ def yelp_json_to_table(thejson):
 		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url'],image_url])
 	return new_table
 
-columns = {
-	'address':0,
-	'rating':1,
-	'reviews':2,
-	'url':3,
-	'rating_img':4,
-	'pic':5,
-	'time_to_resto':6,
-	'distance_to_resto':7,
-	'time_detour':8,
-	'distance_detour':9,
-	'iphone_link':10
-}
-
 def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
@@ -210,7 +199,6 @@ def turn_latlong_list_to_string(item):
 def time_and_distance_json(start, end, filtered_table, sensor='false'):
 	"""Returns JSON response for extra distance to resto address.
 	GMaps Directions Matrix API accepts a max of 9 restos, making 11 elements including start and end."""
-	key='AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw'
 	
 	list_of_addresses=[filtered_table[name][0] for name in filtered_table.keys()]
 	origins=[start]
@@ -218,7 +206,7 @@ def time_and_distance_json(start, end, filtered_table, sensor='false'):
 	[origins.append(address+',USA') for address in list_of_addresses]
 	[destinations.append(address+',USA') for address in list_of_addresses]	
 	
-	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':key, 'units':'imperial', 'sensor':sensor}
+	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':sensitive_info.key, 'units':'imperial', 'sensor':sensor}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
 	r = requests.get(url, params=payload)
@@ -259,13 +247,15 @@ def preprocess_resto_info(row):
 	"""Takes in a row from resto_table, and returns the same row but cleaned so it can be displayed."""
 	new_row = []
 
+	counter = 0
 	for element in row:
-		if (element == row[columns['time_to_resto']]) or (element == row[columns['time_detour']]):
+		if (counter == columns['time_to_resto']) or (counter == columns['time_detour']):
 			new_element = element/float(60)
-		elif (element == row[columns['distance_to_resto']]) or (element == row[columns['distance_detour']]):
+		elif (counter== columns['distance_to_resto']) or (counter == columns['distance_detour']):
 			new_element = element * 0.000621371
 		else:
 			new_element = element
+		counter += 1
 		new_row.append(new_element)
 
 	new_row.append(convert_to_yelp_app_link(row[columns['url']]))
@@ -276,6 +266,48 @@ def convert_to_yelp_app_link(website_link):
 	unique_id=website_link[17:]
 	yelp_link_start='yelp://'
 	return yelp_link_start+unique_id
+
+def make_arrival_phrase(time_leaving, time_to_resto, just_best):
+	"""Makes the phrase that says when you'll arrive at resto. Calculates arrival time."""
+	if just_best==False:
+		start_time_repr = datetime.datetime.strptime(time_leaving, '%H:%M')
+		resto_destination_time = datetime.datetime.strftime(start_time_repr+datetime.timedelta(minutes=time_to_resto),'%I:%M%p')
+		resto_destination_time = resto_destination_time.lstrip('0')
+		resto_destination_time = resto_destination_time[:len(resto_destination_time)-2]+resto_destination_time[len(resto_destination_time)-2:].lower() # makes the last two characters lowercase
+	elif just_best==True:
+		resto_destination_time = time_to_resto
+
+	text = ''
+
+	if just_best == True:
+		if resto_destination_time > 60:
+			hrs = resto_destination_time/60
+			
+			if hrs < 2:
+				text += """You will arrive in %i hr """ % int(hrs)
+			else:
+				text += """You will arrive in %i hrs """ % int(hrs)
+			text += """and %.f mins""" % (hrs % 1 * 60) # assuming time detour will never be neg
+		else:
+			text += """You will arrive in %.f mins""" % resto_destination_time
+	else:
+		text += """You will arrive at %s""" % resto_destination_time	
+
+	return text
+
+columns = {
+	'address':0,
+	'rating':1,
+	'reviews':2,
+	'url':3,
+	'rating_img':4,
+	'pic':5,
+	'time_to_resto':8,
+	'distance_to_resto':9,
+	'time_detour':6,
+	'distance_detour':7,
+	'iphone_link':10
+}
 
 class RestaurantFinder(object):
 	"""Takes start and end points, and returns a dictionary of applicable restaurants."""
@@ -353,7 +385,6 @@ class RestaurantFinder(object):
 			self.filtered_table[self.filtered_table.keys()[i]] = preprocess_resto_info(self.filtered_table[self.filtered_table.keys()[i]])
 				
 		print 'done'
-		#return search_points_to_return # can chg this to return previous search_points; input that into 'plot bing points on map.py'
 
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #a.filtered_table
