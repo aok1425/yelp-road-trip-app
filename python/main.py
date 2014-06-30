@@ -10,7 +10,7 @@ import pandas as pd
 import codecs
 import datetime
 import grequests
-import sensitive_info
+from python import sensitive_info
 from numpy import cumsum
 
 key = sensitive_info.key
