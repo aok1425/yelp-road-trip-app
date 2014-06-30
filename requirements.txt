@@ -9,3 +9,4 @@ pandas==0.12.0
 grequests==0.2.0
 SQLAlchemy==0.9.4
 psycopg2==2.5.3
+Flask-SQLAlchemy==1.0
