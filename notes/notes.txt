@@ -1,0 +1,1 @@
+Between using Pandas to make a DataFrame out of the results at each search point, and doing that using lists, lists is faster.
