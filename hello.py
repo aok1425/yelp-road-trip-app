@@ -109,27 +109,27 @@ def add_entry():
 	def get_my_ip():
 		try:
 			return request.remote_addr
-    	except:
-    		return "unknown IP address"
+		except:
+			return "unknown IP address"
 
 class Search(db.Model):
 	ip_address = db.Column(db.String(80))
-    timestamp = db.Column(db.DateTime, primary_key=True)
-    starting_loc = db.Column(db.String(80))
-    destination = db.Column(db.String(80))
-    start_time = db.Column(db.String(80))
-    destination_time = db.Column(db.String(80))
+	timestamp = db.Column(db.DateTime, primary_key=True)
+	starting_loc = db.Column(db.String(80))
+	destination = db.Column(db.String(80))
+	start_time = db.Column(db.String(80))
+	destination_time = db.Column(db.String(80))
 
-    def __init__(self, ip_address, timestamp, starting_loc, destination, start_time, destination_time):
-    	self.ip_address = ip_address
-        self.timestamp = timestamp
-        self.starting_loc = starting_loc
-        self.destination = destination
-        self.start_time = start_time
-        self.destination_time = destination_time
+	def __init__(self, ip_address, timestamp, starting_loc, destination, start_time, destination_time):
+		self.ip_address = ip_address
+		self.timestamp = timestamp
+		self.starting_loc = starting_loc
+		self.destination = destination
+		self.start_time = start_time
+		self.destination_time = destination_time
 
-    def __repr__(self):
-        return '<IP address {0}> <timestamp {1}>'.format(self.ip_address, self.timestamp)
+	def __repr__(self):
+		return '<IP address {0}> <timestamp {1}>'.format(self.ip_address, self.timestamp)
 
 """ For running Flask locally"""
 if __name__ == '__main__':
