@@ -196,17 +196,16 @@ def turn_latlong_list_to_string(item):
 	"""In order to pass to yelp_search(). Dict search_points currently has them a a string."""
 	return str(item[0])+','+str(item[1])
 
-def time_and_distance_json(start, end, filtered_table, sensor='false'):
+def time_and_distance_json(start, end, list_of_addresses):
 	"""Returns JSON response for extra distance to resto address.
 	GMaps Directions Matrix API accepts a max of 9 restos, making 11 elements including start and end."""
 	
-	list_of_addresses=[filtered_table[name][0] for name in filtered_table.keys()]
 	origins=[start]
 	destinations=[end]
 	[origins.append(address+',USA') for address in list_of_addresses]
 	[destinations.append(address+',USA') for address in list_of_addresses]	
 	
-	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':sensitive_info.key, 'units':'imperial', 'sensor':sensor}
+	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':sensitive_info.key, 'units':'imperial'}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
 	r = requests.get(url, params=payload)
@@ -243,7 +242,7 @@ def pull_town_from_address(address):
 	split_address=address.split(', ')
 	return ', '.join(split_address[1:3])
 
-def preprocess_resto_info(row):
+def convert_units(row):
 	"""Takes in a row from resto_table, and returns the same row but cleaned so it can be displayed."""
 	new_row = []
 
@@ -324,17 +323,20 @@ class RestaurantFinder(object):
 		for row in sorted_table[:cutoff]:
 			self.resto_table[row[0]]=row[1:]
 
-	def filter_resto_table(self, resto_table,review_cutoff=15):
+	def filter_resto_table(self, resto_table, review_cutoff):
 		"""Takes self.resto_table, and filters it. Now, I have it filtering by # of reviews only. Adds the result to the dict filtered_table"""
 		columns=['address','rating','reviews','img link','yelp link','yelp pic']
-		df=pd.DataFrame(self.resto_table).T
+		df=pd.DataFrame(resto_table).T
 		df.columns=columns
 		df=df.sort(['reviews'],ascending=False)
+		self.filtered_table = df.head(review_cutoff)
 
-		self.temp_filtered_resto_table=df.head(review_cutoff).T.to_dict('list') # makes new self.resto_table taking the review_cutoff most reviewed restos
-
-		for row in self.temp_filtered_resto_table:
-			self.filtered_table[row] = self.temp_filtered_resto_table[row]
+	def convert_units(self):
+		"""Converts the units for these 4 columns in the DataFrame filtered_table."""
+		self.filtered_table['time_detour'] = self.filtered_table['time_detour'].map(lambda x: x/float(60))
+		self.filtered_table['time_to_resto'] = self.filtered_table['time_to_resto'].map(lambda x: x/float(60))
+		self.filtered_table['distance_to_resto'] = self.filtered_table['distance_to_resto'].map(lambda x: x*0.000621371)
+		self.filtered_table['distance_detour'] = self.filtered_table['distance_detour'].map(lambda x: x*0.000621371)	
 
 	def main(self,start,end,search_limit,return_limit,start_time,eating_time_start,review_cutoff=9,too_long_step=40,time_block=20,cull_block=20,just_best=False,radius=40000,sensor='false'):
 		"""Input START and END location, and program will search Yelp after every step within RADIUS, return LIMIT # of restos, then tell you the time to drive to each of them from starting location.
@@ -344,11 +346,11 @@ class RestaurantFinder(object):
 		
 		print 'Pulling results from Google Directions'
 		result=get_gmaps_json(start,end)
-
 		drive_duration=result['routes'][0]['legs'][0]['duration']['value'] # in seconds
 
 		print 'Making search points'
 		search_points=make_search_points(result,time_block,too_long_step)
+		
 		print 'culling them'
 		search_points=cull_search_points(search_points,cull_block)
 		if just_best==False:
@@ -370,23 +372,18 @@ class RestaurantFinder(object):
 			self.yelp_table_to_dict(yelp_json_to_table(response),return_limit)
 		
 		print 'done'
-
 		self.filter_resto_table(self.resto_table, review_cutoff)
 		
 		print 'Finding distance and driving durations for',len(self.filtered_table),'restos...'
-		# adds extra time and distance to each of the filtered restos
-		
-		thejson=time_and_distance_json(start,end,self.filtered_table)
-		result=time_and_distance_to_resto(thejson)
-				
-		for i in range(len(self.filtered_table.keys())):
-			for j in result:
-				self.filtered_table[self.filtered_table.keys()[i]].append(j[i])
-			self.filtered_table[self.filtered_table.keys()[i]] = preprocess_resto_info(self.filtered_table[self.filtered_table.keys()[i]])
-				
+		self.filtered_table['time_detour'], self.filtered_table['distance_detour'], self.filtered_table['time_to_resto'], self.filtered_table['distance_to_resto'] = time_and_distance_to_resto(time_and_distance_json(start, end, self.filtered_table['address']))
+		self.convert_units()
+		self.filtered_table['iphone link'] = self.filtered_table['yelp link'].map(convert_to_yelp_app_link)
+
+		self.filtered_table = self.filtered_table.T.to_dict('list')
+
 		print 'done'
 
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #a.filtered_table
-#make_HTML_file('canton,oh','columbus,oh','3:00',a.filtered_table)
+#write_map_file('canton,oh','columbus,oh',a.filtered_table,True)
 #write_results_file('destination time', a)
