@@ -117,7 +117,7 @@ class Search(db.Model):
         self.destination_time = destination_time
 
     def __repr__(self):
-        return '<Name %r><End %r><Start Time %r><Time Eating %r>' % self.starting_loc, self.destination, self.start_time, self.destination_time
+        return '<Name {0}><End {1}><Start Time {2}><Time Eating {3}>'.format(self.starting_loc, self.destination, self.start_time, self.destination_time)
 
 """ For running Flask locally"""
 if __name__ == '__main__':
