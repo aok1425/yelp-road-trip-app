@@ -58,9 +58,16 @@ def map():
 
 @app.errorhandler(500)
 def pageNotFound(error):
+	start=request.form['start']
+	end=request.form['end']
+	time_leaving=request.form['time_leaving']
+	eating_time=request.form['eating_time']
+
 	print 'writing error file...'
-	with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
-		f.write('"'+'","'.join([str(datetime.datetime.now()),'ERROR',request.form['start'],request.form['end'],request.form['time_leaving'],request.form['eating_time']])+'"'+'\n')
+	db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, time_leaving, eating_time, False)
+	db.session.add(db_entry)
+	db.session.commit()		
+	
 	print 'done writing'
 	return render_template('error_page.html') 
 	
@@ -79,36 +86,43 @@ def add_entry():
 
 	if request.form['button']=='Find great restaurants':
 		print 'I\'m feeling lucky option chosen.'
-		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
-			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
-
-		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', True)
-		db.session.add(db_entry)
-		db.session.commit()
 
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
 		write_map_file(start, end, search.filtered_table, just_best=True)
 		write_results_file(search.filtered_table, time_leaving, just_best=True)
+
+		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', True)
+		db.session.add(db_entry)
+		db.session.commit()
 	else:
 		print 'Regular option chosen.'
 		destination_time=check_time(start,end,time_leaving,eating_time)
 		#change_loading_screen(end,destination_time) # not used bc loading page doesn't update like that
+
 		print 'Checking the times...'
 		if destination_time=='yes':
-			with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
-				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time])+'"'+'\n')
 			search = RestaurantFinder(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
+
+			db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, time_leaving, eating_time, True)
+			db.session.add(db_entry)
+			db.session.commit()			
+
 		else:
 			print 'Bc eating time is too late, I will replace that w/destination time.'
-			destination_time_repr=datetime.datetime.strptime(destination_time, '%I:%M%p')
-			final_time_repr=destination_time_repr-datetime.timedelta(minutes=45) # choose a point 30 mins before final destination
-			final_time=datetime.datetime.strftime(final_time_repr,'%H:%M')	
-			with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
-				f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,time_leaving,eating_time,destination_time,'eating time is after destination time'])+'"'+'\n')
+			destination_time_repr = datetime.datetime.strptime(destination_time, '%I:%M%p')
+			final_time_repr = destination_time_repr-datetime.timedelta(minutes=45) # choose a point 30 mins before final destination
+			final_time = datetime.datetime.strftime(final_time_repr,'%H:%M')	
+
 			print 'time I will input is',final_time
 			search = RestaurantFinder(start,end,20,20,time_leaving,final_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
+			
+			db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, time_leaving, eating_time, True)
+			db.session.add(db_entry)
+			db.session.commit()		
+
 		write_map_file(start, end, search.filtered_table, just_best=False, time_leaving=time_leaving)
 		write_results_file(search.filtered_table, time_leaving, just_best=False, time_leaving=time_leaving)
+
 
 	return render_template('map.html')
 
@@ -131,7 +145,7 @@ class Search(db.Model):
 		self.success = success
 
 	def __repr__(self):
-		return '<IP address {0}> <timestamp {1}>'.format(self.ip_address, self.timestamp)
+		return '<timestamp {0}>'.format(self.timestamp)
 
 """ For running Flask locally"""
 if __name__ == '__main__':
