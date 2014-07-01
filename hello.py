@@ -1,7 +1,7 @@
 import os
 import codecs
 import datetime
-from flask import Flask, request, url_for, render_template, redirect, flash
+from flask import Flask, request, url_for, render_template, redirect, flash, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from python.main import *
 from python.write_map_file import *
@@ -76,10 +76,10 @@ def add_entry():
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
 
-		db_entry = Search(datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky')
+		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky')
 		db.session.add(db_entry)
 		db.session.commit()
-		
+
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
 		write_map_file(start, end, search.filtered_table, just_best=True)
 		write_results_file(search.filtered_table, time_leaving, just_best=True)
@@ -106,14 +106,22 @@ def add_entry():
 
 	return render_template('map.html')
 
+	def get_my_ip():
+		try:
+    		return request.remote_addr
+    	except:
+    		return "unknown IP address"
+
 class Search(db.Model):
+	ip_address = db.Column(db.String(80))
     timestamp = db.Column(db.DateTime, primary_key=True)
     starting_loc = db.Column(db.String(80))
     destination = db.Column(db.String(80))
     start_time = db.Column(db.String(80))
     destination_time = db.Column(db.String(80))
 
-    def __init__(self, timestamp, starting_loc, destination, start_time, destination_time):
+    def __init__(self, ip_address, timestamp, starting_loc, destination, start_time, destination_time):
+    	self.ip_address = ip_address
         self.timestamp = timestamp
         self.starting_loc = starting_loc
         self.destination = destination
@@ -121,7 +129,7 @@ class Search(db.Model):
         self.destination_time = destination_time
 
     def __repr__(self):
-        return '<Name {0}><End {1}><Start Time {2}><Time Eating {3}>'.format(self.starting_loc, self.destination, self.start_time, self.destination_time)
+        return '<IP address {0}> <timestamp {1}>'.format(self.ip_address, self.timestamp)
 
 """ For running Flask locally"""
 if __name__ == '__main__':
