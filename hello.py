@@ -8,7 +8,7 @@ from python.write_map_file import *
 from python.write_results_file import *
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
 @app.route('/')
@@ -68,7 +68,7 @@ def pageNotFound(error):
 		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', False)
 	else:
 		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, time_leaving, eating_time, False)
-		
+
 	db.session.add(db_entry)
 	db.session.commit()		
 	
