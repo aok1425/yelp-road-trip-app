@@ -75,7 +75,11 @@ def add_entry():
 		print 'I\'m feeling lucky option chosen.'
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
-		#db_entry = Search(datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky')
+
+		db_entry = Search(datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky')
+		db.session.add(db_entry)
+		db.session.commit()
+		
 		search = RestaurantFinder(start,end,20,2,'12:00','15:00',9,30,15,15,just_best=True,radius=20000) # GMaps Dist Matrix API can only handle 9
 		write_map_file(start, end, search.filtered_table, just_best=True)
 		write_results_file(search.filtered_table, time_leaving, just_best=True)
