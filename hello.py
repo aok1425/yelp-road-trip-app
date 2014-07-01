@@ -62,8 +62,14 @@ def pageNotFound(error):
 	with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 		f.write('"'+'","'.join([str(datetime.datetime.now()),'ERROR',request.form['start'],request.form['end'],request.form['time_leaving'],request.form['eating_time']])+'"'+'\n')
 	print 'done writing'
-	return redirect(url_for('static', filename='error_page.htm'))
+	return render_template('error_page.html') 
 	
+def get_my_ip():
+	try:
+		return request.remote_addr
+	except:
+		return "unknown IP address"
+
 @app.route('/add', methods=['POST'])
 def add_entry():
 	start=request.form['start']
@@ -76,7 +82,7 @@ def add_entry():
 		with codecs.open(app.root_path+"/static/log.txt",'a','utf-8') as f:
 			f.write('"'+'","'.join([str(datetime.datetime.now()),start,end,'I\'m feeling lucky','I\'m feeling lucky'])+'"'+'\n')
 
-		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky')
+		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', True)
 		db.session.add(db_entry)
 		db.session.commit()
 
@@ -106,12 +112,6 @@ def add_entry():
 
 	return render_template('map.html')
 
-	def get_my_ip():
-		try:
-			return request.remote_addr
-		except:
-			return "unknown IP address"
-
 class Search(db.Model):
 	ip_address = db.Column(db.String(80))
 	timestamp = db.Column(db.DateTime, primary_key=True)
@@ -119,14 +119,16 @@ class Search(db.Model):
 	destination = db.Column(db.String(80))
 	start_time = db.Column(db.String(80))
 	destination_time = db.Column(db.String(80))
+	success = db.Column(db.Boolean())
 
-	def __init__(self, ip_address, timestamp, starting_loc, destination, start_time, destination_time):
+	def __init__(self, ip_address, timestamp, starting_loc, destination, start_time, destination_time, success):
 		self.ip_address = ip_address
 		self.timestamp = timestamp
 		self.starting_loc = starting_loc
 		self.destination = destination
 		self.start_time = start_time
 		self.destination_time = destination_time
+		self.success = success
 
 	def __repr__(self):
 		return '<IP address {0}> <timestamp {1}>'.format(self.ip_address, self.timestamp)
