@@ -102,6 +102,9 @@ class write_map_file(object):
 		thejsons = [response.json() for response in responses]
 		coordinates = [show_coordinates(ajson) for ajson in thejsons]
 
+		self.json = thejsons
+		self.coordinates = coordinates
+
 		number=0
 		for coordinate in coordinates:
 			number+=1

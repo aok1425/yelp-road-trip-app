@@ -386,4 +386,6 @@ class RestaurantFinder(object):
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
 #a.filtered_table
 #write_map_file('canton,oh','columbus,oh',a.filtered_table,True)
+#b=write_map_file('sf','yellowstone',a.filtered_table, True)
+
 #write_results_file('destination time', a)
