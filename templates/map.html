@@ -29,108 +29,108 @@
 	var directionsService = new google.maps.DirectionsService();
 	var map;
 
-	var start_point = '37.75,-122.42';
-	var end_point = 'yellowstone';
+	var start_point = 'dallas';
+	var end_point = 'kansas city';
 
 	function initialize() {
 		var mapOptions = {
-		  center: new google.maps.LatLng(38.8098042143, -121.158526571),
+		  center: new google.maps.LatLng(36.8413732429, -95.1580450714),
 		  zoom: 10
 		};
 		
 	var contentString1= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/sterlings-seafood-steakhouse-reno" target="\_blank">Sterling\'s Seafood Steakhouse</a>'+
-'<br><a href="http://www.yelp.com/biz/sterlings-seafood-steakhouse-reno" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>255 reviews<br>'+
-'219 mi away<br>'+
-'You will arrive in 3 hrs and 31 mins<br>'+
-'1 mi/5 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/story-prairie-village" target="\_blank">Story</a>'+
+'<br><a href="http://www.yelp.com/biz/story-prairie-village" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>82 reviews<br>'+
+'482 mi away<br>'+
+'You will arrive in 7 hrs and 42 mins<br>'+
+'-14 mi/15 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString2= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/fluffy-donuts-and-sandwich-davis" target="\_blank">Fluffy Donuts & Sandwich</a>'+
-'<br><a href="http://www.yelp.com/biz/fluffy-donuts-and-sandwich-davis" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>89 reviews<br>'+
-'74 mi away<br>'+
-'You will arrive in 1 hr and 19 mins<br>'+
-'4 mi/7 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/crabbys-seafood-bar-and-grill-joplin" target="\_blank">Crabby\'s Seafood Bar & Grill</a>'+
+'<br><a href="http://www.yelp.com/biz/crabbys-seafood-bar-and-grill-joplin" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>33 reviews<br>'+
+'349 mi away<br>'+
+'You will arrive in 5 hrs and 32 mins<br>'+
+'2 mi/12 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString3= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4" target="\_blank">Fireside Pizza Co</a>'+
-'<br><a href="http://www.yelp.com/biz/fireside-pizza-co-olympic-valley-4" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>163 reviews<br>'+
-'197 mi away<br>'+
-'You will arrive in 3 hrs and 15 mins<br>'+
-'22 mi/30 min detour</p>'+
-'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/the-library-bar-and-grill-sherman" target="\_blank">The Library Bar & Grill</a>'+
+'<br><a href="http://www.yelp.com/biz/the-library-bar-and-grill-sherman" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>18 reviews<br>'+
+'68 mi away<br>'+
+'You will arrive in 1 hr and 8 mins<br>'+
+'2 mi/6 min detour</p>'+
+'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString4= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/ninja-sushi-and-teriyaki-roseville" target="\_blank">Ninja Sushi and Teriyaki</a>'+
-'<br><a href="http://www.yelp.com/biz/ninja-sushi-and-teriyaki-roseville" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>209 reviews<br>'+
-'109 mi away<br>'+
-'You will arrive in 1 hr and 51 mins<br>'+
-'4 mi/8 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/monks-roast-beef-kansas-city" target="\_blank">Monk\'s Roast Beef</a>'+
+'<br><a href="http://www.yelp.com/biz/monks-roast-beef-kansas-city" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>12 reviews<br>'+
+'494 mi away<br>'+
+'You will arrive in 7 hrs and 31 mins<br>'+
+'2 mi/7 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString5= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/baagan-roseville" target="\_blank">Baagan</a>'+
-'<br><a href="http://www.yelp.com/biz/baagan-roseville" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>221 reviews<br>'+
-'110 mi away<br>'+
-'You will arrive in 1 hr and 51 mins<br>'+
-'6 mi/9 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/olive-cafe-kansas-city" target="\_blank">Olive Cafe</a>'+
+'<br><a href="http://www.yelp.com/biz/olive-cafe-kansas-city" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>49 reviews<br>'+
+'496 mi away<br>'+
+'You will arrive in 7 hrs and 33 mins<br>'+
+'4 mi/9 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString6= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/cottonwood-restaurant-and-bar-truckee" target="\_blank">Cottonwood Restaurant & Bar</a>'+
-'<br><a href="http://www.yelp.com/biz/cottonwood-restaurant-and-bar-truckee" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>208 reviews<br>'+
-'188 mi away<br>'+
-'You will arrive in 3 hrs and 4 mins<br>'+
-'1 mi/8 min detour</p>'+
-'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/durkins-pizza-mckinney" target="\_blank">Durkin\'s Pizza</a>'+
+'<br><a href="http://www.yelp.com/biz/durkins-pizza-mckinney" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>143 reviews<br>'+
+'29 mi away<br>'+
+'You will arrive in 32 mins<br>'+
+'6 mi/8 min detour</p>'+
+'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString7= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/punjabi-dhaba-dixon" target="\_blank">Punjabi Dhaba</a>'+
-'<br><a href="http://www.yelp.com/biz/punjabi-dhaba-dixon" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
-'</h4><p>134 reviews<br>'+
-'65 mi away<br>'+
-'You will arrive in 1 hr and 9 mins<br>'+
-'0 mi/2 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/ricos-tacos-lupe-kansas-city" target="\_blank">Ricos Tacos Lupe</a>'+
+'<br><a href="http://www.yelp.com/biz/ricos-tacos-lupe-kansas-city" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>50 reviews<br>'+
+'508 mi away<br>'+
+'You will arrive in 7 hrs and 47 mins<br>'+
+'5 mi/11 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString8= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/dannys-mini-donuts-sacramento-4" target="\_blank">Danny\'s Mini Donuts</a>'+
-'<br><a href="http://www.yelp.com/biz/dannys-mini-donuts-sacramento-4" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>118 reviews<br>'+
-'88 mi away<br>'+
-'You will arrive in 1 hr and 32 mins<br>'+
-'4 mi/8 min detour</p>'+
-'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/sawmill-bbq-joplin" target="\_blank">Sawmill BBQ</a>'+
+'<br><a href="http://www.yelp.com/biz/sawmill-bbq-joplin" target="\_blank"><img src="http://s3-media4.fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" alt="Yelp rating image"></a>'+
+'</h4><p>14 reviews<br>'+
+'348 mi away<br>'+
+'You will arrive in 5 hrs and 31 mins<br>'+
+'1 mi/11 min detour</p>'+
+'<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/c2f3dd9799a5/ico/stars/v1/stars_4.png" target="\_blank">view in iPhone app</a></p>'
 
 var contentString9= 
-'<h4 class="media-heading"><a href="http://www.yelp.com/biz/hamro-aangan-albany" target="\_blank">Aangan</a>'+
-'<br><a href="http://www.yelp.com/biz/hamro-aangan-albany" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
-'</h4><p>309 reviews<br>'+
-'15 mi away<br>'+
-'You will arrive in 26 mins<br>'+
-'2 mi/6 min detour</p>'+
+'<h4 class="media-heading"><a href="http://www.yelp.com/biz/tai-sushi-house-mckinney" target="\_blank">Tai Sushi House</a>'+
+'<br><a href="http://www.yelp.com/biz/tai-sushi-house-mckinney" target="\_blank"><img src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="Yelp rating image"></a>'+
+'</h4><p>58 reviews<br>'+
+'32 mi away<br>'+
+'You will arrive in 35 mins<br>'+
+'9 mi/12 min detour</p>'+
 '<p><a href="yelp://fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" target="\_blank">view in iPhone app</a></p>'
 
 	var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
     var locations = [
-	[contentString1, 39.5254004,-119.8135266,1],
-	[contentString2, 38.5476632,-121.7595133,2],
-	[contentString3, 39.196739,-120.2349813,3],
-	[contentString4, 38.7810403,-121.2858021,4],
-	[contentString5, 38.7855311,-121.2867703,5],
-	[contentString6, 39.33,-120.18,6],
-	[contentString7, 38.4435086,-121.858771,7],
-	[contentString8, 38.5841473,-121.503848,8],
-	[contentString9, 37.8904487,-122.2994072,9],
+	[contentString1, 39.0021085,-94.6313272,1],
+	[contentString2, 37.084479,-94.522355,2],
+	[contentString3, 33.688436,-96.622395,3],
+	[contentString4, 38.9254358,-94.5469705,4],
+	[contentString5, 38.950713,-94.4948579,5],
+	[contentString6, 33.1294713,-96.7322843,6],
+	[contentString7, 39.1225072,-94.5465089,7],
+	[contentString8, 37.08503,-94.513778,8],
+	[contentString9, 33.1534104,-96.7229809,9],
     ];
 
     var infowindow = new google.maps.InfoWindow();

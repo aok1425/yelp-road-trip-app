@@ -8,7 +8,7 @@ from python.write_map_file import *
 from python.write_results_file import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
 @app.route('/')
@@ -95,9 +95,9 @@ def add_entry():
 		write_map_file(start, end, search.filtered_table, just_best=True)
 		write_results_file(search.filtered_table, time_leaving, just_best=True)
 		
-		db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', True)
+		"""db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, 'I\'m feeling lucky', 'I\'m feeling lucky', True)
 		db.session.add(db_entry)
-		db.session.commit
+		db.session.commit"""
 	else:
 		print 'Regular option chosen.'
 		destination_time=check_time(start,end,time_leaving,eating_time)
@@ -106,10 +106,10 @@ def add_entry():
 		print 'Checking the times...'
 		if destination_time=='yes':
 			search = RestaurantFinder(start,end,20,20,time_leaving,eating_time,9,40,20,20) # GMaps Dist Matrix API can only handle 9
-
+			"""
 			db_entry = Search(get_my_ip(), datetime.datetime.now(), start, end, time_leaving, eating_time, True)
 			db.session.add(db_entry)
-			db.session.commit()			
+			db.session.commit()"""	
 
 		else:
 			print 'Bc eating time is too late, I will replace that w/destination time.'

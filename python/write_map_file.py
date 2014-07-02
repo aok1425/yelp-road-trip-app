@@ -20,11 +20,7 @@ def fix_quotes(input):
 
 def geocode_address(address):
 	"""Input address and returns back the response object."""
-	print address
-	zip_code = address[-5:]
-	address = address[:-6]
-	print address, zip_code
-	payload = {'address':address+', USA', 'components':'postal_code:'+zip_code, 'key': key}
+	payload = {'address':address+', USA', 'key': key}
 	site='https://maps.googleapis.com/maps/api/geocode/json'
 	r = grequests.get(site, params=payload)
 	return r
