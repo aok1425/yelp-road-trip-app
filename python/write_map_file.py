@@ -18,9 +18,13 @@ def fix_quotes(input):
 			output.append(input[i])
 	return ''.join(output)
 
-def geocode_address(address,sensor='false'):
+def geocode_address(address):
 	"""Input address and returns back the response object."""
-	payload = {'address':address+', USA','sensor':sensor,'key': key}
+	print address
+	zip_code = address[-5:]
+	address = address[:-6]
+	print address, zip_code
+	payload = {'address':address+', USA', 'components':'postal_code:'+zip_code, 'key': key}
 	site='https://maps.googleapis.com/maps/api/geocode/json'
 	r = grequests.get(site, params=payload)
 	return r
@@ -104,6 +108,7 @@ class write_map_file(object):
 
 		self.json = thejsons
 		self.coordinates = coordinates
+		self.address = address_table
 
 		number=0
 		for coordinate in coordinates:

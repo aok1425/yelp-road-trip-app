@@ -1,1 +1,3 @@
 Between using Pandas to make a DataFrame out of the results at each search point, and doing that using lists, lists is faster.
+
+I cld make more things into lists, but I'd only get marginal return out of it...

@@ -182,11 +182,7 @@ def yelp_json_to_table(thejson):
 		except:
 			image_url = "something"
 		try: # because of Ragtime in Elko, NV, which has no address on Yelp!
-			addresses=[]
-			for each_address in category['location']['address']:
-				addresses.append(each_address)
-			addresses.append(category['location']['postal_code'])
-			address=', '.join(addresses)
+			address = ', '.join(category['location']['display_address'])
 		except:
 			address='3 Oyster Bay Rd, 02125'
 		new_table.append([category['name'],address,category['rating'],category['review_count'],category['url'],category['rating_img_url'],image_url])
@@ -380,7 +376,7 @@ class RestaurantFinder(object):
 		self.filtered_table['iphone link'] = self.filtered_table['yelp link'].map(convert_to_yelp_app_link)
 
 		self.filtered_table = self.filtered_table.T.to_dict('list')
-
+		
 		print 'done'
 
 #a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
