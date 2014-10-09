@@ -55,4 +55,10 @@ I set 9 because that's the limit for Google Directions Matrix. If someone can fi
 * The review_cutoff-most reviewed restaurants go into `filtered_table`.
 * The program gets from Google Distance Matrix API the time and distance to each of the restaurants in `filtered_table`, and the extra time and distance to drive there.
 * It puts this information into `filtered_table`.
-* It makes an Google map HTML file from `filtered_table` and puts it in `\static\map.html`.
+* It makes an Google map HTML file from `filtered_table` and puts it in `\static
+\map.html`.
+
+##To deploy this:
+* You need to install PostgreSQL or SQLite in addition to `requirements.txt`
+* `cp env.sample .env` and fill in your own Yelp, Google Maps, and Bing Maps API keys
+* `foreman start` to test on your machine
