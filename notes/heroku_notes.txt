@@ -1,0 +1,9 @@
+diff btwn .env and not using .env is that
+the prog will pull the env vars from my real ones
+aka wht i have in .bashrc
+
+even if i have a .env, if i don't use 'foreman start'
+prog will only look at my computer's env vars
+
+so basically, if i need env vars, use 'foreman start'
+otherwise i can use flask w debug=True
