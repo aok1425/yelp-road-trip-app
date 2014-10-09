@@ -1,10 +1,10 @@
 import codecs
 import grequests
 import datetime
-from python.sensitive_info import *
 from python.main import columns
 from numpy import average
 from python.main import make_arrival_phrase
+from os import environ
 
 def fix_quotes(input):
 	"""Take a string that might contain single quotes and adds backslash before each one."""
@@ -20,7 +20,7 @@ def fix_quotes(input):
 
 def geocode_address(address):
 	"""Input address and returns back the response object."""
-	payload = {'address':address+', USA', 'key': key}
+	payload = {'address':address+', USA', 'key': environ['gmaps_key']}
 	site='https://maps.googleapis.com/maps/api/geocode/json'
 	r = grequests.get(site, params=payload)
 	return r

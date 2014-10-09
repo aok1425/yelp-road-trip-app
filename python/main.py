@@ -10,11 +10,11 @@ import pandas as pd
 import codecs
 import datetime
 import grequests
-import sensitive_info
 from numpy import cumsum
+from os import environ
 
-key = sensitive_info.key
-bingkey = sensitive_info.bingkey
+key = environ['gmaps_key']
+bingkey = environ['bing_key']
 
 def get_gmaps_json(start,end,sensor='false'):
 	"""Input start and end locations, and it returns JSON from GMaps."""
@@ -152,10 +152,10 @@ def yelp_search(limit,radius,latlong=None,location=None,sort_method=0): # either
 	url = 'http://api.yelp.com/v2/search'
 	r = requests.get(url, params=payload)
 
-	consumer_key = sensitive_info.consumer_key
-	consumer_secret = sensitive_info.consumer_secret
-	token = sensitive_info.token
-	token_secret = sensitive_info.token_secret
+	consumer_key = environ['yelp_key']
+	consumer_secret = environ['yelp_secret']
+	token = environ['yelp_token']
+	token_secret = environ['yelp_token_secret']
 	
 	# Sign the URL
 	consumer = oauth2.Consumer(consumer_key, consumer_secret)
@@ -201,7 +201,7 @@ def time_and_distance_json(start, end, list_of_addresses):
 	[origins.append(address+',USA') for address in list_of_addresses]
 	[destinations.append(address+',USA') for address in list_of_addresses]	
 	
-	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':sensitive_info.key, 'units':'imperial'}
+	payload = {'origins':'|'.join(origins), 'destinations':'|'.join(destinations), 'key':environ['gmaps_key'], 'units':'imperial'}
 	url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
 
 	r = requests.get(url, params=payload)
