@@ -13,6 +13,15 @@ import grequests
 from numpy import cumsum
 from os import environ
 
+# environ = {
+# 	'bing_key':'Aigw5zUPIFl1h-DVWxs3co1hFyupx-K1oWe8ss2SRpdTfQJKGzILySBUdQ0GBFH3',
+# 	'gmaps_key':'AIzaSyBsbGsLbD2hM5jr1bewKc6hotr3iV1lpmw',
+# 	'yelp_key':'p0z-o-8cwOH7c5h4GO8vhg',
+# 	'yelp_secret':'qwPaxGEydLqHlNTYTAls-AGwy28',
+# 	'yelp_token':'NQD6nS8HH3uQbaMkNwUMH3h2ZzaeN-iO',
+# 	'yelp_token_secret':'hIexFI0qLGFlmLXT-AFVFJF7QmU'
+# 	}
+
 key = environ['gmaps_key']
 bingkey = environ['bing_key']
 
@@ -379,8 +388,9 @@ class RestaurantFinder(object):
 		
 		print 'done'
 
-#a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
-#a.filtered_table
+# get_gmaps_json('canton,oh','columbus,oh')
+# a = RestaurantFinder('canton,oh','columbus,oh',20,20,'12:00','13:00',9,40,20,20)
+# a.filtered_table
 #write_map_file('canton,oh','columbus,oh',a.filtered_table,True)
 #b=write_map_file('sf','yellowstone',a.filtered_table, True)
 

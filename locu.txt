@@ -1,0 +1,9 @@
+if no hours for that day -> Maybe open
+if no hours at all -> Maybe open
+
+from yelp resto for which i find directions,
+pull open hours into 
+
+fmy output from locu is like
+
+"Saturday": ["11:00:00 - 09:00:00"]
